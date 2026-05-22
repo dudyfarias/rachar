@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentacao do projeto
+    url: https://github.com/dudyfarias/rachar
+    about: Consulte README, PROJECT_RULES e docs antes de abrir uma issue.

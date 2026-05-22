@@ -1,0 +1,62 @@
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { Loading } from '../components/ui';
+import { LoginScreen } from '../features/auth/screens/LoginScreen';
+import { OnboardingScreen } from '../features/auth/screens/OnboardingScreen';
+import { RegisterScreen } from '../features/auth/screens/RegisterScreen';
+import { AddItemsScreen } from '../features/bills/screens/AddItemsScreen';
+import { AddPeopleScreen } from '../features/bills/screens/AddPeopleScreen';
+import { HomeScreen } from '../features/bills/screens/HomeScreen';
+import { NewBillScreen } from '../features/bills/screens/NewBillScreen';
+import { ResultScreen } from '../features/bills/screens/ResultScreen';
+import { useAppStore } from '../stores/appStore';
+import { useAuthStore } from '../stores/authStore';
+import type { RootStackParamList } from '../types/navigation';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const navigationTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#F6F8F7',
+    card: '#F6F8F7',
+    primary: '#00A676',
+    text: '#0F172A',
+  },
+};
+
+export function RootNavigator() {
+  const hasHydrated = useAppStore((state) => state.hasHydrated);
+  const hasSeenOnboarding = useAppStore((state) => state.hasSeenOnboarding);
+  const isAuthLoading = useAuthStore((state) => state.isLoading);
+  const session = useAuthStore((state) => state.session);
+
+  if (!hasHydrated || isAuthLoading) {
+    return <Loading label="Preparando seu racha..." />;
+  }
+
+  return (
+    <NavigationContainer theme={navigationTheme}>
+      <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#F6F8F7' }, headerShown: false }}>
+        {!hasSeenOnboarding ? (
+          <Stack.Screen component={OnboardingScreen} name="Onboarding" />
+        ) : !session ? (
+          <>
+            <Stack.Screen component={LoginScreen} name="Login" />
+            <Stack.Screen component={RegisterScreen} name="Register" />
+          </>
+        ) : (
+          <>
+            <Stack.Screen component={HomeScreen} name="Home" />
+            <Stack.Screen component={NewBillScreen} name="NewBill" />
+            <Stack.Screen component={AddPeopleScreen} name="AddPeople" />
+            <Stack.Screen component={AddItemsScreen} name="AddItems" />
+            <Stack.Screen component={ResultScreen} name="Result" />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

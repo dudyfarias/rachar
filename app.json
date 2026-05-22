@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Rachaê",
+    "slug": "rachae",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "rachae",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rachae.app"
+    },
+    "android": {
+      "package": "com.rachae.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
