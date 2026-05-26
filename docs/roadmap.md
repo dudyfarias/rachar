@@ -4,23 +4,24 @@
 
 - Fluxo manual completo.
 - OCR e conferencia inteligente em modo demo/backend configuravel.
-- Persistencia Supabase.
-- Historico de contas.
+- Pix local com QR Code e copia e cola.
+- Compartilhamento WhatsApp.
+- Historico local de contas, amigos e restaurantes.
 - Edicao de rachas.
-- Compartilhamento basico.
+- Grupos recorrentes.
 
 ## Beta
 
 - OCR de nota fiscal.
 - Revisao assistida por IA.
-- Resumo compartilhavel.
+- Persistencia Supabase para historico social.
 - Convite de participantes.
-- Primeiras metricas de uso.
+- Primeiras metricas de uso com consentimento.
+- Reabrir rachas antigos como templates.
 
 ## Versao 1.0
 
-- Pix copia e cola.
-- Grupos recorrentes.
+- Gateway Pix real com status de pagamento.
 - Templates de racha.
 - Backup e historico robusto.
 - Experiencia offline parcial.
@@ -37,6 +38,7 @@
 - Exportacao PDF.
 - Links publicos de racha.
 - Push notifications.
+- Webhooks Pix.
 
 ## Integracoes Planejadas
 
@@ -47,6 +49,7 @@
 - WhatsApp.
 - Pix.
 - Analytics.
+- Gateway Pix futuro.
 
 ## Monetizacao Futura
 

@@ -13,6 +13,7 @@ import { ResultScreen } from '../features/bills/screens/ResultScreen';
 import { ReceiptCaptureScreen } from '../features/receipts/screens/ReceiptCaptureScreen';
 import { ReceiptProcessingScreen } from '../features/receipts/screens/ReceiptProcessingScreen';
 import { ReceiptReviewScreen } from '../features/receipts/screens/ReceiptReviewScreen';
+import { SocialHubScreen } from '../features/social/screens/SocialHubScreen';
 import { useAppStore } from '../stores/appStore';
 import { useAuthStore } from '../stores/authStore';
 import type { RootStackParamList } from '../types/navigation';
@@ -56,6 +57,7 @@ export function RootNavigator() {
             <Stack.Screen component={ReceiptCaptureScreen} name="ReceiptCapture" />
             <Stack.Screen component={ReceiptProcessingScreen} name="ReceiptProcessing" />
             <Stack.Screen component={ReceiptReviewScreen} name="ReceiptReview" />
+            <Stack.Screen component={SocialHubScreen} name="SocialHub" />
             <Stack.Screen component={NewBillScreen} name="NewBill" />
             <Stack.Screen component={AddPeopleScreen} name="AddPeople" />
             <Stack.Screen component={AddItemsScreen} name="AddItems" />

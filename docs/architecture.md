@@ -51,6 +51,28 @@ O OCR fica atras de `receiptOcr.ts`. O app usa endpoint remoto quando `EXPO_PUBL
 
 O parser de IA fica em `receiptParser.ts`. Ele aceita resposta JSON remota, normaliza campos monetarios em centavos, valida total e adiciona warnings de conferencia.
 
+## Fluxo Social E Pix
+
+Sprint 3 adiciona compartilhamento, Pix e historico social com uma camada isolada:
+
+```mermaid
+flowchart TD
+  A["Resultado Final"] --> B["generateWhatsAppSummary.ts"]
+  B --> C["WhatsApp ou Share nativo"]
+  A --> D["PixGatewayProvider"]
+  D --> E["QR Code Pix"]
+  D --> F["Copia e cola"]
+  A --> G["socialStore"]
+  G --> H["Historico avancado"]
+  G --> I["Amigos e grupos recorrentes"]
+  G --> J["Historico de restaurantes"]
+  G --> K["Analytics local"]
+```
+
+`src/services/social/pix.ts` expoe `PixGatewayProvider`. A implementacao atual usa `StaticPixGatewayProvider` para gerar payload Pix localmente, mas a tela consome apenas a abstracao para permitir gateway real no futuro.
+
+`src/services/social/analytics.ts` usa sink configuravel. Neste sprint, eventos ficam locais/persistidos para produto e debug, sem envio externo.
+
 ## Engine Financeira
 
 `src/services/billing/calculateSplits.ts` recebe um `BillDraft` e retorna um `SplitSummary`.
@@ -67,6 +89,8 @@ Regras:
 - `appStore`: onboarding e preferencias.
 - `authStore`: sessao, usuario, login, cadastro, logout e modo demo.
 - `billStore`: rascunho da conta manual.
+- `receiptStore`: pipeline de captura, OCR, IA e conferencia.
+- `socialStore`: Pix, historico, amigos recentes, grupos recorrentes, restaurantes e eventos.
 
 ## Banco De Dados
 
@@ -134,11 +158,11 @@ Todo uso de IA deve ter revisao humana antes de salvar ou cobrar.
 
 ## Integracoes Futuras
 
-- Pix.
-- WhatsApp.
+- Gateway Pix real.
+- Links/convites compartilhaveis.
 - Google Vision.
 - OpenAI.
-- Analytics.
+- Analytics com consentimento e sink remoto.
 - Push notifications.
 - Supabase Realtime para rachas colaborativos.
 

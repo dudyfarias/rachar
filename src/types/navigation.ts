@@ -8,6 +8,7 @@ export type RootStackParamList = {
   ReceiptCapture: undefined;
   ReceiptProcessing: { image: ReceiptImage };
   ReceiptReview: undefined;
+  SocialHub: undefined;
   NewBill: undefined;
   AddPeople: undefined;
   AddItems: undefined;

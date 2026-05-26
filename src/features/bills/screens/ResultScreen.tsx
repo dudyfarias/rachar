@@ -1,13 +1,18 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { Share2 } from 'lucide-react-native';
-import { useMemo } from 'react';
-import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
+import { Copy, QrCode, Send, Share2 } from 'lucide-react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { Alert, Linking, Pressable, ScrollView, Share, Text, View } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 
 import { Button, Card, Header } from '../../../components/ui';
 import { formatCurrency } from '../../../lib/formatCurrency';
 import { calculateSplits } from '../../../services/billing/calculateSplits';
+import { generateWhatsAppSummary } from '../../../services/social/generateWhatsAppSummary';
+import { createPixGatewayProvider, type PixCharge } from '../../../services/social/pix';
 import { useBillStore } from '../../../stores/billStore';
+import { useSocialStore } from '../../../stores/socialStore';
 import type { RootStackParamList } from '../../../types/navigation';
 
 type ResultNavigation = NativeStackNavigationProp<RootStackParamList, 'Result'>;
@@ -16,6 +21,10 @@ export function ResultScreen() {
   const navigation = useNavigation<ResultNavigation>();
   const draft = useBillStore((state) => state.draft);
   const resetDraft = useBillStore((state) => state.resetDraft);
+  const pixProfile = useSocialStore((state) => state.pixProfile);
+  const recordFinishedBill = useSocialStore((state) => state.recordFinishedBill);
+  const track = useSocialStore((state) => state.track);
+  const [pixCharge, setPixCharge] = useState<PixCharge | null>(null);
 
   const result = useMemo(() => {
     try {
@@ -25,18 +34,85 @@ export function ResultScreen() {
     }
   }, [draft]);
 
+  useEffect(() => {
+    async function createPixCharge() {
+      if (!result.data || !pixProfile.key.trim()) {
+        setPixCharge(null);
+        return;
+      }
+
+      const provider = createPixGatewayProvider();
+      const charge = await provider.createCharge({
+        amountInCents: result.data.totalInCents,
+        description: pixProfile.description || draft.title || 'Racha Rachaê',
+        profile: pixProfile,
+      });
+
+      setPixCharge(charge);
+      track('pix_qr_viewed', { provider: charge.provider, totalInCents: charge.amountInCents });
+    }
+
+    createPixCharge();
+  }, [draft.title, pixProfile, result.data, track]);
+
   function finishFlow() {
+    if (result.data) {
+      recordFinishedBill({ draft, result: result.data });
+    }
+
     resetDraft();
     navigation.navigate('Home');
   }
 
-  function handleShare() {
+  async function handleShare() {
     if (!result.data) {
       Alert.alert('Resultado indisponivel', result.error || 'Revise os dados da conta.');
       return;
     }
 
-    Alert.alert('Compartilhamento', 'Integracao com WhatsApp/Pix planejada para os proximos sprints.');
+    const summary = generateWhatsAppSummary({
+      draft,
+      pixCopyPaste: pixCharge?.copyPaste,
+      pixKey: pixProfile.key,
+      result: result.data,
+    });
+    const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(summary)}`;
+
+    try {
+      const canOpenWhatsApp = await Linking.canOpenURL(whatsappUrl);
+
+      if (canOpenWhatsApp) {
+        await Linking.openURL(whatsappUrl);
+      } else {
+        await Share.share({ message: summary });
+      }
+
+      track('whatsapp_summary_shared', { people: result.data.people.length, totalInCents: result.data.totalInCents });
+    } catch (error) {
+      await Share.share({ message: summary });
+    }
+  }
+
+  async function handleCopyPixKey() {
+    if (!pixProfile.key.trim()) {
+      Alert.alert('Pix nao configurado', 'Cadastre sua chave Pix na area Social e Pix.');
+      return;
+    }
+
+    await Clipboard.setStringAsync(pixProfile.key.trim());
+    track('pix_key_copied', { source: 'result' });
+    Alert.alert('Chave copiada', 'Chave Pix copiada para a area de transferencia.');
+  }
+
+  async function handleCopyPixPayload() {
+    if (!pixCharge) {
+      Alert.alert('Pix indisponivel', 'Configure sua chave Pix para gerar copia e cola.');
+      return;
+    }
+
+    await Clipboard.setStringAsync(pixCharge.copyPaste);
+    track('pix_key_copied', { source: 'copy_paste' });
+    Alert.alert('Pix copiado', 'Codigo Pix copia e cola copiado.');
   }
 
   if (!result.data) {
@@ -92,6 +168,52 @@ export function ResultScreen() {
             <Text className="text-sm text-ink-500">Desconto</Text>
             <Text className="text-sm font-bold text-brand-700">- {formatCurrency(result.data.discountInCents)}</Text>
           </View>
+        </Card>
+
+        <Card className="mt-5">
+          <View className="flex-row items-center gap-3">
+            <View className="h-10 w-10 items-center justify-center rounded-full bg-brand-50">
+              <Send color="#00A676" size={19} />
+            </View>
+            <View className="flex-1">
+              <Text className="text-lg font-black text-ink-900">Compartilhar no WhatsApp</Text>
+              <Text className="mt-1 text-sm text-ink-500">Resumo com valores por pessoa e Pix quando configurado.</Text>
+            </View>
+          </View>
+          <Button className="mt-5" title="Enviar resumo" onPress={handleShare} />
+        </Card>
+
+        <Card className="mt-5">
+          <View className="flex-row items-center gap-3">
+            <View className="h-10 w-10 items-center justify-center rounded-full bg-brand-50">
+              <QrCode color="#00A676" size={19} />
+            </View>
+            <View className="flex-1">
+              <Text className="text-lg font-black text-ink-900">Pix do racha</Text>
+              <Text className="mt-1 text-sm text-ink-500">
+                {pixCharge ? 'QR Code Pix e copia e cola gerados localmente.' : 'Configure sua chave Pix para gerar cobranca.'}
+              </Text>
+            </View>
+          </View>
+
+          {pixCharge ? (
+            <View className="mt-5 items-center gap-4">
+              <View className="rounded-2xl border border-ink-100 bg-white p-4">
+                <QRCode size={180} value={pixCharge.qrValue} />
+              </View>
+              <View className="w-full flex-row gap-3">
+                <Button
+                  className="flex-1"
+                  leftIcon={<Copy color="#FFFFFF" size={18} />}
+                  title="Copiar Pix"
+                  onPress={handleCopyPixPayload}
+                />
+                <Button className="flex-1" title="Copiar chave" variant="secondary" onPress={handleCopyPixKey} />
+              </View>
+            </View>
+          ) : (
+            <Button className="mt-5" title="Configurar Pix" variant="secondary" onPress={() => navigation.navigate('SocialHub')} />
+          )}
         </Card>
 
         <View className="mt-5 gap-3">

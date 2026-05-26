@@ -115,6 +115,74 @@ Resposta normalizada:
 
 O cliente tambem aceita resposta embrulhada em `receipt` ou `data` e blocos markdown `json`, para facilitar integracao com LLMs.
 
+## Sprint 3 - Social, WhatsApp E Pix
+
+O Sprint 3 nao adiciona endpoint remoto. A camada social funciona localmente e deixa contratos prontos para APIs futuras.
+
+### Resumo WhatsApp
+
+Servico:
+
+```ts
+generateWhatsAppSummary({
+  draft,
+  result,
+  pixKey,
+  pixCopyPaste,
+});
+```
+
+Saida: texto formatado para WhatsApp contendo restaurante, total, valor por pessoa, subtotal, taxa, desconto e dados Pix quando configurados.
+
+### Pix
+
+Contrato de provider:
+
+```ts
+type PixGatewayProvider = {
+  name: string;
+  createCharge: (input: PixChargeInput) => Promise<PixCharge>;
+};
+```
+
+Entrada:
+
+```ts
+type PixChargeInput = {
+  amountInCents: number;
+  description: string;
+  profile: PixProfile;
+};
+```
+
+Saida:
+
+```ts
+type PixCharge = {
+  amountInCents: number;
+  copyPaste: string;
+  provider: string;
+  qrValue: string;
+};
+```
+
+Implementacao atual: `StaticPixGatewayProvider`, que gera Pix copia e cola/QR Code localmente. Um gateway real deve manter o mesmo contrato e adicionar status de cobranca no backend.
+
+### Analytics Local
+
+Eventos persistidos no cliente:
+
+```ts
+type AnalyticsEvent = {
+  id: string;
+  name: AnalyticsEventName;
+  properties?: Record<string, string | number | boolean | null>;
+  timestamp: string;
+};
+```
+
+Antes de enviar eventos para backend, definir consentimento, retencao de dados e filtragem de informacoes sensiveis.
+
 ## Contrato De Entrada Do Calculo
 
 ```ts

@@ -4,6 +4,20 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 Formato baseado em Keep a Changelog e versionamento semantico.
 
+## [0.3.0] - 2026-05-26
+
+### Added
+
+- Camada social com tela Social e Pix.
+- Compartilhamento de resumo por WhatsApp com fallback nativo.
+- Gerador `src/services/social/generateWhatsAppSummary.ts`.
+- Perfil Pix com copia de chave, QR Code e codigo copia e cola.
+- Abstracao `PixGatewayProvider` para gateways Pix futuros.
+- Historico avancado de rachas, amigos recentes e restaurantes.
+- Grupos recorrentes automaticos e criacao manual.
+- Avatares deterministicos para amigos e grupos.
+- Eventos locais de analytics e retencao.
+
 ## [0.2.0] - 2026-05-22
 
 ### Added

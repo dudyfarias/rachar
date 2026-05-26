@@ -1,5 +1,18 @@
 # Changelog Da Documentacao
 
+## 2026-05-26
+
+### Added
+
+- Sprint 3 documentado com Social, WhatsApp, Pix, historico e analytics.
+- Contratos de Pix, resumo WhatsApp e analytics adicionados em `docs/api.md`.
+- Fluxo Social e Pix adicionado em `docs/architecture.md`.
+
+### Changed
+
+- Roadmap atualizado para mover compartilhamento e Pix local para o MVP.
+- Sprint 4 replanejado para beta colaborativo, persistencia social e gateway Pix real.
+
 ## 2026-05-22
 
 ### Added

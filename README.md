@@ -4,7 +4,7 @@ Rachae e um aplicativo mobile para dividir contas de forma justa, rapida e trans
 
 ## Visao Do Produto
 
-Restaurantes, bares, viagens e compras em grupo ainda geram atrito na hora de dividir valores. O Rachae resolve esse problema com uma experiencia simples, moderna e preparada para evoluir para OCR de notas fiscais, IA de categorizacao, Pix e historico financeiro.
+Restaurantes, bares, viagens e compras em grupo ainda geram atrito na hora de dividir valores. O Rachae resolve esse problema com uma experiencia simples, moderna e preparada para evoluir para OCR de notas fiscais, IA de categorizacao, Pix, compartilhamento social e historico financeiro.
 
 ## Proposta De Valor
 
@@ -21,6 +21,8 @@ Restaurantes, bares, viagens e compras em grupo ainda geram atrito na hora de di
 - Supabase Auth + Postgres
 - Zustand
 - React Navigation
+- expo-clipboard
+- react-native-qrcode-svg
 
 ## Arquitetura
 
@@ -32,10 +34,12 @@ src/
     auth/screens/      Onboarding, Login, Cadastro
     bills/screens/     Home, Nova Conta, Pessoas, Itens, Resultado
     receipts/screens/  Captura, Processamento, Conferencia
+    social/screens/    Social e Pix
   lib/                 Helpers de moeda, ids e Supabase
   navigation/          RootNavigator e stacks
   services/billing/    Engine financeira calculateSplits
   services/receipts/   Pipeline OCR + IA
+  services/social/     WhatsApp, Pix e analytics
   stores/              Estados globais Zustand
   theme/               Tokens visuais
   types/               Tipos compartilhados
@@ -118,11 +122,22 @@ As tabelas usam RLS e politicas baseadas no dono da conta. Veja `docs/database.m
 - JSON estruturado com restaurante, itens, quantidades, precos, taxa, desconto, total e warnings.
 - Conferencia Inteligente com validacao de total.
 
+## Funcionalidades Do Sprint 3
+
+- Compartilhamento por WhatsApp com fallback nativo.
+- Geracao de resumo em `generateWhatsAppSummary.ts`.
+- Perfil Pix, copia de chave, QR Code e codigo copia e cola.
+- Arquitetura `PixGatewayProvider` para gateways futuros.
+- Historico avancado de rachas finalizados.
+- Grupos recorrentes automaticos e manuais.
+- Avatares, amigos recentes e historico de restaurantes.
+- Analytics local com eventos de retencao.
+
 ## Roadmap
 
-- MVP: fluxo manual completo, OCR + IA configuravel, persistencia Supabase e historico.
-- Beta: OCR real de nota fiscal, revisao assistida por IA e compartilhamento.
-- 1.0: Pix, convites, sincronizacao em tempo real e planos pagos.
+- MVP: fluxo manual completo, OCR + IA configuravel, compartilhamento, Pix local e historico social.
+- Beta: persistencia Supabase do historico social, convites, OCR real e analytics com consentimento.
+- 1.0: gateway Pix real, sincronizacao em tempo real e planos pagos.
 
 Detalhes em `docs/roadmap.md`.
 

@@ -119,6 +119,7 @@ Criados:
 - Busca por `created_at` e `place`.
 - Indice para contas recorrentes.
 - Indice para compartilhamentos publicos anonimizados.
+- Indices para historico social, grupos recorrentes, restaurantes e eventos de analytics.
 
 ## Politicas De Seguranca
 
@@ -132,4 +133,5 @@ Criados:
 - Supabase Realtime para edicao colaborativa.
 - Storage para imagens de notas fiscais.
 - Edge Functions para OCR, IA e Pix.
+- Tabelas futuras para historico social hoje persistido localmente em Zustand.
 - Read replicas para analytics, se necessario.

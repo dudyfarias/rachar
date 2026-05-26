@@ -1,26 +1,29 @@
-# Sprint 4 - Compartilhamento, Pix E Beta
+# Sprint 4 - Beta Colaborativo E Persistencia Social
 
 ## Objetivo Do Sprint
 
-Preparar o app para beta fechado com compartilhamento, Pix e primeiras metricas de produto.
+Preparar o app para beta fechado com persistencia social, convites e base para gateway Pix real.
 
 ## Funcionalidades Planejadas
 
-- Compartilhar resultado por WhatsApp.
-- Copiar resumo por pessoa.
-- Gerar Pix copia e cola.
-- Convites para participantes.
-- Eventos de analytics.
+- Persistir historico social no Supabase.
+- Salvar grupos recorrentes por usuario.
+- Criar links/convites para participantes.
+- Reabrir rachas antigos como templates.
+- Sincronizar rachas entre dispositivos.
+- Definir eventos de analytics com consentimento.
+- Preparar gateway Pix real com status de cobranca.
 
 ## Decisoes Tecnicas
 
-- Pix deve ter camada isolada.
-- Analytics nao pode registrar dados sensiveis de nota ou valores sem consentimento.
+- Pix deve continuar atras de `PixGatewayProvider`.
+- Analytics nao pode registrar dados sensiveis sem consentimento.
 - Compartilhamento deve funcionar mesmo sem conta para participantes.
+- Novas tabelas precisam de RLS e atualizacao em `docs/database.md`.
 
 ## Bibliotecas Utilizadas
 
-- A definir.
+- A definir conforme persistencia, analytics e gateway escolhidos.
 
 ## Problemas Encontrados
 
@@ -30,20 +33,23 @@ Preparar o app para beta fechado com compartilhamento, Pix e primeiras metricas 
 
 - Split payment real.
 - Plano premium.
-- Times/grupos recorrentes.
+- Push notifications.
+- Webhooks Pix.
 
 ## Pendencias
 
 - Definir parceiro Pix.
-- Definir eventos de analytics.
+- Definir schema de banco para historico social.
 - Criar politica de privacidade.
+- Definir estrategia de links publicos.
 
 ## Checklist De Progresso
 
-- [ ] Compartilhar resumo.
-- [ ] Pix copia e cola.
-- [ ] Beta checklist.
-- [ ] Analytics.
+- [ ] Modelar historico social no banco.
+- [ ] Criar convites.
+- [ ] Reabrir rachas antigos.
+- [ ] Definir analytics remoto.
+- [ ] Preparar gateway Pix real.
 - [ ] Atualizar docs e changelog.
 
 ## Proximos Passos
