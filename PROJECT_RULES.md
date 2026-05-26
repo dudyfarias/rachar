@@ -91,8 +91,19 @@ Toda feature nova deve atualizar:
 Rodar:
 
 ```bash
+npm test
+npm run typecheck
 npm run docs:check
 ```
+
+## Fechamento De Sprint
+
+Ao final de todo sprint:
+
+- Rodar validacoes automatizadas antes de publicar.
+- Atualizar documentacao e `CHANGELOG.md`.
+- Criar commit semantico com o estado final do sprint.
+- Enviar a branch atual para o repositorio remoto.
 
 ## Commits
 

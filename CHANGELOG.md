@@ -4,6 +4,17 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 Formato baseado em Keep a Changelog e versionamento semantico.
 
+## [Unreleased]
+
+### Added
+
+- Suite inicial de testes automatizados com Vitest para engine financeira e parser de recibos.
+
+### Changed
+
+- Alinhamento de dependencias do Expo SDK 56 e suporte ao alvo web com `react-dom` e `react-native-web`.
+- Regra de fechamento de sprint documentada para validar, commitar e enviar o estado final ao repositorio remoto.
+
 ## [0.3.0] - 2026-05-26
 
 ### Added

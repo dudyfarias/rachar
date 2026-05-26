@@ -81,6 +81,7 @@ npm run web
 Validacoes:
 
 ```bash
+npm test
 npm run typecheck
 npm run docs:check
 ```
