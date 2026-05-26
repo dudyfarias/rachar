@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 
 import { createId } from '../lib/id';
+import { isSupabaseConfigured } from '../lib/supabase/client';
+import * as billRepo from '../lib/supabase/billRepository';
 import type { BillDraft, BillItem, BillPerson } from '../types/billing';
 import type { ParsedReceipt } from '../types/receipt';
 
@@ -15,10 +17,12 @@ const initialDraft: BillDraft = {
 
 type BillState = {
   draft: BillDraft;
+  isLoadingTemplate: boolean;
   addItem: (item: Omit<BillItem, 'id'>) => void;
   addPerson: (name: string) => void;
   assignEmptyItemsToAllPeople: () => void;
   importReceiptDraft: (receipt: ParsedReceipt) => void;
+  loadBillAsTemplate: (billId: string) => Promise<void>;
   removeItem: (itemId: string) => void;
   removePerson: (personId: string) => void;
   resetDraft: () => void;
@@ -27,6 +31,7 @@ type BillState = {
 
 export const useBillStore = create<BillState>((set) => ({
   draft: initialDraft,
+  isLoadingTemplate: false,
   addItem: (item) =>
     set((state) => ({
       draft: {
@@ -75,6 +80,41 @@ export const useBillStore = create<BillState>((set) => ({
         title: receipt.restaurantName ? `Conta ${receipt.restaurantName}` : 'Conta escaneada',
       },
     }),
+  loadBillAsTemplate: async (billId) => {
+    if (!isSupabaseConfigured) return;
+
+    set({ isLoadingTemplate: true });
+
+    try {
+      const { bill, people, items } = await billRepo.getBillById(billId);
+
+      const newPeople: BillPerson[] = people.map((p) => ({
+        id: createId('person'),
+        name: p.name,
+      }));
+
+      const newItems: BillItem[] = items.map((item) => ({
+        id: createId('item'),
+        name: item.name,
+        priceInCents: item.price_cents,
+        participantIds: newPeople.map((p) => p.id),
+      }));
+
+      set({
+        draft: {
+          title: bill.title,
+          place: bill.place ?? '',
+          serviceFeeInCents: bill.service_fee_cents,
+          discountInCents: bill.discount_cents,
+          people: newPeople,
+          items: newItems,
+        },
+        isLoadingTemplate: false,
+      });
+    } catch {
+      set({ isLoadingTemplate: false });
+    }
+  },
   removeItem: (itemId) =>
     set((state) => ({
       draft: {

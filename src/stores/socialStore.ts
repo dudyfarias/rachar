@@ -3,6 +3,9 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { createId } from '../lib/id';
+import { isSupabaseConfigured } from '../lib/supabase/client';
+import * as socialRepo from '../lib/supabase/socialRepository';
+import * as billRepo from '../lib/supabase/billRepository';
 import { createAnalyticsEvent, trackEvent } from '../services/social/analytics';
 import type {
   AnalyticsEvent,
@@ -30,14 +33,16 @@ const initialPixProfile: PixProfile = {
 type SocialState = {
   analyticsEvents: AnalyticsEvent[];
   billHistory: BillHistoryEntry[];
+  isSyncing: boolean;
   pixProfile: PixProfile;
   recentFriends: RecentFriend[];
   recurringGroups: RecurringGroup[];
   restaurantHistory: RestaurantHistoryItem[];
   createRecurringGroup: (name: string, memberNames: string[]) => void;
-  recordFinishedBill: (snapshot: SocialBillSnapshot) => void;
+  loadFromSupabase: (userId: string) => Promise<void>;
+  recordFinishedBill: (snapshot: SocialBillSnapshot, userId?: string | null) => void;
   track: (name: AnalyticsEventName, properties?: AnalyticsEvent['properties']) => void;
-  updatePixProfile: (profile: Partial<PixProfile>) => void;
+  updatePixProfile: (profile: Partial<PixProfile>, userId?: string | null) => void;
 };
 
 function normalizeName(name: string) {
@@ -164,15 +169,94 @@ function addEvent(current: AnalyticsEvent[], event: AnalyticsEvent) {
   return [event, ...current].slice(0, 120);
 }
 
+function isDemoUser(userId?: string | null) {
+  return !userId || userId === 'demo-user';
+}
+
+function shouldSync(userId?: string | null) {
+  return isSupabaseConfigured && !isDemoUser(userId);
+}
+
 export const useSocialStore = create<SocialState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       analyticsEvents: [],
       billHistory: [],
+      isSyncing: false,
       pixProfile: initialPixProfile,
       recentFriends: [],
       recurringGroups: [],
       restaurantHistory: [],
+
+      loadFromSupabase: async (userId) => {
+        if (!shouldSync(userId)) return;
+
+        set({ isSyncing: true });
+
+        try {
+          const [bills, friends, restaurants, groups, pixProfile] = await Promise.all([
+            billRepo.listBills(userId),
+            socialRepo.listRecentFriends(userId),
+            socialRepo.listRestaurants(userId),
+            socialRepo.listRecurringGroups(userId),
+            socialRepo.loadPixProfile(userId),
+          ]);
+
+          const billHistory: BillHistoryEntry[] = bills.map((b) => ({
+            createdAt: b.created_at,
+            id: b.id,
+            peopleCount: 0,
+            place: b.place ?? '',
+            title: b.title,
+            totalInCents: b.total_cents,
+          }));
+
+          const recentFriends: RecentFriend[] = friends.map((f) => ({
+            avatar: { backgroundColor: f.background_color, initials: f.initials },
+            firstSeenAt: f.first_seen_at,
+            id: f.id,
+            lastSeenAt: f.last_seen_at,
+            name: f.name,
+            totalBills: f.total_bills,
+            totalInCents: f.total_in_cents,
+          }));
+
+          const restaurantHistory: RestaurantHistoryItem[] = restaurants.map((r) => ({
+            averageTicketInCents: r.average_ticket_in_cents,
+            firstVisitedAt: r.first_visited_at,
+            id: r.id,
+            lastVisitedAt: r.last_visited_at,
+            name: r.name,
+            totalBills: r.total_bills,
+            totalInCents: r.total_in_cents,
+          }));
+
+          const recurringGroups: RecurringGroup[] = groups.map((g) => {
+            const members = (g.recurring_group_members as Array<{ name: string }>) ?? [];
+            return {
+              avatar: createAvatar(g.name),
+              billCount: g.bill_count,
+              createdAt: g.created_at,
+              id: g.id,
+              lastUsedAt: g.last_used_at,
+              memberNames: members.map((m) => m.name),
+              name: g.name,
+            };
+          });
+
+          set({
+            billHistory,
+            isSyncing: false,
+            recentFriends,
+            recurringGroups,
+            restaurantHistory,
+            ...(pixProfile ? { pixProfile } : {}),
+          });
+        } catch {
+          set({ isSyncing: false });
+        }
+      },
+
       createRecurringGroup: (name, memberNames) =>
         set((state) => {
           const event = createAnalyticsEvent('group_created', { members: memberNames.length });
@@ -182,9 +266,11 @@ export const useSocialStore = create<SocialState>()(
             recurringGroups: upsertGroup(state.recurringGroups, normalizeName(name), memberNames, event.timestamp),
           };
         }),
-      recordFinishedBill: ({ draft, result }) =>
+
+      recordFinishedBill: ({ draft, result }, userId) => {
+        const timestamp = new Date().toISOString();
+
         set((state) => {
-          const timestamp = new Date().toISOString();
           const historyEntry: BillHistoryEntry = {
             createdAt: timestamp,
             id: createId('history'),
@@ -215,24 +301,76 @@ export const useSocialStore = create<SocialState>()(
             recurringGroups: upsertGroup(state.recurringGroups, draft.title || 'Grupo recorrente', result.people.map((person) => person.name), timestamp),
             restaurantHistory: upsertRestaurant(state.restaurantHistory, draft.place, result.totalInCents, timestamp),
           };
-        }),
+        });
+
+        if (shouldSync(userId)) {
+          syncBillToSupabase(userId!, draft, result, timestamp);
+        }
+      },
+
       track: (name, properties) =>
         set((state) => {
           const event = trackEvent(name, properties);
 
           return { analyticsEvents: addEvent(state.analyticsEvents, event) };
         }),
-      updatePixProfile: (profile) =>
+
+      updatePixProfile: (profile, userId) => {
         set((state) => ({
-          pixProfile: {
-            ...state.pixProfile,
-            ...profile,
-          },
-        })),
+          pixProfile: { ...state.pixProfile, ...profile },
+        }));
+
+        if (shouldSync(userId)) {
+          const fullProfile = get().pixProfile;
+          socialRepo.savePixProfile(userId!, fullProfile).catch(() => {});
+        }
+      },
     }),
     {
       name: 'rachae-social-state',
       storage: createJSONStorage(() => AsyncStorage),
+      partialize: (state) => ({
+        billHistory: state.billHistory,
+        pixProfile: state.pixProfile,
+        recentFriends: state.recentFriends,
+        recurringGroups: state.recurringGroups,
+        restaurantHistory: state.restaurantHistory,
+      }),
     },
   ),
 );
+
+async function syncBillToSupabase(
+  userId: string,
+  draft: import('../types/billing').BillDraft,
+  result: import('../types/billing').SplitSummary,
+  timestamp: string,
+) {
+  try {
+    await billRepo.createBill(userId, draft, result);
+
+    const syncPromises: Promise<unknown>[] = [];
+
+    for (const person of result.people) {
+      const normalized = normalizeName(person.name);
+      const avatar = createAvatar(normalized);
+      syncPromises.push(
+        socialRepo.upsertRecentFriend(userId, normalized, avatar.initials, avatar.backgroundColor, person.totalInCents),
+      );
+    }
+
+    const place = normalizeName(draft.place);
+    if (place) {
+      syncPromises.push(socialRepo.upsertRestaurant(userId, place, result.totalInCents));
+    }
+
+    const memberNames = result.people.map((p) => normalizeName(p.name));
+    if (memberNames.length >= 2) {
+      syncPromises.push(socialRepo.upsertRecurringGroup(userId, draft.title || 'Grupo recorrente', memberNames));
+    }
+
+    await Promise.allSettled(syncPromises);
+  } catch {
+    // sync failure is non-blocking — local state is already updated
+  }
+}

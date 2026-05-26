@@ -60,6 +60,8 @@ export function buildStaticPixPayload({ amountInCents, description, profile }: P
   const merchantAccountInfo = field('00', GUI_BR_GOV) + field('01', profile.key.trim());
   const txid = sanitizePixText(`${profile.txidPrefix || 'RACHAE'}${Date.now()}`.toUpperCase(), 25) || 'RACHAE';
   const additionalData = field('05', txid);
+  const descriptionField = description ? field('08', sanitizePixText(description, 50)) : '';
+  const additionalDataBlock = field('62', additionalData + descriptionField);
   const payloadWithoutCrc = [
     field('00', '01'),
     field('01', '12'),
@@ -70,8 +72,7 @@ export function buildStaticPixPayload({ amountInCents, description, profile }: P
     field('58', 'BR'),
     field('59', sanitizePixText(profile.receiverName || 'RACHAE', 25).toUpperCase()),
     field('60', sanitizePixText(profile.city || 'SAO PAULO', 15).toUpperCase()),
-    field('62', additionalData),
-    description ? field('80', sanitizePixText(description, 50)) : '',
+    additionalDataBlock,
   ].join('');
   const payloadForCrc = `${payloadWithoutCrc}6304`;
 

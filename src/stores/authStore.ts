@@ -43,6 +43,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       };
     }
 
+    let initialSessionResolved = false;
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) {
+        return;
+      }
+
+      if (initialSessionResolved) {
+        set({ session, user: session?.user ?? null });
+      }
+    });
+
     supabase.auth
       .getSession()
       .then(({ data }) => {
@@ -50,6 +64,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           return;
         }
 
+        initialSessionResolved = true;
         set({
           isLoading: false,
           session: data.session,
@@ -61,14 +76,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           return;
         }
 
+        initialSessionResolved = true;
         set({ error: error.message, isLoading: false });
       });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      set({ session, user: session?.user ?? null });
-    });
 
     return () => {
       isMounted = false;

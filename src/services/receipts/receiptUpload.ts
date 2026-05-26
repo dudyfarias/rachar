@@ -52,14 +52,21 @@ export async function uploadReceiptImage({ image, userId }: UploadReceiptImageIn
     throw new Error(`Nao foi possivel enviar a imagem da conta: ${error.message}`);
   }
 
-  const { data: publicData } = supabase.storage.from(bucket).getPublicUrl(data.path);
+  const SIGNED_URL_EXPIRY_SECONDS = 3600;
+  const { data: signedData, error: signedError } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(data.path, SIGNED_URL_EXPIRY_SECONDS);
+
+  if (signedError || !signedData?.signedUrl) {
+    throw new Error(`Nao foi possivel gerar URL assinada: ${signedError?.message ?? 'resposta vazia'}`);
+  }
 
   return {
     image: {
       ...image,
       storageBucket: bucket,
       storagePath: data.path,
-      uploadedUrl: publicData.publicUrl,
+      uploadedUrl: signedData.signedUrl,
     },
     warnings: [],
   };

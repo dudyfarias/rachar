@@ -13,4 +13,6 @@ export type RootStackParamList = {
   AddPeople: undefined;
   AddItems: undefined;
   Result: undefined;
+  BillHistory: undefined;
+  SharedBill: { token: string };
 };

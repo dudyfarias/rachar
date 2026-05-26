@@ -7,9 +7,11 @@ import { OnboardingScreen } from '../features/auth/screens/OnboardingScreen';
 import { RegisterScreen } from '../features/auth/screens/RegisterScreen';
 import { AddItemsScreen } from '../features/bills/screens/AddItemsScreen';
 import { AddPeopleScreen } from '../features/bills/screens/AddPeopleScreen';
+import { BillHistoryScreen } from '../features/bills/screens/BillHistoryScreen';
 import { HomeScreen } from '../features/bills/screens/HomeScreen';
 import { NewBillScreen } from '../features/bills/screens/NewBillScreen';
 import { ResultScreen } from '../features/bills/screens/ResultScreen';
+import { SharedBillScreen } from '../features/bills/screens/SharedBillScreen';
 import { ReceiptCaptureScreen } from '../features/receipts/screens/ReceiptCaptureScreen';
 import { ReceiptProcessingScreen } from '../features/receipts/screens/ReceiptProcessingScreen';
 import { ReceiptReviewScreen } from '../features/receipts/screens/ReceiptReviewScreen';
@@ -62,6 +64,8 @@ export function RootNavigator() {
             <Stack.Screen component={AddPeopleScreen} name="AddPeople" />
             <Stack.Screen component={AddItemsScreen} name="AddItems" />
             <Stack.Screen component={ResultScreen} name="Result" />
+            <Stack.Screen component={BillHistoryScreen} name="BillHistory" />
+            <Stack.Screen component={SharedBillScreen} name="SharedBill" />
           </>
         )}
       </Stack.Navigator>

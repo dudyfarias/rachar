@@ -1,0 +1,38 @@
+name: Production Build & Submit
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-submit:
+    name: EAS Build & Submit (Production)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build production (Android)
+        run: eas build --profile production --platform android --non-interactive
+
+      - name: Build production (iOS)
+        run: eas build --profile production --platform ios --non-interactive
+
+      - name: Submit to Google Play (internal track)
+        run: eas submit --profile production --platform android --non-interactive
+        continue-on-error: true
+
+      - name: Submit to App Store Connect
+        run: eas submit --profile production --platform ios --non-interactive
+        continue-on-error: true

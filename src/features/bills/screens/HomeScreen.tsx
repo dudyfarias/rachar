@@ -86,6 +86,13 @@ export function HomeScreen() {
             variant="secondary"
             onPress={() => navigation.navigate('SocialHub')}
           />
+          <Button
+            className="mt-3 border border-white/20"
+            leftIcon={<History color="#FFFFFF" size={20} />}
+            title="Historico de rachas"
+            variant="secondary"
+            onPress={() => navigation.navigate('BillHistory')}
+          />
         </Card>
 
         <View className="mt-5 flex-row gap-3">
