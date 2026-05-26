@@ -27,6 +27,94 @@ Repositorios planejados:
 - `saveBillItems`
 - `saveItemSplits`
 
+## Sprint 2 - OCR E IA
+
+O cliente mobile chama endpoints configuraveis para OCR e IA. Em desenvolvimento sem backend, o app usa providers demo/fallback.
+
+Variaveis:
+
+```bash
+EXPO_PUBLIC_RECEIPT_OCR_ENDPOINT=
+EXPO_PUBLIC_RECEIPT_AI_ENDPOINT=
+EXPO_PUBLIC_SUPABASE_RECEIPT_BUCKET=receipts
+```
+
+### OCR
+
+Endpoint esperado:
+
+```text
+POST EXPO_PUBLIC_RECEIPT_OCR_ENDPOINT
+```
+
+Payload:
+
+```json
+{
+  "image": {
+    "uri": "file://...",
+    "uploadedUrl": "https://...",
+    "storageBucket": "receipts",
+    "storagePath": "user/file.jpg",
+    "mimeType": "image/jpeg",
+    "width": 1200,
+    "height": 1600
+  }
+}
+```
+
+Resposta:
+
+```json
+{
+  "provider": "google-vision",
+  "rawText": "texto extraido",
+  "confidence": 0.93,
+  "warnings": []
+}
+```
+
+### Parser De IA
+
+Endpoint esperado:
+
+```text
+POST EXPO_PUBLIC_RECEIPT_AI_ENDPOINT
+```
+
+Payload:
+
+```json
+{
+  "ocrText": "texto extraido",
+  "imageUrl": "https://...",
+  "schema": {}
+}
+```
+
+Resposta normalizada:
+
+```json
+{
+  "restaurantName": "Restaurante Exemplo",
+  "items": [
+    {
+      "name": "Hamburguer",
+      "quantity": 2,
+      "unitPriceInCents": 3800,
+      "totalInCents": 7600
+    }
+  ],
+  "serviceFeeInCents": 1020,
+  "discountInCents": 500,
+  "subtotalInCents": 10200,
+  "totalInCents": 10720,
+  "warnings": []
+}
+```
+
+O cliente tambem aceita resposta embrulhada em `receipt` ou `data` e blocos markdown `json`, para facilitar integracao com LLMs.
+
 ## Contrato De Entrada Do Calculo
 
 ```ts

@@ -11,6 +11,7 @@
 ### Changed
 
 - Documentacao inicial alinhada ao fluxo manual do Sprint 1.
+- Sprint 2 atualizado para OCR + IA com contratos de endpoint e JSON estruturado.
 
 ### Fixed
 

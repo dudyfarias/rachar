@@ -32,6 +32,25 @@ flowchart TD
   G --> H["Resultado Final"]
 ```
 
+## Fluxo OCR E IA
+
+Sprint 2 adiciona um pipeline isolado para leitura automatica de comandas:
+
+```mermaid
+flowchart TD
+  A["Captura da Conta"] --> B["Crop e compressao"]
+  B --> C["Upload opcional"]
+  C --> D["OCR provider"]
+  D --> E["receiptParser.ts"]
+  E --> F["JSON estruturado"]
+  F --> G["Conferencia Inteligente"]
+  G --> H["Rascunho do racha"]
+```
+
+O OCR fica atras de `receiptOcr.ts`. O app usa endpoint remoto quando `EXPO_PUBLIC_RECEIPT_OCR_ENDPOINT` existe e usa provider demo quando nao ha backend configurado.
+
+O parser de IA fica em `receiptParser.ts`. Ele aceita resposta JSON remota, normaliza campos monetarios em centavos, valida total e adiciona warnings de conferencia.
+
 ## Engine Financeira
 
 `src/services/billing/calculateSplits.ts` recebe um `BillDraft` e retorna um `SplitSummary`.

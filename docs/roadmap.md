@@ -3,6 +3,7 @@
 ## MVP
 
 - Fluxo manual completo.
+- OCR e conferencia inteligente em modo demo/backend configuravel.
 - Persistencia Supabase.
 - Historico de contas.
 - Edicao de rachas.

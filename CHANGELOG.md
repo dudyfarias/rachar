@@ -4,6 +4,19 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 Formato baseado em Keep a Changelog e versionamento semantico.
 
+## [0.2.0] - 2026-05-22
+
+### Added
+
+- Fluxo OCR + IA para comandas.
+- Telas Captura da Conta, Processamento e Conferencia Inteligente.
+- Captura com `expo-camera` e galeria com `expo-image-picker`.
+- Crop e compressao com `expo-image-manipulator`.
+- Upload opcional de imagem para Supabase Storage.
+- Parser `src/services/receipts/receiptParser.ts`.
+- Abstracao de provider OCR para troca futura.
+- Validacao de total e warnings de conferencia.
+
 ## [0.1.0] - 2026-05-22
 
 ### Added

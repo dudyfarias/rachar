@@ -1,6 +1,6 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { LogOut, Plus, ReceiptText, UsersRound } from 'lucide-react-native';
+import { Camera, LogOut, Plus, ReceiptText, UsersRound } from 'lucide-react-native';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 
 import { Button, Card, Header } from '../../../components/ui';
@@ -61,6 +61,13 @@ export function HomeScreen() {
             textClassName="text-ink-900"
             title="Nova conta"
             onPress={startNewBill}
+          />
+          <Button
+            className="mt-3 border border-white/20"
+            leftIcon={<Camera color="#FFFFFF" size={20} />}
+            title="Ler com camera"
+            variant="secondary"
+            onPress={() => navigation.navigate('ReceiptCapture')}
           />
         </Card>
 

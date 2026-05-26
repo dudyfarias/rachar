@@ -14,6 +14,7 @@ export function AddPeopleScreen() {
   const navigation = useNavigation<AddPeopleNavigation>();
   const people = useBillStore((state) => state.draft.people);
   const addPerson = useBillStore((state) => state.addPerson);
+  const assignEmptyItemsToAllPeople = useBillStore((state) => state.assignEmptyItemsToAllPeople);
   const removePerson = useBillStore((state) => state.removePerson);
   const [personName, setPersonName] = useState('');
 
@@ -32,6 +33,7 @@ export function AddPeopleScreen() {
       return;
     }
 
+    assignEmptyItemsToAllPeople();
     navigation.navigate('AddItems');
   }
 

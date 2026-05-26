@@ -10,6 +10,9 @@ import { AddPeopleScreen } from '../features/bills/screens/AddPeopleScreen';
 import { HomeScreen } from '../features/bills/screens/HomeScreen';
 import { NewBillScreen } from '../features/bills/screens/NewBillScreen';
 import { ResultScreen } from '../features/bills/screens/ResultScreen';
+import { ReceiptCaptureScreen } from '../features/receipts/screens/ReceiptCaptureScreen';
+import { ReceiptProcessingScreen } from '../features/receipts/screens/ReceiptProcessingScreen';
+import { ReceiptReviewScreen } from '../features/receipts/screens/ReceiptReviewScreen';
 import { useAppStore } from '../stores/appStore';
 import { useAuthStore } from '../stores/authStore';
 import type { RootStackParamList } from '../types/navigation';
@@ -50,6 +53,9 @@ export function RootNavigator() {
         ) : (
           <>
             <Stack.Screen component={HomeScreen} name="Home" />
+            <Stack.Screen component={ReceiptCaptureScreen} name="ReceiptCapture" />
+            <Stack.Screen component={ReceiptProcessingScreen} name="ReceiptProcessing" />
+            <Stack.Screen component={ReceiptReviewScreen} name="ReceiptReview" />
             <Stack.Screen component={NewBillScreen} name="NewBill" />
             <Stack.Screen component={AddPeopleScreen} name="AddPeople" />
             <Stack.Screen component={AddItemsScreen} name="AddItems" />
