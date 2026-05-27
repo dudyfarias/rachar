@@ -28,6 +28,37 @@ function ensureSupabaseConfigured() {
   }
 }
 
+function createLocalSession(email: string, fullName: string) {
+  const now = new Date().toISOString();
+  const user = {
+    id: 'demo-user',
+    aud: 'authenticated',
+    role: 'authenticated',
+    email,
+    app_metadata: {},
+    user_metadata: { full_name: fullName },
+    created_at: now,
+  } as User;
+
+  return {
+    session: {
+      access_token: 'demo-token',
+      refresh_token: 'demo-refresh-token',
+      expires_in: 3600,
+      token_type: 'bearer',
+      user,
+    } as Session,
+    user,
+  };
+}
+
+function matchesTestAdminCredentials(email: string, password: string) {
+  const testEmail = process.env.EXPO_PUBLIC_TEST_ADMIN_EMAIL?.trim().toLowerCase();
+  const testPassword = process.env.EXPO_PUBLIC_TEST_ADMIN_PASSWORD;
+
+  return Boolean(testEmail && testPassword && email.trim().toLowerCase() === testEmail && password === testPassword);
+}
+
 export const useAuthStore = create<AuthState>((set, get) => ({
   error: null,
   isLoading: true,
@@ -87,6 +118,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
   setSession: (session) => set({ session, user: session?.user ?? null }),
   signIn: async (email, password) => {
+    if (matchesTestAdminCredentials(email, password)) {
+      const { session, user } = createLocalSession(email.trim(), 'Admin Teste');
+      set({ error: null, isLoading: false, session, user });
+      return;
+    }
+
     ensureSupabaseConfigured();
     set({ error: null, isLoading: true });
 
@@ -139,27 +176,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: false, session: data.session, user: data.user });
   },
   startDemoSession: () => {
-    const now = new Date().toISOString();
-    const demoUser = {
-      id: 'demo-user',
-      aud: 'authenticated',
-      role: 'authenticated',
-      email: 'demo@rachae.app',
-      app_metadata: {},
-      user_metadata: { full_name: 'Demo Rachaê' },
-      created_at: now,
-    } as User;
+    const { session, user } = createLocalSession('demo@rachae.app', 'Demo Rachaê');
 
     set({
       isLoading: false,
-      session: {
-        access_token: 'demo-token',
-        refresh_token: 'demo-refresh-token',
-        expires_in: 3600,
-        token_type: 'bearer',
-        user: demoUser,
-      } as Session,
-      user: demoUser,
+      session,
+      user,
     });
   },
 }));

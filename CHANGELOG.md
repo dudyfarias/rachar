@@ -9,6 +9,7 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 ### Added
 
 - Suite inicial de testes automatizados com Vitest para engine financeira e parser de recibos.
+- Login local de teste configuravel por `EXPO_PUBLIC_TEST_ADMIN_EMAIL` e `EXPO_PUBLIC_TEST_ADMIN_PASSWORD`.
 
 ### Changed
 
