@@ -14,6 +14,14 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 - Alinhamento de dependencias do Expo SDK 56 e suporte ao alvo web com `react-dom` e `react-native-web`.
 - Regra de fechamento de sprint documentada para validar, commitar e enviar o estado final ao repositorio remoto.
+- Versao do pacote alinhada com o app em `0.4.0`.
+
+### Fixed
+
+- Tipos Supabase atualizados para o formato esperado pelo `supabase-js` atual.
+- Sync social agora recebe o usuario autenticado ao finalizar rachas, salvar Pix e criar grupos.
+- Links compartilhados enviam `x-share-token` e podem abrir a tela publica via deep link.
+- Tela de racha compartilhado inclui taxa e desconto no total por pessoa.
 
 ## [0.4.0] - 2026-05-26
 

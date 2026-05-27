@@ -120,8 +120,8 @@ export async function getBillById(billId: string) {
   }
 
   const [peopleResult, itemsResult] = await Promise.all([
-    supabase.from('bill_people').select('*').eq('bill_id', billId),
-    supabase.from('bill_items').select('*').eq('bill_id', billId),
+    supabase.from('bill_people').select('*').eq('bill_id', billId).order('created_at', { ascending: true }),
+    supabase.from('bill_items').select('*').eq('bill_id', billId).order('created_at', { ascending: true }),
   ]);
 
   const people = peopleResult.data ?? [];
@@ -153,28 +153,47 @@ export async function generateShareToken(billId: string) {
 }
 
 export async function getBillByShareToken(token: string) {
-  const { data: bill, error } = await supabase
+  const billQuery = supabase
     .from('bills')
     .select('*')
     .eq('share_token', token)
     .single();
+  billQuery.setHeader('x-share-token', token);
+
+  const { data: bill, error } = await billQuery;
 
   if (error || !bill) {
     return null;
   }
 
-  const [peopleResult, itemsResult] = await Promise.all([
-    supabase.from('bill_people').select('*').eq('bill_id', bill.id),
-    supabase.from('bill_items').select('*').eq('bill_id', bill.id),
-  ]);
+  const peopleQuery = supabase
+    .from('bill_people')
+    .select('*')
+    .eq('bill_id', bill.id)
+    .order('created_at', { ascending: true });
+  const itemsQuery = supabase
+    .from('bill_items')
+    .select('*')
+    .eq('bill_id', bill.id)
+    .order('created_at', { ascending: true });
+  peopleQuery.setHeader('x-share-token', token);
+  itemsQuery.setHeader('x-share-token', token);
+
+  const [peopleResult, itemsResult] = await Promise.all([peopleQuery, itemsQuery]);
 
   const people = peopleResult.data ?? [];
   const items = itemsResult.data ?? [];
 
   const itemIds = items.map((i) => i.id);
-  const { data: splits } = itemIds.length > 0
-    ? await supabase.from('item_splits').select('*').in('bill_item_id', itemIds)
-    : { data: [] };
+  const splitsQuery = itemIds.length > 0
+    ? supabase.from('item_splits').select('*').in('bill_item_id', itemIds)
+    : null;
+
+  if (splitsQuery) {
+    splitsQuery.setHeader('x-share-token', token);
+  }
+
+  const { data: splits } = splitsQuery ? await splitsQuery : { data: [] };
 
   return { bill, people, items, splits: splits ?? [] };
 }

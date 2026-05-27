@@ -38,7 +38,7 @@ type SocialState = {
   recentFriends: RecentFriend[];
   recurringGroups: RecurringGroup[];
   restaurantHistory: RestaurantHistoryItem[];
-  createRecurringGroup: (name: string, memberNames: string[]) => void;
+  createRecurringGroup: (name: string, memberNames: string[], userId?: string | null) => void;
   loadFromSupabase: (userId: string) => Promise<void>;
   recordFinishedBill: (snapshot: SocialBillSnapshot, userId?: string | null) => void;
   track: (name: AnalyticsEventName, properties?: AnalyticsEvent['properties']) => void;
@@ -257,23 +257,37 @@ export const useSocialStore = create<SocialState>()(
         }
       },
 
-      createRecurringGroup: (name, memberNames) =>
+      createRecurringGroup: (name, memberNames, userId) => {
+        const normalizedName = normalizeName(name);
+        const normalizedMembers = memberNames.map(normalizeName).filter(Boolean);
+
+        if (normalizedMembers.length < 2) {
+          return;
+        }
+
         set((state) => {
           const event = createAnalyticsEvent('group_created', { members: memberNames.length });
 
           return {
             analyticsEvents: addEvent(state.analyticsEvents, event),
-            recurringGroups: upsertGroup(state.recurringGroups, normalizeName(name), memberNames, event.timestamp),
+            recurringGroups: upsertGroup(state.recurringGroups, normalizedName, normalizedMembers, event.timestamp),
           };
-        }),
+        });
+
+        if (shouldSync(userId)) {
+          socialRepo.upsertRecurringGroup(userId!, normalizedName, normalizedMembers).catch(() => {});
+        }
+      },
 
       recordFinishedBill: ({ draft, result }, userId) => {
         const timestamp = new Date().toISOString();
 
+        const historyEntryId = createId('history');
+
         set((state) => {
           const historyEntry: BillHistoryEntry = {
             createdAt: timestamp,
-            id: createId('history'),
+            id: historyEntryId,
             peopleCount: result.people.length,
             place: draft.place,
             title: draft.title,
@@ -304,7 +318,17 @@ export const useSocialStore = create<SocialState>()(
         });
 
         if (shouldSync(userId)) {
-          syncBillToSupabase(userId!, draft, result, timestamp);
+          syncBillToSupabase(userId!, draft, result, timestamp).then((billId) => {
+            if (!billId) {
+              return;
+            }
+
+            set((state) => ({
+              billHistory: state.billHistory.map((entry) =>
+                entry.id === historyEntryId ? { ...entry, id: billId } : entry,
+              ),
+            }));
+          });
         }
       },
 
@@ -345,9 +369,9 @@ async function syncBillToSupabase(
   draft: import('../types/billing').BillDraft,
   result: import('../types/billing').SplitSummary,
   timestamp: string,
-) {
+): Promise<string | null> {
   try {
-    await billRepo.createBill(userId, draft, result);
+    const billId = await billRepo.createBill(userId, draft, result);
 
     const syncPromises: Promise<unknown>[] = [];
 
@@ -370,7 +394,9 @@ async function syncBillToSupabase(
     }
 
     await Promise.allSettled(syncPromises);
+    return billId;
   } catch {
     // sync failure is non-blocking — local state is already updated
+    return null;
   }
 }

@@ -1,4 +1,4 @@
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer, type LinkingOptions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Loading } from '../components/ui';
@@ -33,6 +33,15 @@ const navigationTheme = {
   },
 };
 
+const linking: LinkingOptions<RootStackParamList> = {
+  prefixes: ['rachae://'],
+  config: {
+    screens: {
+      SharedBill: 'bill/:token',
+    },
+  },
+};
+
 export function RootNavigator() {
   const hasHydrated = useAppStore((state) => state.hasHydrated);
   const hasSeenOnboarding = useAppStore((state) => state.hasSeenOnboarding);
@@ -44,14 +53,18 @@ export function RootNavigator() {
   }
 
   return (
-    <NavigationContainer theme={navigationTheme}>
+    <NavigationContainer linking={linking} theme={navigationTheme}>
       <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#F6F8F7' }, headerShown: false }}>
         {!hasSeenOnboarding ? (
-          <Stack.Screen component={OnboardingScreen} name="Onboarding" />
+          <>
+            <Stack.Screen component={OnboardingScreen} name="Onboarding" />
+            <Stack.Screen component={SharedBillScreen} name="SharedBill" />
+          </>
         ) : !session ? (
           <>
             <Stack.Screen component={LoginScreen} name="Login" />
             <Stack.Screen component={RegisterScreen} name="Register" />
+            <Stack.Screen component={SharedBillScreen} name="SharedBill" />
           </>
         ) : (
           <>

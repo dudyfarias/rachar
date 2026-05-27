@@ -11,6 +11,7 @@ import { formatCurrency } from '../../../lib/formatCurrency';
 import { calculateSplits } from '../../../services/billing/calculateSplits';
 import { generateWhatsAppSummary } from '../../../services/social/generateWhatsAppSummary';
 import { createPixGatewayProvider, type PixCharge } from '../../../services/social/pix';
+import { useAuthStore } from '../../../stores/authStore';
 import { useBillStore } from '../../../stores/billStore';
 import { useSocialStore } from '../../../stores/socialStore';
 import type { RootStackParamList } from '../../../types/navigation';
@@ -21,6 +22,7 @@ export function ResultScreen() {
   const navigation = useNavigation<ResultNavigation>();
   const draft = useBillStore((state) => state.draft);
   const resetDraft = useBillStore((state) => state.resetDraft);
+  const userId = useAuthStore((state) => state.user?.id);
   const pixProfile = useSocialStore((state) => state.pixProfile);
   const recordFinishedBill = useSocialStore((state) => state.recordFinishedBill);
   const track = useSocialStore((state) => state.track);
@@ -57,7 +59,7 @@ export function ResultScreen() {
 
   function finishFlow() {
     if (result.data) {
-      recordFinishedBill({ draft, result: result.data });
+      recordFinishedBill({ draft, result: result.data }, userId);
     }
 
     resetDraft();

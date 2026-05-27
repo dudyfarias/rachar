@@ -19,6 +19,54 @@ type SharedBillData = {
   items: Array<{ name: string; priceCents: number }>;
 };
 
+function allocateProportionally(
+  totalCents: number,
+  people: Array<{ id: string }>,
+  weightsByPersonId: Map<string, number>,
+) {
+  const emptyAllocations = new Map(people.map((person) => [person.id, 0]));
+
+  if (totalCents <= 0 || people.length === 0) {
+    return emptyAllocations;
+  }
+
+  const totalWeight = people.reduce((sum, person) => sum + (weightsByPersonId.get(person.id) ?? 0), 0);
+
+  if (totalWeight <= 0) {
+    return emptyAllocations;
+  }
+
+  const allocations = new Map<string, number>();
+  const remainders: Array<{ id: string; index: number; remainder: number }> = [];
+  let allocated = 0;
+
+  people.forEach((person, index) => {
+    const weight = weightsByPersonId.get(person.id) ?? 0;
+    const numerator = BigInt(totalCents) * BigInt(weight);
+    const denominator = BigInt(totalWeight);
+    const base = Number(numerator / denominator);
+    const remainder = Number(numerator % denominator);
+
+    allocations.set(person.id, base);
+    allocated += base;
+    remainders.push({ id: person.id, index, remainder });
+  });
+
+  let centsToDistribute = totalCents - allocated;
+  remainders.sort((a, b) => b.remainder - a.remainder || a.index - b.index);
+
+  for (const target of remainders) {
+    if (centsToDistribute <= 0) {
+      break;
+    }
+
+    allocations.set(target.id, (allocations.get(target.id) ?? 0) + 1);
+    centsToDistribute -= 1;
+  }
+
+  return allocations;
+}
+
 export function SharedBillScreen({ route }: Props) {
   const { token } = route.params;
   const [data, setData] = useState<SharedBillData | null>(null);
@@ -34,11 +82,21 @@ export function SharedBillScreen({ route }: Props) {
           return;
         }
 
-        const splitsByPerson = new Map<string, number>();
+        const itemSubtotalsByPerson = new Map<string, number>();
         for (const split of result.splits) {
           const personId = split.bill_person_id;
-          splitsByPerson.set(personId, (splitsByPerson.get(personId) ?? 0) + split.amount_cents);
+          itemSubtotalsByPerson.set(personId, (itemSubtotalsByPerson.get(personId) ?? 0) + split.amount_cents);
         }
+        const serviceFeeByPerson = allocateProportionally(
+          result.bill.service_fee_cents,
+          result.people,
+          itemSubtotalsByPerson,
+        );
+        const discountByPerson = allocateProportionally(
+          result.bill.discount_cents,
+          result.people,
+          itemSubtotalsByPerson,
+        );
 
         setData({
           title: result.bill.title,
@@ -48,7 +106,10 @@ export function SharedBillScreen({ route }: Props) {
           discountCents: result.bill.discount_cents,
           people: result.people.map((p) => ({
             name: p.name,
-            totalCents: splitsByPerson.get(p.id) ?? 0,
+            totalCents:
+              (itemSubtotalsByPerson.get(p.id) ?? 0) +
+              (serviceFeeByPerson.get(p.id) ?? 0) -
+              (discountByPerson.get(p.id) ?? 0),
           })),
           items: result.items.map((i) => ({
             name: i.name,

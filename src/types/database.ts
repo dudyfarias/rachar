@@ -26,6 +26,7 @@ export type Database = {
           avatar_url?: string | null;
           updated_at?: string;
         };
+        Relationships: [];
       };
       bills: {
         Row: {
@@ -67,6 +68,15 @@ export type Database = {
           share_token?: string | null;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'bills_owner_id_fkey';
+            columns: ['owner_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       bill_people: {
         Row: {
@@ -87,6 +97,15 @@ export type Database = {
           name?: string;
           contact_hint?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'bill_people_bill_id_fkey';
+            columns: ['bill_id'];
+            isOneToOne: false;
+            referencedRelation: 'bills';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       bill_items: {
         Row: {
@@ -107,6 +126,15 @@ export type Database = {
           name?: string;
           price_cents?: number;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'bill_items_bill_id_fkey';
+            columns: ['bill_id'];
+            isOneToOne: false;
+            referencedRelation: 'bills';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       item_splits: {
         Row: {
@@ -126,6 +154,22 @@ export type Database = {
         Update: {
           amount_cents?: number;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'item_splits_bill_item_id_fkey';
+            columns: ['bill_item_id'];
+            isOneToOne: false;
+            referencedRelation: 'bill_items';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'item_splits_bill_person_id_fkey';
+            columns: ['bill_person_id'];
+            isOneToOne: false;
+            referencedRelation: 'bill_people';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       pix_profiles: {
         Row: {
@@ -161,6 +205,15 @@ export type Database = {
           txid_prefix?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'pix_profiles_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: true;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       recurring_groups: {
         Row: {
@@ -184,6 +237,15 @@ export type Database = {
           bill_count?: number;
           last_used_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'recurring_groups_owner_id_fkey';
+            columns: ['owner_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       recurring_group_members: {
         Row: {
@@ -201,6 +263,15 @@ export type Database = {
         Update: {
           name?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'recurring_group_members_group_id_fkey';
+            columns: ['group_id'];
+            isOneToOne: false;
+            referencedRelation: 'recurring_groups';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       recent_friends: {
         Row: {
@@ -233,6 +304,15 @@ export type Database = {
           total_in_cents?: number;
           last_seen_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'recent_friends_owner_id_fkey';
+            columns: ['owner_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       restaurant_history: {
         Row: {
@@ -262,6 +342,15 @@ export type Database = {
           average_ticket_in_cents?: number;
           last_visited_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'restaurant_history_owner_id_fkey';
+            columns: ['owner_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       analytics_consents: {
         Row: {
@@ -288,6 +377,15 @@ export type Database = {
           revoked_at?: string | null;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'analytics_consents_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: true;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
     Views: Record<string, never>;

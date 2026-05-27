@@ -7,6 +7,7 @@ import { Alert, ScrollView, Text, View } from 'react-native';
 
 import { Button, Card, Header, Input } from '../../../components/ui';
 import { formatCurrency } from '../../../lib/formatCurrency';
+import { useAuthStore } from '../../../stores/authStore';
 import { useSocialStore } from '../../../stores/socialStore';
 import type { RootStackParamList } from '../../../types/navigation';
 
@@ -14,6 +15,7 @@ type SocialNavigation = NativeStackNavigationProp<RootStackParamList, 'SocialHub
 
 export function SocialHubScreen() {
   const navigation = useNavigation<SocialNavigation>();
+  const userId = useAuthStore((state) => state.user?.id);
   const analyticsEvents = useSocialStore((state) => state.analyticsEvents);
   const billHistory = useSocialStore((state) => state.billHistory);
   const createRecurringGroup = useSocialStore((state) => state.createRecurringGroup);
@@ -33,12 +35,21 @@ export function SocialHubScreen() {
     track('history_opened', { bills: billHistory.length, groups: recurringGroups.length });
   }, [billHistory.length, recurringGroups.length, track]);
 
+  useEffect(() => {
+    setPixKey(pixProfile.key);
+    setReceiverName(pixProfile.receiverName);
+    setCity(pixProfile.city);
+  }, [pixProfile.city, pixProfile.key, pixProfile.receiverName]);
+
   function handleSavePix() {
-    updatePixProfile({
-      city: city.trim() || 'Sao Paulo',
-      key: pixKey.trim(),
-      receiverName: receiverName.trim(),
-    });
+    updatePixProfile(
+      {
+        city: city.trim() || 'Sao Paulo',
+        key: pixKey.trim(),
+        receiverName: receiverName.trim(),
+      },
+      userId,
+    );
     Alert.alert('Pix salvo', 'Chave Pix atualizada para os proximos rachas.');
   }
 
@@ -64,7 +75,7 @@ export function SocialHubScreen() {
       return;
     }
 
-    createRecurringGroup(groupName.trim(), members);
+    createRecurringGroup(groupName.trim(), members, userId);
     setGroupName('');
     setGroupMembers('');
     Alert.alert('Grupo salvo', 'Grupo recorrente criado para os proximos rachas.');
@@ -72,7 +83,7 @@ export function SocialHubScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      <Header eyebrow="Sprint 3" onBack={navigation.goBack} title="Social e Pix" />
+      <Header eyebrow="Sprint 4" onBack={navigation.goBack} title="Social e Pix" />
 
       <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <Card className="bg-ink-900">

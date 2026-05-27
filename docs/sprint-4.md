@@ -15,6 +15,7 @@ Preparar o app para beta fechado com persistencia social, convites e base para g
 - Consentimento de analytics com registro de data.
 - Tela de historico de contas com acoes de reabrir e compartilhar.
 - Tela de visualizacao publica de conta compartilhada.
+- Deep link `rachae://bill/:token` para abrir contas compartilhadas sem login.
 
 ## Decisoes Tecnicas
 
@@ -72,7 +73,7 @@ Todas com RLS habilitado e policies owner-based.
 - Push notifications.
 - Webhooks Pix.
 - Supabase Realtime para edicao colaborativa.
-- Deep linking para abrir shared bills via URL.
+- Links web universais para compartilhamento fora do esquema nativo.
 
 ## Checklist De Progresso
 
@@ -90,7 +91,7 @@ Todas com RLS habilitado e policies owner-based.
 - [x] Atualizar docs e changelog.
 - [ ] Definir parceiro Pix real.
 - [ ] Criar politica de privacidade.
-- [ ] Implementar deep linking para shared bills.
+- [x] Implementar deep linking para shared bills.
 
 ## Proximos Passos
 
