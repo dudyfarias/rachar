@@ -1,63 +1,190 @@
 # Rachae
 
-Rachae e um aplicativo mobile para dividir contas de forma justa, rapida e transparente. O app combina fluxo manual de divisao com uma base de OCR + IA para transformar fotos de comandas em rascunhos conferiveis.
+App mobile para dividir contas de forma justa, rapida e transparente. Combina divisao manual por item com OCR + IA para transformar fotos de comandas em rascunhos conferiveis.
 
-## Visao Do Produto
+**Versao atual:** v0.4.1 — Sprint 4 completo  
+**Repositorio:** https://github.com/dudyfarias/rachar  
+**Stack:** React Native · Expo SDK 56 · TypeScript · NativeWind · Supabase · Zustand
 
-Restaurantes, bares, viagens e compras em grupo ainda geram atrito na hora de dividir valores. O Rachae resolve esse problema com uma experiencia simples, moderna e preparada para evoluir para OCR de notas fiscais, IA de categorizacao, Pix, compartilhamento social e historico financeiro.
+---
 
-## Proposta De Valor
+## Comecar em um novo dispositivo
 
-- Divisao justa por item, nao apenas por total.
-- Taxa e desconto proporcionais ao consumo de cada pessoa.
-- Arredondamento em centavos com regra deterministica.
-- Base tecnica escalavel para novos devs e agentes de IA.
+### Pre-requisitos
 
-## Stack
+| Ferramenta | Versao minima | Instalacao |
+|---|---|---|
+| Node.js | 20+ (recomendado: 24 via NVM) | https://github.com/nvm-sh/nvm |
+| npm | 10+ | vem com Node |
+| Expo Go | ultima | App Store / Play Store |
+| Xcode | 15+ | Mac App Store (para iOS simulator) |
+| Android Studio | Hedgehog+ | https://developer.android.com/studio |
 
-- React Native com Expo
-- TypeScript
-- NativeWind
-- Supabase Auth + Postgres
-- Zustand
-- React Navigation
-- expo-clipboard
-- react-native-qrcode-svg
+> Nao e necessario instalar `expo-cli` globalmente. O projeto usa `npx expo`.
 
-## Arquitetura
-
-```text
-src/
-  app/                 Providers globais
-  components/ui/       Design system reutilizavel
-  features/            Features por dominio
-    auth/screens/      Onboarding, Login, Cadastro
-    bills/screens/     Home, Nova Conta, Pessoas, Itens, Resultado
-    receipts/screens/  Captura, Processamento, Conferencia
-    social/screens/    Social e Pix
-  lib/                 Helpers de moeda, ids e Supabase
-  navigation/          RootNavigator e stacks
-  services/billing/    Engine financeira calculateSplits
-  services/receipts/   Pipeline OCR + IA
-  services/social/     WhatsApp, Pix e analytics
-  stores/              Estados globais Zustand
-  theme/               Tokens visuais
-  types/               Tipos compartilhados
-supabase/
-  migrations/          Schema versionado do banco
-docs/                  Documentacao viva por sprint e por area
-```
-
-## Instalacao
+### 1. Clonar e instalar
 
 ```bash
+git clone git@github.com:dudyfarias/rachar.git
+cd rachar
 npm install
+```
+
+### 2. Configurar variaveis de ambiente
+
+```bash
 cp .env.example .env
 ```
 
-Configure as variaveis no `.env`:
+Preencha `.env` com suas chaves:
+
+```env
+# Supabase — obrigatorio para auth e banco de dados
+EXPO_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+
+# Bucket de recibos no Supabase Storage
+EXPO_PUBLIC_SUPABASE_RECEIPT_BUCKET=receipts
+
+# OCR e IA — opcional, app funciona em modo demo sem estas
+EXPO_PUBLIC_RECEIPT_OCR_ENDPOINT=
+EXPO_PUBLIC_RECEIPT_AI_ENDPOINT=
+OPENAI_API_KEY=
+GOOGLE_VISION_API_KEY=
+
+# Login de teste local (nao cria usuario real no Supabase)
+EXPO_PUBLIC_TEST_ADMIN_EMAIL=
+EXPO_PUBLIC_TEST_ADMIN_PASSWORD=
+```
+
+> **Sem Supabase?** O app inicia em **modo demo** automaticamente — todas as funcionalidades funcionam localmente, sem banco.
+
+### 3. Aplicar o schema do banco
+
+Se voce criou um projeto Supabase novo, execute as migrations na ordem:
 
 ```bash
+# Via Supabase CLI
+supabase db push
+
+# Ou manualmente no SQL Editor do dashboard Supabase:
+# 1. supabase/migrations/202605220001_create_sprint_1_schema.sql
+# 2. supabase/migrations/202605260001_sprint_4_social_and_invites.sql
+```
+
+### 4. Rodar o app
+
+```bash
+npm start          # Metro bundler + QR code para Expo Go
+npm run ios        # iOS Simulator (requer Xcode no Mac)
+npm run android    # Android Emulator (requer Android Studio)
+npm run web        # Navegador
+```
+
+---
+
+## Comandos de desenvolvimento
+
+```bash
+npm test           # Vitest — testes unitarios (engine financeira + OCR parser)
+npm run typecheck  # tsc --noEmit
+npm run docs:check # Valida cobertura de documentacao
+```
+
+Execute os tres antes de abrir um PR ou fechar um sprint.
+
+---
+
+## Arquitetura
+
+Feature-based modular — UI, estado, servicos e banco sao desacoplados por design.
+
+```
+src/
+  app/                   Providers globais (auth listener, navigation container)
+  components/ui/         Design system: Button, Input, Card, Header, Loading, Modal, BottomSheet
+  features/
+    auth/screens/        Onboarding, Login, Cadastro
+    bills/screens/       Home, Nova Conta, Pessoas, Itens, Resultado, Historico
+    receipts/screens/    Captura, Processamento, Conferencia Inteligente
+    social/screens/      Social Hub, Pix, Conta Compartilhada
+  lib/                   Supabase client, formatCurrency, generateId, cache, queue, logger,
+                         rateLimiter, security (uploadValidator, inputSanitizer, antiFraud)
+  navigation/            RootNavigator + stacks tipados
+  services/
+    billing/             calculateSplits.ts — engine financeira pura
+    receipts/            receiptOcr.ts, receiptParser.ts, receiptMemory.ts, receiptPatterns.ts
+    social/              generateWhatsAppSummary.ts, pix.ts (StaticPixGatewayProvider), analytics.ts
+  stores/                appStore, authStore, billStore, receiptStore, socialStore (Zustand)
+  theme/                 Tokens visuais
+  types/                 Contratos TypeScript compartilhados
+supabase/
+  migrations/            Schema versionado
+docs/                    Documentacao por sprint e area
+web/                     Politica de Privacidade e Termos de Uso (GitHub Pages)
+```
+
+### Engine financeira
+
+`src/services/billing/calculateSplits.ts` — recebe `BillDraft`, retorna `SplitSummary`.
+
+- Cada item e dividido apenas entre seus participantes.
+- Taxa e desconto proporcionais ao subtotal de cada pessoa.
+- Arredondamento deterministico em centavos.
+- **Todos os valores monetarios sao inteiros em centavos.**
+
+### Stores Zustand
+
+| Store | Responsabilidade |
+|---|---|
+| `appStore` | Onboarding e preferencias |
+| `authStore` | Sessao, login/cadastro/logout, modo demo |
+| `billStore` | Rascunho da conta manual + loadFromTemplate |
+| `receiptStore` | Pipeline captura → OCR → IA → revisao |
+| `socialStore` | Pix, historico, amigos, grupos recorrentes, analytics |
+
+### Supabase
+
+- Auth via AsyncStorage + autoRefreshToken + processLock.
+- RLS obrigatorio em toda tabela — politicas owner-based (`auth.uid()`).
+- App usa apenas `EXPO_PUBLIC_SUPABASE_ANON_KEY` — nunca `service_role`.
+- Bills com `share_token` podem ser lidas por usuarios anonimos via header `x-share-token`.
+- Imagens de comandas usam signed URLs (nunca publicas).
+
+---
+
+## Banco de dados
+
+Migrations em `supabase/migrations/`, aplicadas em ordem cronologica:
+
+| Migration | Conteudo |
+|---|---|
+| `202605220001_create_sprint_1_schema.sql` | `users`, `bills`, `bill_people`, `bill_items`, `item_splits` |
+| `202605260001_sprint_4_social_and_invites.sql` | `pix_profiles`, `recurring_groups`, `recurring_group_members`, `recent_friends`, `restaurant_history`, `analytics_consents`, campo `bills.share_token` |
+
+Documentacao completa do schema em `docs/database.md`.
+
+---
+
+## Funcionalidades implementadas
+
+### Sprint 1 — Fluxo manual
+Onboarding, auth Supabase, modo demo, home, criacao de conta, pessoas, itens por participante, resultado final, engine `calculateSplits.ts`, design system.
+
+### Sprint 2 — OCR + IA
+Captura por camera/galeria, crop e compressao, upload para Supabase Storage, pipeline OCR abstrato e trocavel, parser de IA, conferencia inteligente com validacao de total.
+
+### Sprint 3 — Social e Pix
+Compartilhamento por WhatsApp, perfil Pix com QR Code e copia e cola, `PixGatewayProvider` abstrato, historico de rachas, amigos recentes, grupos recorrentes, restaurantes, analytics local.
+
+### Sprint 4 — Persistencia e producao
+Persistencia social no Supabase, sync bidirecional local-first, historico de contas (`BillHistoryScreen`), tela de conta compartilhada (`SharedBillScreen`), deep link `rachae://bill/:token`, perfil Pix persistido, consentimento de analytics, repositorios Supabase (`billRepository.ts`, `socialRepository.ts`), cache, fila com retry, logger, rate limiter, validacao de uploads, sanitizacao de inputs, antifraude, EAS Build + CI/CD GitHub Actions.
+
+---
+
+## Variaveis de ambiente completas
+
+```env
 EXPO_PUBLIC_SUPABASE_URL=
 EXPO_PUBLIC_SUPABASE_ANON_KEY=
 EXPO_PUBLIC_SUPABASE_RECEIPT_BUCKET=receipts
@@ -65,100 +192,61 @@ EXPO_PUBLIC_RECEIPT_OCR_ENDPOINT=
 EXPO_PUBLIC_RECEIPT_AI_ENDPOINT=
 OPENAI_API_KEY=
 GOOGLE_VISION_API_KEY=
+EXPO_PUBLIC_TEST_ADMIN_EMAIL=
+EXPO_PUBLIC_TEST_ADMIN_PASSWORD=
+# EXPO_TOKEN=   # Necessario apenas para EAS Build no CI/CD
 ```
 
-Nunca commitar chaves reais.
+---
 
-## Rodar Localmente
+## Build e distribuicao (EAS)
 
-```bash
-npm start
-npm run ios
-npm run android
-npm run web
-```
+O projeto usa [EAS Build](https://docs.expo.dev/build/introduction/) com tres profiles em `eas.json`:
 
-Validacoes:
+| Profile | Uso |
+|---|---|
+| `development` | Build local com dev client |
+| `staging` | Build automatico pelo CI em cada push para `main` |
+| `production` | Build manual para App Store e Play Store |
 
-```bash
-npm test
-npm run typecheck
-npm run docs:check
-```
+Para usar EAS Build e necessario:
+1. Criar conta em https://expo.dev
+2. Rodar `npx eas init` para gerar o `projectId` e preencher `extra.eas.projectId` em `app.json`
+3. Configurar `EXPO_TOKEN` como secret no GitHub para o CI funcionar
 
-## Banco De Dados
+---
 
-O schema inicial esta em `supabase/migrations/202605220001_create_sprint_1_schema.sql` e cria:
+## Paginas legais (GitHub Pages)
 
-- `users`
-- `bills`
-- `bill_people`
-- `bill_items`
-- `item_splits`
+`web/privacidade.html` e `web/termos.html` sao estaticas e prontas para publicar.
 
-As tabelas usam RLS e politicas baseadas no dono da conta. Veja `docs/database.md`.
+**Para ativar:** repositorio → Settings → Pages → Source: main / /web
 
-## Funcionalidades Do Sprint 1
+URLs apos ativar:
+- `https://dudyfarias.github.io/rachar/privacidade`
+- `https://dudyfarias.github.io/rachar/termos`
 
-- Onboarding
-- Login e cadastro via Supabase
-- Modo demo local sem chaves Supabase
-- Home
-- Criacao manual de conta
-- Cadastro de pessoas
-- Cadastro de itens com participantes por item
-- Resultado final por pessoa
-- Engine `calculateSplits.ts`
-- Design system inicial
-- Documentacao e templates de colaboracao
-
-## Funcionalidades Do Sprint 2
-
-- Captura de comanda pela camera.
-- Selecao de imagem da galeria.
-- Crop e compressao da imagem.
-- Upload opcional para Supabase Storage.
-- OCR abstrato e trocavel.
-- Parser de IA em `receiptParser.ts`.
-- JSON estruturado com restaurante, itens, quantidades, precos, taxa, desconto, total e warnings.
-- Conferencia Inteligente com validacao de total.
-
-## Funcionalidades Do Sprint 3
-
-- Compartilhamento por WhatsApp com fallback nativo.
-- Geracao de resumo em `generateWhatsAppSummary.ts`.
-- Perfil Pix, copia de chave, QR Code e codigo copia e cola.
-- Arquitetura `PixGatewayProvider` para gateways futuros.
-- Historico avancado de rachas finalizados.
-- Grupos recorrentes automaticos e manuais.
-- Avatares, amigos recentes e historico de restaurantes.
-- Analytics local com eventos de retencao.
-
-## Roadmap
-
-- MVP: fluxo manual completo, OCR + IA configuravel, compartilhamento, Pix local e historico social.
-- Beta: persistencia Supabase do historico social, convites, OCR real e analytics com consentimento.
-- 1.0: gateway Pix real, sincronizacao em tempo real e planos pagos.
-
-Detalhes em `docs/roadmap.md`.
+---
 
 ## Convencoes
 
-- Commits semanticos: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`.
-- Componentes reutilizaveis em `src/components/ui`.
-- Features isoladas em `src/features/<dominio>`.
-- Valores monetarios sempre em centavos.
-- Toda nova feature deve atualizar docs, sprint correspondente e changelog.
+- Commits semanticos: `feat:` `fix:` `refactor:` `docs:` `chore:`
+- Valores monetarios **sempre em centavos** — nunca floats.
+- Logica financeira fica em `src/services/billing/`, nao em telas.
+- Componentes reutilizaveis em `src/components/ui` antes de criar novos.
+- Toda feature nova atualiza `docs/`, o sprint correspondente e `CHANGELOG.md`.
+- Novas tabelas Supabase precisam de RLS e devem atualizar `docs/database.md`.
 
-## GitHub
+Regras completas em `PROJECT_RULES.md`.
 
-O projeto esta preparado para colaboracao com:
+---
 
-- `CONTRIBUTING.md`
-- `PROJECT_RULES.md`
-- Pull Request Template
-- Issue Templates
-- `CHANGELOG.md`
-- `docs/`
+## Roadmap
 
-Repositorio alvo: `https://github.com/dudyfarias/rachar`
+| Fase | Status |
+|---|---|
+| MVP — fluxo manual, OCR demo, Pix local, historico | ✅ Completo |
+| Beta — persistencia social, convites, share link | ✅ Completo |
+| v1.0 — gateway Pix real, offline parcial, loja | Em andamento |
+
+Detalhes em `docs/roadmap.md`.
