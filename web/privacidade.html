@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Politica de Privacidade — Rachae. App para dividir contas de forma justa, rapida e transparente.">
+  <meta name="theme-color" content="#00A676">
+  <title>Politica de Privacidade — Rachae</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b1120;
+      --bg-2: #0e1529;
+      --surface: #131e2b;
+      --surface-2: #182437;
+      --border: #1e2d42;
+      --border-2: #243550;
+      --brand: #00A676;
+      --brand-hover: #008F68;
+      --brand-2: #047857;
+      --brand-3: #064E3B;
+      --brand-soft: rgba(0, 166, 118, 0.08);
+      --brand-glow: rgba(0, 166, 118, 0.15);
+      --text: #e2e8f0;
+      --text-2: #b8cad9;
+      --muted: #64748b;
+      --font-heading: 'Syne', sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text-2);
+      line-height: 1.75;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--brand); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--brand-hover); text-decoration: underline; }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 17, 32, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo:hover { text-decoration: none; color: var(--text); }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--brand-soft);
+      border: 1px solid var(--brand-3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand);
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .header-back:hover {
+      color: var(--brand);
+      border-color: var(--brand-3);
+      background: var(--brand-soft);
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .page-subtitle { font-size: 1rem; color: var(--muted); margin-bottom: 12px; }
+
+    .page-update {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8125rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: var(--radius-xs);
+      margin-bottom: 40px;
+    }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 48px;
+    }
+
+    .toc-title {
+      font-family: var(--font-heading);
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 32px;
+    }
+
+    .toc-list li { display: flex; align-items: baseline; gap: 8px; }
+
+    .toc-list a {
+      font-size: 0.875rem;
+      color: var(--text-2);
+      padding: 4px 0;
+      display: block;
+      transition: color 0.2s;
+    }
+
+    .toc-list a:hover { color: var(--brand); text-decoration: none; }
+
+    .toc-number { font-size: 0.75rem; font-weight: 600; color: var(--brand-2); min-width: 24px; }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article:last-child { border-bottom: none; }
+
+    .article-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+    .article-number {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--brand);
+      background: var(--brand-soft);
+      border: 1px solid var(--brand-3);
+      padding: 4px 10px;
+      border-radius: var(--radius-xs);
+      white-space: nowrap;
+    }
+
+    .article-title {
+      font-family: var(--font-heading);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .article p { margin-bottom: 12px; color: var(--text-2); }
+    .article strong { color: var(--text); font-weight: 600; }
+
+    .subsection { margin-top: 20px; margin-bottom: 16px; }
+
+    .subsection-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      padding-left: 12px;
+      border-left: 3px solid var(--brand-3);
+    }
+
+    .legal-list { list-style: none; padding: 0; margin: 12px 0; }
+
+    .legal-list li {
+      position: relative;
+      padding: 6px 0 6px 24px;
+      color: var(--text-2);
+      font-size: 0.9375rem;
+    }
+
+    .legal-list li::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 15px;
+      width: 5px;
+      height: 5px;
+      background: var(--brand-2);
+      border-radius: 50%;
+    }
+
+    .legal-list--roman { counter-reset: roman; }
+
+    .legal-list--roman li { counter-increment: roman; padding-left: 32px; }
+
+    .legal-list--roman li::before {
+      content: counter(roman, lower-roman) ".";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: auto;
+      height: auto;
+      background: none;
+      border-radius: 0;
+      color: var(--brand-2);
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+
+    .info-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .info-box--highlight { border-color: var(--brand-3); background: var(--brand-soft); }
+
+    .info-box p { margin-bottom: 6px; }
+    .info-box p:last-child { margin-bottom: 0; }
+
+    .info-box .label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--brand);
+      margin-bottom: 6px;
+    }
+
+    .data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.875rem; }
+
+    .data-table th,
+    .data-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table th {
+      font-weight: 600;
+      color: var(--text);
+      background: var(--surface);
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .data-table td { color: var(--text-2); }
+    .data-table tr:hover td { background: var(--surface); }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .badge--green { background: var(--brand-soft); color: var(--brand); border: 1px solid var(--brand-3); }
+    .badge--blue { background: rgba(91, 158, 245, 0.08); color: #5b9ef5; border: 1px solid rgba(91, 158, 245, 0.2); }
+
+    .lgpd-ref {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--brand-2);
+      background: var(--brand-soft);
+      border: 1px solid var(--brand-3);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 4px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .footer { border-top: 1px solid var(--border); background: var(--surface); }
+
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 0.875rem; }
+
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 0.875rem; color: var(--muted); }
+    .footer-links a:hover { color: var(--brand); }
+
+    @media (max-width: 640px) {
+      .page-title { font-size: 1.625rem; }
+      .article-title { font-size: 1.125rem; }
+      .article-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+      .toc-list { grid-template-columns: 1fr; }
+      .toc { padding: 20px; }
+      .container { padding: 32px 16px 64px; }
+      .data-table { font-size: 0.8125rem; }
+      .data-table th, .data-table td { padding: 8px 10px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media print {
+      .header, .toc, .footer { display: none; }
+      body { background: #fff; color: #222; font-size: 11pt; }
+      .container { max-width: 100%; padding: 0; }
+      .article { break-inside: avoid; border-color: #ddd; }
+      .article-title, .article-number { color: #111; }
+      a { color: #047857; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">⚡</div>
+        <span class="logo-text">Rachae</span>
+      </a>
+      <a href="termos.html" class="header-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        Termos de Uso
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <h1 class="page-title">Politica de Privacidade</h1>
+    <p class="page-subtitle">Rachae — App para dividir contas de forma justa</p>
+    <div class="page-update">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Ultima atualizacao: Maio 2026
+    </div>
+
+    <nav class="toc" aria-label="Indice">
+      <div class="toc-title">Indice</div>
+      <ol class="toc-list">
+        <li><span class="toc-number">Art. 1</span> <a href="#art1">Introducao</a></li>
+        <li><span class="toc-number">Art. 2</span> <a href="#art2">Controlador dos Dados</a></li>
+        <li><span class="toc-number">Art. 3</span> <a href="#art3">Dados Coletados</a></li>
+        <li><span class="toc-number">Art. 4</span> <a href="#art4">Base Legal para Tratamento</a></li>
+        <li><span class="toc-number">Art. 5</span> <a href="#art5">Finalidade do Tratamento</a></li>
+        <li><span class="toc-number">Art. 6</span> <a href="#art6">Compartilhamento de Dados</a></li>
+        <li><span class="toc-number">Art. 7</span> <a href="#art7">Armazenamento e Seguranca</a></li>
+        <li><span class="toc-number">Art. 8</span> <a href="#art8">Retencao de Dados</a></li>
+        <li><span class="toc-number">Art. 9</span> <a href="#art9">Direitos do Titular</a></li>
+        <li><span class="toc-number">Art. 10</span> <a href="#art10">Como Exercer seus Direitos</a></li>
+        <li><span class="toc-number">Art. 11</span> <a href="#art11">Armazenamento Local</a></li>
+        <li><span class="toc-number">Art. 12</span> <a href="#art12">Transferencia Internacional</a></li>
+        <li><span class="toc-number">Art. 13</span> <a href="#art13">Menores de Idade</a></li>
+        <li><span class="toc-number">Art. 14</span> <a href="#art14">Alteracoes na Politica</a></li>
+        <li><span class="toc-number">Art. 15</span> <a href="#art15">Contato</a></li>
+        <li><span class="toc-number">Art. 16</span> <a href="#art16">Legislacao Aplicavel</a></li>
+      </ol>
+    </nav>
+
+    <!-- Art. 1 -->
+    <section class="article" id="art1">
+      <div class="article-header">
+        <span class="article-number">Art. 1</span>
+        <h2 class="article-title">Introducao</h2>
+      </div>
+      <p>
+        O <strong>Rachae</strong> tem o compromisso de proteger a privacidade e os dados pessoais de seus usuarios.
+        Esta Politica de Privacidade descreve como coletamos, utilizamos, armazenamos e protegemos suas informacoes
+        ao utilizar o aplicativo Rachae, uma plataforma mobile para divisao de contas de forma justa e transparente.
+      </p>
+      <p>
+        Esta politica foi elaborada em conformidade com a <strong>Lei Geral de Protecao de Dados Pessoais (LGPD)</strong>,
+        Lei n. 13.709/2018, e demais normas aplicaveis ao tratamento de dados pessoais no ordenamento juridico brasileiro.
+      </p>
+      <p>
+        Ao utilizar o aplicativo Rachae, voce declara estar ciente e de acordo com os termos aqui descritos.
+      </p>
+    </section>
+
+    <!-- Art. 2 -->
+    <section class="article" id="art2">
+      <div class="article-header">
+        <span class="article-number">Art. 2</span>
+        <h2 class="article-title">Controlador dos Dados</h2>
+      </div>
+      <p>O controlador responsavel pelo tratamento dos dados pessoais descritos nesta politica e:</p>
+      <div class="info-box info-box--highlight">
+        <p><strong>Produto:</strong> Rachae</p>
+        <p><strong>E-mail de contato:</strong> <a href="mailto:victormazzei98@gmail.com">victormazzei98@gmail.com</a></p>
+      </div>
+      <p>
+        O controlador toma as decisoes referentes ao tratamento de dados pessoais realizados por meio do aplicativo,
+        nos termos do Art. 5, VI, da LGPD. <span class="lgpd-ref">LGPD Art. 5, VI</span>
+      </p>
+    </section>
+
+    <!-- Art. 3 -->
+    <section class="article" id="art3">
+      <div class="article-header">
+        <span class="article-number">Art. 3</span>
+        <h2 class="article-title">Dados Coletados</h2>
+      </div>
+      <p>O Rachae coleta os seguintes dados, estritamente necessarios para a prestacao do servico:</p>
+
+      <div class="subsection">
+        <h3 class="subsection-title">3.1 Dados de Cadastro</h3>
+        <ul class="legal-list">
+          <li>Endereco de e-mail (autenticacao via Supabase Auth)</li>
+          <li>Nome de exibicao (opcional, usado para identificacao nos rachas)</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">3.2 Dados de Uso do App</h3>
+        <ul class="legal-list">
+          <li>Historico de contas criadas (titulo, local, participantes, itens, valores)</li>
+          <li>Grupos recorrentes e nomes de participantes (inseridos manualmente pelo usuario)</li>
+          <li>Chave Pix (opcional — inserida pelo usuario para gerar QR Code e codigo copia e cola)</li>
+          <li>Nome do recebedor e cidade (vinculados ao perfil Pix, opcionais)</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">3.3 Imagens de Comandas (Sprint 2)</h3>
+        <ul class="legal-list">
+          <li>Fotos de comandas capturadas pela camera ou galeria, usadas exclusivamente para leitura OCR</li>
+          <li>Imagens sao armazenadas temporariamente com URLs assinadas de curta duracao</li>
+          <li>Nao sao compartilhadas publicamente nem usadas para outros fins</li>
+        </ul>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">3.4 Dados NAO Coletados</h3>
+        <ul class="legal-list">
+          <li>Localizacao geografica</li>
+          <li>Lista de contatos do dispositivo</li>
+          <li>Dados de saude</li>
+          <li>Historico de navegacao</li>
+          <li>Microfone ou audio</li>
+          <li>Dados bancarios completos (CPF, numero de conta, agencia)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Art. 4 -->
+    <section class="article" id="art4">
+      <div class="article-header">
+        <span class="article-number">Art. 4</span>
+        <h2 class="article-title">Base Legal para Tratamento</h2>
+      </div>
+      <p>
+        O tratamento de dados pessoais pelo Rachae e realizado com fundamento nas bases legais previstas no
+        <strong>Art. 7 da LGPD</strong>:
+      </p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Dado</th>
+            <th>Base Legal</th>
+            <th>Fundamento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>E-mail e nome</td>
+            <td><span class="badge badge--green">Consentimento</span></td>
+            <td>Art. 7, I — consentimento no cadastro</td>
+          </tr>
+          <tr>
+            <td>Historico de contas e participantes</td>
+            <td><span class="badge badge--green">Execucao de Contrato</span></td>
+            <td>Art. 7, V — necessario para prestar o servico</td>
+          </tr>
+          <tr>
+            <td>Chave Pix e dados de recebimento</td>
+            <td><span class="badge badge--green">Consentimento</span></td>
+            <td>Art. 7, I — inserido voluntariamente pelo usuario</td>
+          </tr>
+          <tr>
+            <td>Imagens de comandas</td>
+            <td><span class="badge badge--green">Consentimento</span></td>
+            <td>Art. 7, I — captura iniciada voluntariamente pelo usuario</td>
+          </tr>
+          <tr>
+            <td>Eventos de uso (analytics local)</td>
+            <td><span class="badge badge--blue">Interesse Legitimo</span></td>
+            <td>Art. 7, IX — melhoria e seguranca do servico</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="info-box info-box--highlight">
+        <p class="label">Consentimento</p>
+        <p>
+          O consentimento e coletado de forma livre, informada e especifica no momento do cadastro,
+          podendo ser revogado a qualquer momento mediante exclusao da conta. <span class="lgpd-ref">LGPD Art. 8</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Art. 5 -->
+    <section class="article" id="art5">
+      <div class="article-header">
+        <span class="article-number">Art. 5</span>
+        <h2 class="article-title">Finalidade do Tratamento</h2>
+      </div>
+      <p>Os dados pessoais sao tratados pelo Rachae para as seguintes finalidades: <span class="lgpd-ref">LGPD Art. 6, I</span></p>
+      <ul class="legal-list--roman legal-list">
+        <li><strong>Autenticacao:</strong> verificar a identidade do usuario e manter a sessao segura;</li>
+        <li><strong>Divisao de contas:</strong> calcular e exibir o quanto cada participante deve pagar, proporcionalmente ao consumo;</li>
+        <li><strong>Pix:</strong> gerar QR Code e codigo copia e cola para facilitar o pagamento entre participantes;</li>
+        <li><strong>Historico:</strong> permitir que o usuario consulte rachas anteriores e reabra como template;</li>
+        <li><strong>OCR:</strong> extrair itens e valores de fotos de comandas para preencher automaticamente o rascunho do racha;</li>
+        <li><strong>Compartilhamento:</strong> gerar link publico (share token) para que participantes visualizem o resultado sem login;</li>
+        <li><strong>Melhoria do servico:</strong> analisar eventos de uso de forma local para aprimorar a experiencia (sem envio externo por enquanto).</li>
+      </ul>
+    </section>
+
+    <!-- Art. 6 -->
+    <section class="article" id="art6">
+      <div class="article-header">
+        <span class="article-number">Art. 6</span>
+        <h2 class="article-title">Compartilhamento de Dados</h2>
+      </div>
+      <p>
+        O Rachae compartilha dados pessoais de forma limitada e controlada,
+        sempre em observancia ao principio da necessidade. <span class="lgpd-ref">LGPD Art. 6, III</span>
+      </p>
+
+      <div class="subsection">
+        <h3 class="subsection-title">6.1 Participantes do Racha</h3>
+        <p>
+          Quando um link compartilhado (share token) e gerado, qualquer pessoa com o link pode visualizar
+          o resultado do racha: titulos, itens, valores por pessoa e taxa/desconto. O link nao exige login e
+          pode ser desativado a qualquer momento ao fechar a conta.
+        </p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection-title">6.2 Prestadores de Servico (Operadores)</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Prestador</th>
+              <th>Funcao</th>
+              <th>Dados Acessados</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Supabase</strong></td>
+              <td>Banco de dados, autenticacao e armazenamento de imagens</td>
+              <td>Todos os dados do usuario cadastrado</td>
+            </tr>
+            <tr>
+              <td><strong>Endpoint OCR/IA</strong> (opcional)</td>
+              <td>Leitura de texto em imagens de comandas</td>
+              <td>Imagem da comanda (sem dados de identidade do usuario)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box info-box--highlight">
+        <p class="label">Compromisso</p>
+        <p>
+          <strong>O Rachae NAO vende, comercializa nem cede dados pessoais a terceiros para fins de marketing ou publicidade.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- Art. 7 -->
+    <section class="article" id="art7">
+      <div class="article-header">
+        <span class="article-number">Art. 7</span>
+        <h2 class="article-title">Armazenamento e Seguranca</h2>
+      </div>
+      <p>
+        O Rachae emprega medidas tecnicas para proteger os dados de acessos nao autorizados,
+        em conformidade com o Art. 46 da LGPD: <span class="lgpd-ref">LGPD Art. 46</span>
+      </p>
+      <ul class="legal-list">
+        <li><strong>Row Level Security (RLS):</strong> cada usuario acessa exclusivamente seus proprios dados no banco;</li>
+        <li><strong>Autenticacao segura:</strong> tokens JWT gerenciados pelo Supabase Auth com refresh automatico;</li>
+        <li><strong>URLs assinadas:</strong> imagens de comandas sao acessadas por URLs de curta duracao, sem exposicao publica;</li>
+        <li><strong>Chave anon/publishable:</strong> o app mobile nunca usa a service_role key do Supabase;</li>
+        <li><strong>HTTPS/TLS:</strong> todas as comunicacoes sao criptografadas em transito;</li>
+        <li><strong>Sem microfone:</strong> a permissao de microfone e explicitamente bloqueada no app.</li>
+      </ul>
+    </section>
+
+    <!-- Art. 8 -->
+    <section class="article" id="art8">
+      <div class="article-header">
+        <span class="article-number">Art. 8</span>
+        <h2 class="article-title">Retencao de Dados</h2>
+      </div>
+      <p>
+        Os dados pessoais sao retidos pelo tempo necessario para cumprir as finalidades para as
+        quais foram coletados. <span class="lgpd-ref">LGPD Art. 15</span>
+      </p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tipo de Dado</th>
+            <th>Periodo de Retencao</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Conta e perfil do usuario</td>
+            <td>Enquanto a conta estiver ativa</td>
+          </tr>
+          <tr>
+            <td>Historico de rachas e participantes</td>
+            <td>Enquanto a conta estiver ativa</td>
+          </tr>
+          <tr>
+            <td>Perfil Pix</td>
+            <td>Enquanto a conta estiver ativa</td>
+          </tr>
+          <tr>
+            <td>Imagens de comandas</td>
+            <td>Temporario — URLs expiram automaticamente</td>
+          </tr>
+          <tr>
+            <td>Links compartilhados (share token)</td>
+            <td>Ate o fechamento da conta ou solicitacao de exclusao</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Ao solicitar a exclusao da conta, todos os dados pessoais serao eliminados,
+        ressalvadas as hipoteses legais de conservacao previstas no Art. 16 da LGPD. <span class="lgpd-ref">LGPD Art. 16</span>
+      </p>
+    </section>
+
+    <!-- Art. 9 -->
+    <section class="article" id="art9">
+      <div class="article-header">
+        <span class="article-number">Art. 9</span>
+        <h2 class="article-title">Direitos do Titular</h2>
+      </div>
+      <p>
+        Nos termos do <strong>Art. 18 da LGPD</strong>, voce possui os seguintes direitos: <span class="lgpd-ref">LGPD Art. 18</span>
+      </p>
+      <ul class="legal-list--roman legal-list">
+        <li><strong>Confirmacao da existencia de tratamento</strong> (Art. 18, I);</li>
+        <li><strong>Acesso aos dados</strong> (Art. 18, II);</li>
+        <li><strong>Correcao de dados</strong> incompletos, inexatos ou desatualizados (Art. 18, III);</li>
+        <li><strong>Anonimizacao, bloqueio ou eliminacao</strong> de dados tratados em desconformidade (Art. 18, IV);</li>
+        <li><strong>Portabilidade dos dados</strong> (Art. 18, V);</li>
+        <li><strong>Eliminacao dos dados tratados com consentimento</strong> (Art. 18, VI);</li>
+        <li><strong>Informacao sobre compartilhamento</strong> (Art. 18, VII);</li>
+        <li><strong>Revogacao do consentimento</strong> a qualquer momento (Art. 18, IX);</li>
+        <li><strong>Peticao a ANPD</strong> em relacao ao tratamento de seus dados (Art. 18, &sect; 1).</li>
+      </ul>
+    </section>
+
+    <!-- Art. 10 -->
+    <section class="article" id="art10">
+      <div class="article-header">
+        <span class="article-number">Art. 10</span>
+        <h2 class="article-title">Como Exercer seus Direitos</h2>
+      </div>
+      <p>Para exercer qualquer dos direitos previstos no Art. 9, entre em contato:</p>
+      <div class="info-box info-box--highlight">
+        <p><strong>E-mail:</strong> <a href="mailto:victormazzei98@gmail.com">victormazzei98@gmail.com</a></p>
+        <p><strong>Assunto:</strong> Exercicio de Direitos — LGPD</p>
+      </div>
+      <p>
+        As solicitacoes serao respondidas em ate <strong>15 (quinze) dias</strong> do recebimento,
+        conforme Art. 18, &sect; 5, da LGPD. <span class="lgpd-ref">LGPD Art. 18, &sect; 5</span>
+      </p>
+    </section>
+
+    <!-- Art. 11 -->
+    <section class="article" id="art11">
+      <div class="article-header">
+        <span class="article-number">Art. 11</span>
+        <h2 class="article-title">Armazenamento Local no Dispositivo</h2>
+      </div>
+      <p>O app Rachae utiliza as seguintes tecnologias de armazenamento local:</p>
+      <ul class="legal-list">
+        <li><strong>AsyncStorage:</strong> utilizado para persistir sessao de autenticacao e preferencias do usuario;</li>
+        <li><strong>Zustand (memoria):</strong> estado global do app enquanto em execucao, incluindo rascunhos de conta e eventos de analytics — nao persistidos entre sessoes.</li>
+      </ul>
+      <div class="info-box info-box--highlight">
+        <p class="label">Sem Rastreamento</p>
+        <p>
+          <strong>O Rachae NAO utiliza cookies de rastreamento, pixels de monitoramento nem ferramentas
+          de analytics de terceiros.</strong> Eventos de uso sao armazenados localmente para fins de
+          produto e debug, sem envio externo.
+        </p>
+      </div>
+    </section>
+
+    <!-- Art. 12 -->
+    <section class="article" id="art12">
+      <div class="article-header">
+        <span class="article-number">Art. 12</span>
+        <h2 class="article-title">Transferencia Internacional de Dados</h2>
+      </div>
+      <p>
+        Em razao da infraestrutura utilizada, dados pessoais podem ser processados em servidores
+        fora do territorio brasileiro, em conformidade com o Art. 33 da LGPD: <span class="lgpd-ref">LGPD Art. 33</span>
+      </p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Prestador</th>
+            <th>Funcao</th>
+            <th>Localizacao</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Supabase</strong></td>
+            <td>Banco de dados e autenticacao</td>
+            <td>Servidores podem estar fora do Brasil</td>
+          </tr>
+          <tr>
+            <td><strong>Endpoint OCR/IA</strong></td>
+            <td>Leitura de comandas (opcional, configuravel)</td>
+            <td>Depende do provedor escolhido</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Todos os prestadores selecionados adotam padroes internacionais de seguranca e privacidade
+        compatíveis com as exigencias da LGPD.
+      </p>
+    </section>
+
+    <!-- Art. 13 -->
+    <section class="article" id="art13">
+      <div class="article-header">
+        <span class="article-number">Art. 13</span>
+        <h2 class="article-title">Menores de Idade</h2>
+      </div>
+      <p>
+        O Rachae e destinado a usuarios maiores de <strong>16 (dezesseis) anos</strong>. Nao coletamos,
+        conscientemente, dados pessoais de criancas e adolescentes sem o consentimento dos responsaveis,
+        em conformidade com o Art. 14 da LGPD. <span class="lgpd-ref">LGPD Art. 14</span>
+      </p>
+      <p>
+        Caso tenhamos conhecimento de que dados de menor foram coletados sem o consentimento adequado,
+        adotaremos medidas imediatas para eliminar essas informacoes.
+      </p>
+    </section>
+
+    <!-- Art. 14 -->
+    <section class="article" id="art14">
+      <div class="article-header">
+        <span class="article-number">Art. 14</span>
+        <h2 class="article-title">Alteracoes nesta Politica</h2>
+      </div>
+      <p>
+        O Rachae podera atualizar esta Politica de Privacidade periodicamente, para refletir mudancas
+        no servico, atualizacoes tecnologicas ou alteracoes legislativas.
+      </p>
+      <p>
+        Em caso de alteracoes substanciais, os usuarios serao notificados por <strong>notificacao dentro do app</strong>.
+        A data da ultima atualizacao sera sempre indicada no topo deste documento.
+      </p>
+      <p>O uso continuado do app apos a publicacao de alteracoes constitui aceite das modificacoes.</p>
+    </section>
+
+    <!-- Art. 15 -->
+    <section class="article" id="art15">
+      <div class="article-header">
+        <span class="article-number">Art. 15</span>
+        <h2 class="article-title">Contato</h2>
+      </div>
+      <p>Para duvidas, solicitacoes ou reclamacoes relacionadas a esta politica:</p>
+      <div class="info-box info-box--highlight">
+        <p><strong>E-mail:</strong> <a href="mailto:victormazzei98@gmail.com">victormazzei98@gmail.com</a></p>
+      </div>
+      <p>
+        Caso nao obtenha resposta satisfatoria, voce podera apresentar reclamacao perante a
+        <strong>Autoridade Nacional de Protecao de Dados (ANPD)</strong>:
+      </p>
+      <div class="info-box">
+        <p><strong>ANPD — Autoridade Nacional de Protecao de Dados</strong></p>
+        <p>Website: <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer">www.gov.br/anpd</a></p>
+      </div>
+    </section>
+
+    <!-- Art. 16 -->
+    <section class="article" id="art16">
+      <div class="article-header">
+        <span class="article-number">Art. 16</span>
+        <h2 class="article-title">Legislacao Aplicavel</h2>
+      </div>
+      <p>Esta politica e regida pela legislacao brasileira, em especial:</p>
+      <ul class="legal-list">
+        <li>
+          <strong>Lei Geral de Protecao de Dados Pessoais (LGPD)</strong> — Lei n. 13.709, de 14 de agosto de 2018.
+        </li>
+        <li>
+          <strong>Marco Civil da Internet</strong> — Lei n. 12.965, de 23 de abril de 2014.
+        </li>
+      </ul>
+      <p>
+        Eventuais disputas serao submetidas ao foro do domicilio do titular dos dados, conforme legislacao vigente.
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span>⚡</span>
+        Rachae &copy; 2026. Todos os direitos reservados.
+      </div>
+      <ul class="footer-links">
+        <li><a href="termos.html">Termos de Uso</a></li>
+        <li><a href="mailto:victormazzei98@gmail.com">Contato</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>
