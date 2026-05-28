@@ -6,16 +6,22 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-05-27
+
 ### Added
 
 - Suite inicial de testes automatizados com Vitest para engine financeira e parser de recibos.
 - Login local de teste configuravel por `EXPO_PUBLIC_TEST_ADMIN_EMAIL` e `EXPO_PUBLIC_TEST_ADMIN_PASSWORD`.
+- Politica de Privacidade (LGPD) em `web/privacidade.html`.
+- Termos de Uso em `web/termos.html`.
+- `web/README.md` com instrucoes de publicacao via GitHub Pages.
+- `assets/store/metadata.json` atualizado com `privacyPolicyUrl` e `termsOfUseUrl`.
 
 ### Changed
 
 - Alinhamento de dependencias do Expo SDK 56 e suporte ao alvo web com `react-dom` e `react-native-web`.
 - Regra de fechamento de sprint documentada para validar, commitar e enviar o estado final ao repositorio remoto.
-- Versao do pacote alinhada com o app em `0.4.0`.
+- Versao do pacote alinhada com o app em `0.4.1`.
 
 ### Fixed
 
