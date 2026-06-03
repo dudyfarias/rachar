@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Termos de Uso — Rachae. App para dividir contas de forma justa, rapida e transparente.">
+  <meta name="theme-color" content="#00A676">
+  <title>Termos de Uso — Rachae</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b1120;
+      --surface: #131e2b;
+      --border: #1e2d42;
+      --brand: #00A676;
+      --brand-hover: #008F68;
+      --brand-2: #047857;
+      --brand-3: #064E3B;
+      --brand-soft: rgba(0, 166, 118, 0.08);
+      --text: #e2e8f0;
+      --text-2: #b8cad9;
+      --muted: #64748b;
+      --font-heading: 'Syne', sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text-2);
+      line-height: 1.75;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--brand); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--brand-hover); text-decoration: underline; }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 17, 32, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+    .logo:hover { text-decoration: none; color: var(--text); }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--brand-soft);
+      border: 1px solid var(--brand-3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand);
+      font-size: 18px;
+    }
+
+    .logo-text { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+
+    .header-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .header-back:hover { color: var(--brand); border-color: var(--brand-3); background: var(--brand-soft); text-decoration: none; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .page-subtitle { font-size: 1rem; color: var(--muted); margin-bottom: 12px; }
+
+    .page-update {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8125rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: var(--radius-xs);
+      margin-bottom: 40px;
+    }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 48px;
+    }
+
+    .toc-title { font-family: var(--font-heading); font-size: 1.125rem; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+
+    .toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 32px; }
+    .toc-list li { display: flex; align-items: baseline; gap: 8px; }
+    .toc-list a { font-size: 0.875rem; color: var(--text-2); padding: 4px 0; display: block; transition: color 0.2s; }
+    .toc-list a:hover { color: var(--brand); text-decoration: none; }
+    .toc-number { font-size: 0.75rem; font-weight: 600; color: var(--brand-2); min-width: 24px; }
+
+    .article { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
+    .article:last-child { border-bottom: none; }
+    .article-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+    .article-number {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--brand);
+      background: var(--brand-soft);
+      border: 1px solid var(--brand-3);
+      padding: 4px 10px;
+      border-radius: var(--radius-xs);
+      white-space: nowrap;
+    }
+
+    .article-title {
+      font-family: var(--font-heading);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .article p { margin-bottom: 12px; color: var(--text-2); }
+    .article strong { color: var(--text); font-weight: 600; }
+
+    .legal-list { list-style: none; padding: 0; margin: 12px 0; }
+
+    .legal-list li {
+      position: relative;
+      padding: 6px 0 6px 24px;
+      color: var(--text-2);
+      font-size: 0.9375rem;
+    }
+
+    .legal-list li::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 15px;
+      width: 5px;
+      height: 5px;
+      background: var(--brand-2);
+      border-radius: 50%;
+    }
+
+    .legal-list--roman { counter-reset: roman; }
+    .legal-list--roman li { counter-increment: roman; padding-left: 32px; }
+    .legal-list--roman li::before {
+      content: counter(roman, lower-roman) ".";
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: auto;
+      height: auto;
+      background: none;
+      border-radius: 0;
+      color: var(--brand-2);
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+
+    .info-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .info-box--highlight { border-color: var(--brand-3); background: var(--brand-soft); }
+    .info-box p { margin-bottom: 6px; }
+    .info-box p:last-child { margin-bottom: 0; }
+    .info-box .label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--brand); margin-bottom: 6px; }
+
+    .footer { border-top: 1px solid var(--border); background: var(--surface); }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 0.875rem; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 0.875rem; color: var(--muted); }
+    .footer-links a:hover { color: var(--brand); }
+
+    @media (max-width: 640px) {
+      .page-title { font-size: 1.625rem; }
+      .article-title { font-size: 1.125rem; }
+      .article-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+      .toc-list { grid-template-columns: 1fr; }
+      .toc { padding: 20px; }
+      .container { padding: 32px 16px 64px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">⚡</div>
+        <span class="logo-text">Rachae</span>
+      </a>
+      <a href="privacidade.html" class="header-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Privacidade
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <h1 class="page-title">Termos de Uso</h1>
+    <p class="page-subtitle">Rachae — App para dividir contas de forma justa</p>
+    <div class="page-update">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Ultima atualizacao: Maio 2026
+    </div>
+
+    <nav class="toc" aria-label="Indice">
+      <div class="toc-title">Indice</div>
+      <ol class="toc-list">
+        <li><span class="toc-number">Art. 1</span> <a href="#art1">Aceitacao dos Termos</a></li>
+        <li><span class="toc-number">Art. 2</span> <a href="#art2">Descricao do Servico</a></li>
+        <li><span class="toc-number">Art. 3</span> <a href="#art3">Cadastro e Conta</a></li>
+        <li><span class="toc-number">Art. 4</span> <a href="#art4">Modo Demo</a></li>
+        <li><span class="toc-number">Art. 5</span> <a href="#art5">Uso Aceitavel</a></li>
+        <li><span class="toc-number">Art. 6</span> <a href="#art6">Calculos Financeiros</a></li>
+        <li><span class="toc-number">Art. 7</span> <a href="#art7">Pix e Pagamentos</a></li>
+        <li><span class="toc-number">Art. 8</span> <a href="#art8">OCR e Inteligencia Artificial</a></li>
+        <li><span class="toc-number">Art. 9</span> <a href="#art9">Compartilhamento de Contas</a></li>
+        <li><span class="toc-number">Art. 10</span> <a href="#art10">Propriedade Intelectual</a></li>
+        <li><span class="toc-number">Art. 11</span> <a href="#art11">Limitacao de Responsabilidade</a></li>
+        <li><span class="toc-number">Art. 12</span> <a href="#art12">Suspensao e Rescisao</a></li>
+        <li><span class="toc-number">Art. 13</span> <a href="#art13">Alteracoes nos Termos</a></li>
+        <li><span class="toc-number">Art. 14</span> <a href="#art14">Legislacao Aplicavel</a></li>
+      </ol>
+    </nav>
+
+    <!-- Art. 1 -->
+    <section class="article" id="art1">
+      <div class="article-header">
+        <span class="article-number">Art. 1</span>
+        <h2 class="article-title">Aceitacao dos Termos</h2>
+      </div>
+      <p>
+        Ao instalar, acessar ou utilizar o aplicativo <strong>Rachae</strong>, voce concorda com estes
+        Termos de Uso e com a <a href="privacidade.html">Politica de Privacidade</a>. Se nao concordar
+        com qualquer disposicao, nao utilize o aplicativo.
+      </p>
+      <p>
+        Estes termos constituem um acordo legal entre voce e o Rachae, regendo todos os aspectos do uso
+        do aplicativo e dos servicos disponibilizados.
+      </p>
+    </section>
+
+    <!-- Art. 2 -->
+    <section class="article" id="art2">
+      <div class="article-header">
+        <span class="article-number">Art. 2</span>
+        <h2 class="article-title">Descricao do Servico</h2>
+      </div>
+      <p>
+        O Rachae e um aplicativo mobile para divisao justa de contas entre pessoas. O servico permite:
+      </p>
+      <ul class="legal-list">
+        <li>Criar rachas manuais com itens, precos e participantes;</li>
+        <li>Calcular automaticamente o valor devido por cada pessoa, proporcional ao consumo;</li>
+        <li>Gerar QR Code e codigo Pix para facilitar o pagamento;</li>
+        <li>Compartilhar o resultado por WhatsApp ou link publico;</li>
+        <li>Capturar e ler comandas por camera com OCR assistido por IA;</li>
+        <li>Manter historico de rachas, participantes recorrentes e restaurantes;</li>
+        <li>Salvar grupos recorrentes para agilizar rachas futuros.</li>
+      </ul>
+      <p>
+        O Rachae e uma ferramenta de apoio ao usuario. Nao e uma instituicao financeira, nao intermedia
+        pagamentos e nao garante a realizacao de qualquer transacao financeira.
+      </p>
+    </section>
+
+    <!-- Art. 3 -->
+    <section class="article" id="art3">
+      <div class="article-header">
+        <span class="article-number">Art. 3</span>
+        <h2 class="article-title">Cadastro e Conta</h2>
+      </div>
+      <p>Para acessar os recursos completos, e necessario criar uma conta com e-mail e senha.</p>
+      <ul class="legal-list--roman legal-list">
+        <li>Voce e responsavel pela veracidade das informacoes fornecidas no cadastro;</li>
+        <li>Voce e responsavel pela seguranca de sua senha e pelo uso de sua conta;</li>
+        <li>Notifique imediatamente o Rachae em caso de suspeita de uso nao autorizado da conta;</li>
+        <li>O Rachae nao compartilha credenciais com terceiros e jamais solicita sua senha por e-mail.</li>
+      </ul>
+    </section>
+
+    <!-- Art. 4 -->
+    <section class="article" id="art4">
+      <div class="article-header">
+        <span class="article-number">Art. 4</span>
+        <h2 class="article-title">Modo Demo</h2>
+      </div>
+      <p>
+        O Rachae oferece um <strong>Modo Demo</strong> que permite explorar todas as funcionalidades do
+        app sem criar uma conta ou fornecer dados pessoais. Neste modo:
+      </p>
+      <ul class="legal-list">
+        <li>Nenhum dado e enviado ao servidor;</li>
+        <li>O historico e os rachas criados sao armazenados apenas localmente e perdidos ao encerrar o app;</li>
+        <li>Funcionalidades que dependem de autenticacao (como sincronizacao e compartilhamento) ficam indisponiveis.</li>
+      </ul>
+    </section>
+
+    <!-- Art. 5 -->
+    <section class="article" id="art5">
+      <div class="article-header">
+        <span class="article-number">Art. 5</span>
+        <h2 class="article-title">Uso Aceitavel</h2>
+      </div>
+      <p>Ao utilizar o Rachae, voce se compromete a nao:</p>
+      <ul class="legal-list--roman legal-list">
+        <li>Utilizar o app para fins ilegais, fraudulentos ou que prejudiquem terceiros;</li>
+        <li>Inserir dados falsos, enganosos ou de terceiros sem autorizacao;</li>
+        <li>Tentar acessar dados de outros usuarios por qualquer meio;</li>
+        <li>Realizar engenharia reversa, descompilar ou modificar o aplicativo;</li>
+        <li>Sobrecarregar deliberadamente a infraestrutura do servico;</li>
+        <li>Usar o app para gerar ou distribuir spam, malware ou conteudo ilegal.</li>
+      </ul>
+    </section>
+
+    <!-- Art. 6 -->
+    <section class="article" id="art6">
+      <div class="article-header">
+        <span class="article-number">Art. 6</span>
+        <h2 class="article-title">Calculos Financeiros</h2>
+      </div>
+      <p>
+        O Rachae realiza calculos de divisao com base nos dados inseridos pelo usuario. Os calculos seguem
+        as seguintes regras:
+      </p>
+      <ul class="legal-list">
+        <li>Cada item e dividido apenas entre os participantes selecionados;</li>
+        <li>Taxa de servico e desconto sao distribuidos proporcionalmente ao subtotal de cada pessoa;</li>
+        <li>Arredondamentos em centavos sao feitos de forma deterministica e transparente.</li>
+      </ul>
+      <div class="info-box">
+        <p class="label">Importante</p>
+        <p>
+          Os resultados dos calculos dependem diretamente dos dados inseridos pelo usuario. O Rachae
+          nao se responsabiliza por divergencias decorrentes de informacoes incorretas ou incompletas
+          fornecidas no momento do racha.
+        </p>
+      </div>
+      <p>
+        Recomendamos que os usuarios confirmem os valores antes de efetuar pagamentos.
+      </p>
+    </section>
+
+    <!-- Art. 7 -->
+    <section class="article" id="art7">
+      <div class="article-header">
+        <span class="article-number">Art. 7</span>
+        <h2 class="article-title">Pix e Pagamentos</h2>
+      </div>
+      <p>
+        O Rachae gera QR Codes e codigos Pix <strong>estaticos</strong> com base na chave Pix
+        cadastrada pelo usuario. Este recurso e uma ferramenta de conveniencia e:
+      </p>
+      <ul class="legal-list--roman legal-list">
+        <li>O Rachae <strong>nao intermedia, nao processa e nao garante</strong> nenhum pagamento Pix;</li>
+        <li>A transacao ocorre diretamente entre os participantes, por meio de seus bancos ou carteiras digitais;</li>
+        <li>O Rachae nao tem acesso a dados bancarios completos (numero de conta, agencia, CPF/CNPJ);</li>
+        <li>O usuario e o unico responsavel pela exatidao de sua chave Pix cadastrada;</li>
+        <li>O Rachae nao se responsabiliza por pagamentos realizados para chaves Pix incorretas ou desatualizadas.</li>
+      </ul>
+    </section>
+
+    <!-- Art. 8 -->
+    <section class="article" id="art8">
+      <div class="article-header">
+        <span class="article-number">Art. 8</span>
+        <h2 class="article-title">OCR e Inteligencia Artificial</h2>
+      </div>
+      <p>
+        O Rachae oferece captura de comandas por camera com leitura automatica por OCR (reconhecimento
+        optico de caracteres) e interpretacao por IA. Ao utilizar este recurso:
+      </p>
+      <ul class="legal-list--roman legal-list">
+        <li>A imagem capturada e enviada para um servico OCR externo configuravel — o usuario e informado sobre o envio;</li>
+        <li>O resultado do OCR e uma <strong>sugestao</strong> que deve ser conferida pelo usuario antes de finalizar o racha;</li>
+        <li>O Rachae nao garante a acuracia da leitura — erros de OCR ou IA podem ocorrer e cabe ao usuario revisar;</li>
+        <li>Imagens de comandas nao sao usadas para treinar modelos proprios do Rachae.</li>
+      </ul>
+    </section>
+
+    <!-- Art. 9 -->
+    <section class="article" id="art9">
+      <div class="article-header">
+        <span class="article-number">Art. 9</span>
+        <h2 class="article-title">Compartilhamento de Contas</h2>
+      </div>
+      <p>
+        O usuario pode gerar um <strong>link publico</strong> (share token) para compartilhar o resultado
+        de um racha com participantes que nao possuem conta no Rachae.
+      </p>
+      <ul class="legal-list">
+        <li>O link exibe o resultado da conta (itens, valores, participantes) sem exigir login;</li>
+        <li>O usuario e responsavel por com quem compartilha o link;</li>
+        <li>O link pode ser desativado ao fechar ou excluir a conta correspondente;</li>
+        <li>Nao inclua informacoes sensiveis nos campos de titulo ou nomes de itens que nao devam ser vistas por terceiros.</li>
+      </ul>
+    </section>
+
+    <!-- Art. 10 -->
+    <section class="article" id="art10">
+      <div class="article-header">
+        <span class="article-number">Art. 10</span>
+        <h2 class="article-title">Propriedade Intelectual</h2>
+      </div>
+      <p>
+        O aplicativo Rachae, incluindo seu codigo-fonte, design, marca, logotipo, textos e componentes,
+        e protegido por direitos autorais e de propriedade intelectual.
+      </p>
+      <p>
+        O Rachae concede ao usuario uma licenca limitada, pessoal, intransferivel e nao exclusiva para
+        utilizar o app exclusivamente para os fins descritos nestes Termos. E vedada qualquer reproducao,
+        distribuicao ou criacao de obras derivadas sem autorizacao expressa.
+      </p>
+      <p>
+        Os dados inseridos pelo usuario (nomes de participantes, valores, itens) pertencem ao proprio
+        usuario. O Rachae nao reivindica propriedade sobre o conteudo gerado pelo usuario.
+      </p>
+    </section>
+
+    <!-- Art. 11 -->
+    <section class="article" id="art11">
+      <div class="article-header">
+        <span class="article-number">Art. 11</span>
+        <h2 class="article-title">Limitacao de Responsabilidade</h2>
+      </div>
+      <p>O Rachae e fornecido <strong>"no estado em que se encontra"</strong>, sem garantias expressas ou implicitas. O Rachae nao se responsabiliza por:</p>
+      <ul class="legal-list--roman legal-list">
+        <li>Erros de calculo decorrentes de dados incorretos inseridos pelo usuario;</li>
+        <li>Pagamentos realizados para chaves Pix incorretas;</li>
+        <li>Erros ou imprecisoes no resultado do OCR ou da IA;</li>
+        <li>Indisponibilidade temporaria do servico por manutencao ou falhas de infraestrutura;</li>
+        <li>Perdas financeiras decorrentes do uso ou da impossibilidade de uso do app;</li>
+        <li>Acoes de terceiros que obtenham acesso a links compartilhados pelo proprio usuario.</li>
+      </ul>
+      <div class="info-box">
+        <p class="label">Revisao Humana</p>
+        <p>
+          Todo resultado gerado pelo Rachae — seja por calculo manual, OCR ou IA — deve ser
+          revisado pelo usuario antes de qualquer pagamento ou cobranca.
+        </p>
+      </div>
+    </section>
+
+    <!-- Art. 12 -->
+    <section class="article" id="art12">
+      <div class="article-header">
+        <span class="article-number">Art. 12</span>
+        <h2 class="article-title">Suspensao e Rescisao</h2>
+      </div>
+      <p>
+        O usuario pode encerrar sua conta a qualquer momento por meio do aplicativo ou por solicitacao
+        via e-mail para <a href="mailto:victormazzei98@gmail.com">victormazzei98@gmail.com</a>.
+        Ao excluir a conta, todos os dados pessoais serao removidos conforme descrito na Politica de Privacidade.
+      </p>
+      <p>
+        O Rachae reserva-se o direito de suspender ou encerrar contas que violem estes Termos de Uso,
+        sem necessidade de aviso previo, especialmente em casos de uso fraudulento ou abusivo.
+      </p>
+    </section>
+
+    <!-- Art. 13 -->
+    <section class="article" id="art13">
+      <div class="article-header">
+        <span class="article-number">Art. 13</span>
+        <h2 class="article-title">Alteracoes nos Termos</h2>
+      </div>
+      <p>
+        O Rachae pode atualizar estes Termos de Uso a qualquer momento. Alteracoes substanciais serao
+        comunicadas por <strong>notificacao no app</strong>. O uso continuado apos a publicacao das
+        alteracoes constitui aceite dos novos termos.
+      </p>
+    </section>
+
+    <!-- Art. 14 -->
+    <section class="article" id="art14">
+      <div class="article-header">
+        <span class="article-number">Art. 14</span>
+        <h2 class="article-title">Legislacao Aplicavel</h2>
+      </div>
+      <p>
+        Estes Termos de Uso sao regidos pelas leis brasileiras, em especial pelo
+        <strong>Codigo de Defesa do Consumidor</strong> (Lei n. 8.078/1990), pelo
+        <strong>Marco Civil da Internet</strong> (Lei n. 12.965/2014) e pela
+        <strong>LGPD</strong> (Lei n. 13.709/2018).
+      </p>
+      <p>
+        Eventuais disputas serao resolvidas no foro do domicilio do usuario, conforme legislacao vigente.
+      </p>
+      <p>
+        Para duvidas ou sugestoes sobre estes termos, entre em contato:
+        <a href="mailto:victormazzei98@gmail.com">victormazzei98@gmail.com</a>.
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span>⚡</span>
+        Rachae &copy; 2026. Todos os direitos reservados.
+      </div>
+      <ul class="footer-links">
+        <li><a href="privacidade.html">Privacidade</a></li>
+        <li><a href="mailto:victormazzei98@gmail.com">Contato</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>

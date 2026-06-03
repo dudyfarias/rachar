@@ -1,0 +1,187 @@
+import type { Session, User } from '@supabase/supabase-js';
+import { create } from 'zustand';
+
+import { isSupabaseConfigured, supabase } from '../lib/supabase/client';
+
+type SignUpPayload = {
+  email: string;
+  password: string;
+  fullName: string;
+};
+
+type AuthState = {
+  error: string | null;
+  isLoading: boolean;
+  session: Session | null;
+  user: User | null;
+  initialize: () => () => void;
+  setSession: (session: Session | null) => void;
+  signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
+  signUp: (payload: SignUpPayload) => Promise<void>;
+  startDemoSession: () => void;
+};
+
+function ensureSupabaseConfigured() {
+  if (!isSupabaseConfigured) {
+    throw new Error('Configure EXPO_PUBLIC_SUPABASE_URL e EXPO_PUBLIC_SUPABASE_ANON_KEY para usar autenticacao.');
+  }
+}
+
+function createLocalSession(email: string, fullName: string) {
+  const now = new Date().toISOString();
+  const user = {
+    id: 'demo-user',
+    aud: 'authenticated',
+    role: 'authenticated',
+    email,
+    app_metadata: {},
+    user_metadata: { full_name: fullName },
+    created_at: now,
+  } as User;
+
+  return {
+    session: {
+      access_token: 'demo-token',
+      refresh_token: 'demo-refresh-token',
+      expires_in: 3600,
+      token_type: 'bearer',
+      user,
+    } as Session,
+    user,
+  };
+}
+
+function matchesTestAdminCredentials(email: string, password: string) {
+  const testEmail = process.env.EXPO_PUBLIC_TEST_ADMIN_EMAIL?.trim().toLowerCase();
+  const testPassword = process.env.EXPO_PUBLIC_TEST_ADMIN_PASSWORD;
+
+  return Boolean(testEmail && testPassword && email.trim().toLowerCase() === testEmail && password === testPassword);
+}
+
+export const useAuthStore = create<AuthState>((set, get) => ({
+  error: null,
+  isLoading: true,
+  session: null,
+  user: null,
+  initialize: () => {
+    let isMounted = true;
+
+    if (!isSupabaseConfigured) {
+      set({ isLoading: false });
+      return () => {
+        isMounted = false;
+      };
+    }
+
+    let initialSessionResolved = false;
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) {
+        return;
+      }
+
+      if (initialSessionResolved) {
+        set({ session, user: session?.user ?? null });
+      }
+    });
+
+    supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        if (!isMounted) {
+          return;
+        }
+
+        initialSessionResolved = true;
+        set({
+          isLoading: false,
+          session: data.session,
+          user: data.session?.user ?? null,
+        });
+      })
+      .catch((error: Error) => {
+        if (!isMounted) {
+          return;
+        }
+
+        initialSessionResolved = true;
+        set({ error: error.message, isLoading: false });
+      });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  },
+  setSession: (session) => set({ session, user: session?.user ?? null }),
+  signIn: async (email, password) => {
+    if (matchesTestAdminCredentials(email, password)) {
+      const { session, user } = createLocalSession(email.trim(), 'Admin Teste');
+      set({ error: null, isLoading: false, session, user });
+      return;
+    }
+
+    ensureSupabaseConfigured();
+    set({ error: null, isLoading: true });
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      set({ error: error.message, isLoading: false });
+      throw error;
+    }
+
+    set({ isLoading: false, session: data.session, user: data.user });
+  },
+  signOut: async () => {
+    if (get().session?.access_token === 'demo-token' || !isSupabaseConfigured) {
+      set({ isLoading: false, session: null, user: null });
+      return;
+    }
+
+    ensureSupabaseConfigured();
+    set({ error: null, isLoading: true });
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      set({ error: error.message, isLoading: false });
+      throw error;
+    }
+
+    set({ isLoading: false, session: null, user: null });
+  },
+  signUp: async ({ email, password, fullName }) => {
+    ensureSupabaseConfigured();
+    set({ error: null, isLoading: true });
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
+    });
+
+    if (error) {
+      set({ error: error.message, isLoading: false });
+      throw error;
+    }
+
+    set({ isLoading: false, session: data.session, user: data.user });
+  },
+  startDemoSession: () => {
+    const { session, user } = createLocalSession('demo@rachae.app', 'Demo Rachaê');
+
+    set({
+      isLoading: false,
+      session,
+      user,
+    });
+  },
+}));

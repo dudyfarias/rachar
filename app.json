@@ -1,0 +1,69 @@
+{
+  "expo": {
+    "name": "Rachaê",
+    "slug": "rachae",
+    "version": "0.4.1",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "rachae",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F6F8F7"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rachae.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Permita que o Rachae use a camera para capturar comandas.",
+        "NSPhotoLibraryUsageDescription": "Permita que o Rachae leia imagens de comandas da galeria.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.rachae.app",
+      "versionCode": 5,
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#00A676"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permita que o Rachae use a camera para capturar comandas.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permita que o Rachae leia imagens de comandas da galeria."
+        }
+      ]
+    ],
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": ""
+      }
+    },
+    "updates": {
+      "url": ""
+    },
+    "owner": "rachae"
+  }
+}
