@@ -3,9 +3,6 @@
 # dependencies
 node_modules/
 
-# generated placeholder assets from Expo template
-assets/
-
 # Expo
 .expo/
 dist/

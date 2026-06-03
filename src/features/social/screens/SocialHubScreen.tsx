@@ -82,10 +82,10 @@ export function SocialHubScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
-      <Header eyebrow="Sprint 4" onBack={navigation.goBack} title="Social e Pix" />
+    <View className="flex-1 bg-background" testID="screen-social">
+      <Header eyebrow="Carteira e historico" onBack={navigation.goBack} testID="social-header" title="Social e Pix" />
 
-      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} testID="social-scroll">
         <Card className="bg-ink-900">
           <View className="flex-row items-center gap-3">
             <View className="h-11 w-11 items-center justify-center rounded-full bg-money-500">
@@ -102,17 +102,20 @@ export function SocialHubScreen() {
               label="Chave Pix"
               onChangeText={setPixKey}
               placeholder="email, telefone, CPF/CNPJ ou chave aleatoria"
+              testID="social-pix-key-input"
               value={pixKey}
             />
-            <Input label="Nome do recebedor" onChangeText={setReceiverName} placeholder="Seu nome" value={receiverName} />
-            <Input label="Cidade" onChangeText={setCity} placeholder="Sao Paulo" value={city} />
+            <Input label="Nome do recebedor" onChangeText={setReceiverName} placeholder="Seu nome" testID="social-pix-receiver-input" value={receiverName} />
+            <Input label="Cidade" onChangeText={setCity} placeholder="Sao Paulo" testID="social-pix-city-input" value={city} />
           </View>
 
           <View className="mt-5 flex-row gap-3">
-            <Button className="flex-1" title="Salvar Pix" onPress={handleSavePix} />
+            <Button className="flex-1" testID="social-save-pix-button" title="Salvar Pix" onPress={handleSavePix} />
             <Button
+              accessibilityLabel="Copiar chave Pix"
               className="h-12 w-12 px-0"
               leftIcon={<Copy color="#FFFFFF" size={18} />}
+              testID="social-copy-pix-button"
               variant="secondary"
               onPress={handleCopyPixKey}
             />
@@ -139,7 +142,11 @@ export function SocialHubScreen() {
               <Text className="text-sm text-ink-500">Finalize rachas para montar um historico detalhado.</Text>
             ) : (
               billHistory.slice(0, 6).map((bill) => (
-                <View key={bill.id} className="flex-row justify-between gap-4 border-b border-ink-100 pb-3 last:border-b-0 last:pb-0">
+                <View
+                  key={bill.id}
+                  className="flex-row justify-between gap-4 border-b border-ink-100 pb-3 last:border-b-0 last:pb-0"
+                  testID={`social-history-row-${bill.id}`}
+                >
                   <View className="flex-1">
                     <Text className="font-black text-ink-900">{bill.title}</Text>
                     <Text className="mt-1 text-xs text-ink-500">
@@ -161,7 +168,7 @@ export function SocialHubScreen() {
               <Text className="text-sm text-ink-500">Finalize rachas para montar sua lista de amigos recentes.</Text>
             ) : (
               recentFriends.slice(0, 6).map((friend) => (
-                <View key={friend.id} className="flex-row items-center justify-between gap-3">
+                <View key={friend.id} className="flex-row items-center justify-between gap-3" testID={`social-friend-row-${friend.id}`}>
                   <View className="flex-row flex-1 items-center gap-3">
                     <View className="h-10 w-10 items-center justify-center rounded-full" style={{ backgroundColor: friend.avatar.backgroundColor }}>
                       <Text className="font-black text-white">{friend.avatar.initials}</Text>
@@ -188,7 +195,7 @@ export function SocialHubScreen() {
               <Text className="text-sm text-ink-500">Restaurantes aparecem aqui depois dos primeiros rachas finalizados.</Text>
             ) : (
               restaurantHistory.slice(0, 6).map((restaurant) => (
-                <View key={restaurant.id} className="flex-row justify-between gap-4">
+                <View key={restaurant.id} className="flex-row justify-between gap-4" testID={`social-restaurant-row-${restaurant.id}`}>
                   <View className="flex-1">
                     <Text className="font-black text-ink-900">{restaurant.name}</Text>
                     <Text className="text-xs text-ink-500">
@@ -205,21 +212,22 @@ export function SocialHubScreen() {
         <Card className="mt-5">
           <Text className="text-lg font-black text-ink-900">Grupos recorrentes</Text>
           <View className="mt-4 gap-3 rounded-2xl bg-ink-50 p-4">
-            <Input label="Nome do grupo" onChangeText={setGroupName} placeholder="Sextou da firma" value={groupName} />
+            <Input label="Nome do grupo" onChangeText={setGroupName} placeholder="Sextou da firma" testID="social-group-name-input" value={groupName} />
             <Input
               label="Pessoas"
               onChangeText={setGroupMembers}
               placeholder="Ana, Bruno, Carla"
+              testID="social-group-members-input"
               value={groupMembers}
             />
-            <Button title="Salvar grupo" onPress={handleCreateGroup} />
+            <Button testID="social-save-group-button" title="Salvar grupo" onPress={handleCreateGroup} />
           </View>
           <View className="mt-4 gap-3">
             {recurringGroups.length === 0 ? (
               <Text className="text-sm text-ink-500">Grupos com duas ou mais pessoas sao salvos automaticamente.</Text>
             ) : (
               recurringGroups.slice(0, 5).map((group) => (
-                <View key={group.id}>
+                <View key={group.id} testID={`social-group-row-${group.id}`}>
                   <Text className="font-black text-ink-900">{group.name}</Text>
                   <Text className="mt-1 text-sm text-ink-500">
                     {group.memberNames.join(', ')} - {group.billCount} racha(s)
@@ -234,7 +242,7 @@ export function SocialHubScreen() {
           <Text className="text-lg font-black text-ink-900">Eventos de retencao</Text>
           <View className="mt-4 gap-3">
             {analyticsEvents.slice(0, 5).map((event) => (
-              <View key={event.id} className="flex-row justify-between gap-3">
+              <View key={event.id} className="flex-row justify-between gap-3" testID={`social-event-row-${event.id}`}>
                 <Text className="flex-1 text-sm font-bold text-ink-700">{event.name}</Text>
                 <Text className="text-xs text-ink-500">{new Date(event.timestamp).toLocaleDateString('pt-BR')}</Text>
               </View>

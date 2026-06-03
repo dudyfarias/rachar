@@ -58,8 +58,8 @@ export function ReceiptProcessingScreen({ navigation, route }: ReceiptProcessing
   }, [runProcessing]);
 
   return (
-    <View className="flex-1 bg-background">
-      <Header eyebrow="OCR + IA" onBack={navigation.goBack} title="Processamento" />
+    <View className="flex-1 bg-background" testID="screen-receipt-processing">
+      <Header eyebrow="OCR + IA" onBack={navigation.goBack} testID="receipt-processing-header" title="Processamento" />
 
       <View className="flex-1 justify-center px-5">
         <Card>
@@ -81,7 +81,7 @@ export function ReceiptProcessingScreen({ navigation, route }: ReceiptProcessing
               const isActive = currentStep === step.key && !error;
 
               return (
-                <View key={step.key} className="flex-row items-center gap-3">
+                <View key={step.key} className="flex-row items-center gap-3" testID={`receipt-processing-step-${step.key}`}>
                   <View
                     className={cn(
                       'h-8 w-8 items-center justify-center rounded-full',
@@ -98,8 +98,8 @@ export function ReceiptProcessingScreen({ navigation, route }: ReceiptProcessing
 
           {error ? (
             <View className="mt-6 gap-3">
-              <Button title="Tentar novamente" onPress={runProcessing} />
-              <Button title="Voltar para captura" variant="ghost" onPress={navigation.goBack} />
+              <Button testID="receipt-processing-retry-button" title="Tentar novamente" onPress={runProcessing} />
+              <Button testID="receipt-processing-back-button" title="Voltar para captura" variant="ghost" onPress={navigation.goBack} />
             </View>
           ) : null}
         </Card>

@@ -1,6 +1,6 @@
 {
   "name": "rachae",
-  "version": "0.4.1",
+  "version": "0.4.4",
   "main": "index.ts",
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -44,9 +44,15 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "assets:pwa": "node ./scripts/generate-pwa-assets.js",
+    "build:web": "npm run assets:pwa && expo export --platform web",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "docs:check": "node ./scripts/check-docs.js"
+    "docs:check": "node ./scripts/check-docs.js",
+    "ui:check": "node ./scripts/check-ui-contract.js"
   },
-  "private": true
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  }
 }

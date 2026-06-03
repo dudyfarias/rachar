@@ -43,7 +43,7 @@ export function HomeScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-background" testID="screen-home">
       <Header
         eyebrow="Conta inteligente"
         right={
@@ -52,13 +52,15 @@ export function HomeScreen() {
             accessibilityRole="button"
             className="h-10 w-10 items-center justify-center rounded-full bg-white"
             onPress={handleSignOut}
+            testID="home-sign-out-button"
           >
             <LogOut color="#0F172A" size={19} />
           </Pressable>
         }
+        testID="home-header"
         title="Rachaê"
       />
-      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="home-scroll">
         <Card className="bg-ink-900">
           <Text className="text-sm font-bold text-white/70">Ola, {user?.user_metadata?.full_name || user?.email || 'time Rachaê'}</Text>
           <Text className="mt-3 text-3xl font-black text-white">Divida a proxima conta em minutos.</Text>
@@ -68,6 +70,7 @@ export function HomeScreen() {
           <Button
             className="mt-6 bg-money-500"
             leftIcon={<Plus color="#0F172A" size={20} />}
+            testID="home-new-bill-button"
             textClassName="text-ink-900"
             title="Nova conta"
             onPress={startNewBill}
@@ -75,6 +78,7 @@ export function HomeScreen() {
           <Button
             className="mt-3 border border-white/20"
             leftIcon={<Camera color="#FFFFFF" size={20} />}
+            testID="home-receipt-capture-button"
             title="Ler com camera"
             variant="secondary"
             onPress={() => navigation.navigate('ReceiptCapture')}
@@ -82,6 +86,7 @@ export function HomeScreen() {
           <Button
             className="mt-3 border border-white/20"
             leftIcon={<WalletCards color="#FFFFFF" size={20} />}
+            testID="home-social-button"
             title="Social e Pix"
             variant="secondary"
             onPress={() => navigation.navigate('SocialHub')}
@@ -89,6 +94,7 @@ export function HomeScreen() {
           <Button
             className="mt-3 border border-white/20"
             leftIcon={<History color="#FFFFFF" size={20} />}
+            testID="home-history-button"
             title="Historico de rachas"
             variant="secondary"
             onPress={() => navigation.navigate('BillHistory')}

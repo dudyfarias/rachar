@@ -38,9 +38,9 @@ export function AddPeopleScreen() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background">
-      <Header eyebrow="Passo 2 de 4" onBack={navigation.goBack} title="Adicionar pessoas" />
-      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background" testID="screen-add-people">
+      <Header eyebrow="Passo 2 de 4" onBack={navigation.goBack} testID="add-people-header" title="Adicionar pessoas" />
+      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} testID="add-people-scroll">
         <Card>
           <Text className="text-lg font-black text-ink-900">Quem participou?</Text>
           <Text className="mt-1 text-sm leading-5 text-ink-500">
@@ -54,12 +54,14 @@ export function AddPeopleScreen() {
               onSubmitEditing={handleAddPerson}
               placeholder="Ana, Dudu, Joao..."
               returnKeyType="done"
+              testID="add-people-name-input"
               value={personName}
             />
             <Button
               accessibilityLabel="Adicionar pessoa"
               className="mt-7 h-12 w-12 px-0"
               leftIcon={<UserPlus color="#FFFFFF" size={20} />}
+              testID="add-people-add-button"
               onPress={handleAddPerson}
             />
           </View>
@@ -73,14 +75,19 @@ export function AddPeopleScreen() {
             </Card>
           ) : (
             people.map((person, index) => (
-              <Card key={person.id} className="flex-row items-center justify-between">
+              <Card key={person.id} className="flex-row items-center justify-between" testID={`add-people-card-${person.id}`}>
                 <View className="flex-row items-center gap-3">
                   <View className="h-10 w-10 items-center justify-center rounded-full bg-brand-50">
                     <Text className="font-black text-brand-700">{index + 1}</Text>
                   </View>
                   <Text className="text-base font-black text-ink-900">{person.name}</Text>
                 </View>
-                <Pressable accessibilityLabel={`Remover ${person.name}`} accessibilityRole="button" onPress={() => removePerson(person.id)}>
+                <Pressable
+                  accessibilityLabel={`Remover ${person.name}`}
+                  accessibilityRole="button"
+                  testID={`add-people-remove-${person.id}`}
+                  onPress={() => removePerson(person.id)}
+                >
                   <Trash2 color="#EF4444" size={20} />
                 </Pressable>
               </Card>
@@ -90,7 +97,7 @@ export function AddPeopleScreen() {
       </ScrollView>
 
       <View className="border-t border-ink-100 bg-background px-5 pb-5 pt-4">
-        <Button size="lg" title="Adicionar itens" onPress={handleContinue} />
+        <Button size="lg" testID="add-people-continue-button" title="Adicionar itens" onPress={handleContinue} />
       </View>
     </KeyboardAvoidingView>
   );

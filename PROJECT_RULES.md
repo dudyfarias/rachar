@@ -93,6 +93,7 @@ Rodar:
 ```bash
 npm test
 npm run typecheck
+npm run ui:check
 npm run docs:check
 ```
 
@@ -101,9 +102,11 @@ npm run docs:check
 Ao final de todo sprint:
 
 - Rodar validacoes automatizadas antes de publicar.
+- Rodar `npm run ui:check` quando o sprint alterar telas, copy ou componentes de UI.
 - Atualizar documentacao e `CHANGELOG.md`.
 - Criar commit semantico com o estado final do sprint.
 - Enviar a branch atual para o repositorio remoto.
+- Publicar a versao validada no Vercel quando houver mudanca web/PWA ou fechamento de sprint.
 
 ## Commits
 

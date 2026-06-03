@@ -21,6 +21,7 @@
 
 ## Versao 1.0
 
+- Estabilizacao tecnica de persistencia, assets e CI.
 - Gateway Pix real com status de pagamento.
 - Templates de racha.
 - Backup e historico robusto.

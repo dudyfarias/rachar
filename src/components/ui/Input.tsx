@@ -9,11 +9,12 @@ type InputProps = TextInputProps & {
   label?: string;
 };
 
-export function Input({ className, containerClassName, error, helper, label, ...props }: InputProps) {
+export function Input({ accessibilityLabel, className, containerClassName, error, helper, label, ...props }: InputProps) {
   return (
     <View className={cn('gap-2', containerClassName)}>
       {label ? <Text className="text-sm font-semibold text-ink-700">{label}</Text> : null}
       <TextInput
+        accessibilityLabel={accessibilityLabel ?? label}
         className={cn(
           'h-12 rounded-xl border bg-white px-4 text-base text-ink-900',
           error ? 'border-danger' : 'border-ink-100',

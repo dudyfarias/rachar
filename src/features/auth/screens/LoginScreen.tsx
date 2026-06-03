@@ -27,8 +27,8 @@ export function LoginScreen() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background">
-      <ScrollView contentContainerClassName="flex-grow justify-center px-5 py-8" keyboardShouldPersistTaps="handled">
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background" testID="screen-login">
+      <ScrollView contentContainerClassName="flex-grow justify-center px-5 py-8" keyboardShouldPersistTaps="handled" testID="login-scroll">
         <Text className="text-sm font-black uppercase tracking-[1px] text-brand-600">Bem-vindo de volta</Text>
         <Text className="mt-2 text-4xl font-black text-ink-900">Entre no Rachaê</Text>
         <Text className="mt-3 text-base leading-6 text-ink-500">
@@ -39,7 +39,7 @@ export function LoginScreen() {
           <Card className="mt-6 border-brand-100 bg-brand-50">
             <Text className="text-sm font-bold text-brand-700">Ambiente local sem Supabase</Text>
             <Text className="mt-1 text-sm leading-5 text-ink-600">
-              Configure o arquivo .env ou use o modo demo para revisar o fluxo manual do Sprint 1.
+              Configure o arquivo .env ou use o modo demo para revisar o fluxo principal sem criar conta.
             </Text>
           </Card>
         ) : null}
@@ -51,6 +51,7 @@ export function LoginScreen() {
             label="Email"
             onChangeText={setEmail}
             placeholder="voce@email.com"
+            testID="login-email-input"
             value={email}
           />
           <Input
@@ -58,16 +59,30 @@ export function LoginScreen() {
             onChangeText={setPassword}
             placeholder="Sua senha"
             secureTextEntry
+            testID="login-password-input"
             value={password}
           />
         </View>
 
-        <Button className="mt-6" loading={isLoading} size="lg" title="Entrar" onPress={handleSignIn} />
-        <Button className="mt-3" size="lg" title="Explorar em modo demo" variant="secondary" onPress={startDemoSession} />
+        <Button className="mt-6" loading={isLoading} size="lg" testID="login-submit-button" title="Entrar" onPress={handleSignIn} />
+        <Button
+          className="mt-3"
+          size="lg"
+          testID="login-demo-button"
+          title="Explorar em modo demo"
+          variant="secondary"
+          onPress={startDemoSession}
+        />
 
         <View className="mt-6 flex-row justify-center">
           <Text className="text-sm text-ink-500">Ainda nao tem conta? </Text>
-          <Text className="text-sm font-black text-brand-600" onPress={() => navigation.navigate('Register')}>
+          <Text
+            accessibilityLabel="Criar cadastro"
+            accessibilityRole="button"
+            className="text-sm font-black text-brand-600"
+            testID="login-register-link"
+            onPress={() => navigation.navigate('Register')}
+          >
             Criar cadastro
           </Text>
         </View>

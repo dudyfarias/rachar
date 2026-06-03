@@ -71,8 +71,8 @@ export function BillHistoryScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
-      <Header title="Historico" eyebrow="Rachas anteriores" />
+    <View className="flex-1 bg-background" testID="screen-bill-history">
+      <Header title="Historico" eyebrow="Rachas anteriores" testID="bill-history-header" />
       {isSyncing ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color="#00A676" size="large" />
@@ -90,8 +90,9 @@ export function BillHistoryScreen() {
           contentContainerClassName="px-5 pb-8"
           data={billHistory}
           keyExtractor={(item) => item.id}
+          testID="bill-history-list"
           renderItem={({ item }) => (
-            <Card className="mt-4">
+            <Card className="mt-4" testID={`bill-history-card-${item.id}`}>
               <View className="flex-row items-start justify-between">
                 <View className="flex-1 mr-3">
                   <Text className="text-lg font-bold text-ink-900" numberOfLines={1}>
@@ -112,12 +113,14 @@ export function BillHistoryScreen() {
                 <Button
                   className="flex-1"
                   leftIcon={<RefreshCw color="#FFFFFF" size={16} />}
+                  testID={`bill-history-reopen-${item.id}`}
                   title={isLoadingTemplate ? 'Carregando...' : 'Reabrir'}
                   onPress={() => handleReopen(item.id)}
                 />
                 <Button
                   className="flex-1"
                   leftIcon={<Share2 color="#00A676" size={16} />}
+                  testID={`bill-history-share-${item.id}`}
                   title={sharingId === item.id ? 'Gerando...' : 'Compartilhar'}
                   variant="secondary"
                   onPress={() => handleShare(item.id)}

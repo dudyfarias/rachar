@@ -1,0 +1,19 @@
+{
+  "appName": "Rachae",
+  "shortDescription": "Divida contas com OCR, Pix e WhatsApp.",
+  "fullDescription": "Rachae ajuda grupos a dividir contas de forma rapida e transparente. O app permite criar rachas manuais por item, revisar comandas lidas por OCR em modo configuravel, gerar resumo para WhatsApp, usar Pix copia e cola e manter historico social com amigos, restaurantes e grupos recorrentes.",
+  "category": "Finance",
+  "contentRating": "Livre",
+  "keywords": [
+    "racha",
+    "dividir conta",
+    "pix",
+    "whatsapp",
+    "restaurante",
+    "financas pessoais"
+  ],
+  "privacyPolicyUrl": "https://dudyfarias.github.io/rachar/privacidade",
+  "termsOfUseUrl": "https://dudyfarias.github.io/rachar/termos",
+  "supportUrl": "https://github.com/dudyfarias/rachar/issues",
+  "releaseNotes": "Sprint tecnico: assets, persistencia Supabase por IDs, historico com contagem de pessoas e documentacao atualizada."
+}

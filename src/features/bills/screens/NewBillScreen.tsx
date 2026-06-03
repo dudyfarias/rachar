@@ -41,7 +41,7 @@ export function NewBillScreen() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background">
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background" testID="screen-new-bill">
       <Header
         eyebrow="Passo 1 de 4"
         onBack={navigation.goBack}
@@ -51,21 +51,23 @@ export function NewBillScreen() {
             accessibilityRole="button"
             className="h-10 w-10 items-center justify-center rounded-full bg-white"
             onPress={() => setIsSheetOpen(true)}
+            testID="new-bill-rules-button"
           >
             <HelpCircle color="#0F172A" size={19} />
           </Pressable>
         }
+        testID="new-bill-header"
         title="Nova conta"
       />
-      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} testID="new-bill-scroll">
         <Card>
           <Text className="text-lg font-black text-ink-900">Dados basicos</Text>
           <Text className="mt-1 text-sm leading-5 text-ink-500">
             Comece pelo nome da conta. Taxa e desconto entram proporcionalmente no calculo final.
           </Text>
           <View className="mt-5 gap-4">
-            <Input label="Nome da conta" onChangeText={setTitle} placeholder="Almoco de domingo" value={title} />
-            <Input label="Local" onChangeText={setPlace} placeholder="Restaurante, bar ou mercado" value={place} />
+            <Input label="Nome da conta" onChangeText={setTitle} placeholder="Almoco de domingo" testID="new-bill-title-input" value={title} />
+            <Input label="Local" onChangeText={setPlace} placeholder="Restaurante, bar ou mercado" testID="new-bill-place-input" value={place} />
           </View>
         </Card>
 
@@ -77,6 +79,7 @@ export function NewBillScreen() {
               label="Taxa de servico"
               onChangeText={(value) => setServiceFee(maskCurrencyInput(value))}
               placeholder="R$ 0,00"
+              testID="new-bill-service-fee-input"
               value={serviceFee}
             />
             <Input
@@ -84,6 +87,7 @@ export function NewBillScreen() {
               label="Desconto"
               onChangeText={(value) => setDiscount(maskCurrencyInput(value))}
               placeholder="R$ 0,00"
+              testID="new-bill-discount-input"
               value={discount}
             />
           </View>
@@ -91,10 +95,10 @@ export function NewBillScreen() {
       </ScrollView>
 
       <View className="border-t border-ink-100 bg-background px-5 pb-5 pt-4">
-        <Button size="lg" title="Adicionar pessoas" onPress={handleContinue} />
+        <Button size="lg" testID="new-bill-continue-button" title="Adicionar pessoas" onPress={handleContinue} />
       </View>
 
-      <BottomSheet title="Como o Sprint 1 calcula?" visible={isSheetOpen} onClose={() => setIsSheetOpen(false)}>
+      <BottomSheet title="Como o racha calcula?" visible={isSheetOpen} onClose={() => setIsSheetOpen(false)}>
         <View className="gap-3">
           <Text className="text-base leading-6 text-ink-600">
             Cada item e dividido apenas entre as pessoas selecionadas naquele item.

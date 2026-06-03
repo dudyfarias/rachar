@@ -76,6 +76,7 @@ function crc32(buf) {
 }
 
 const assetsDir = path.join(__dirname, '..', 'assets');
+fs.mkdirSync(assetsDir, { recursive: true });
 
 // Brand green: #00A676 → RGB(0, 166, 118)
 const icon = createPngBuffer(1024, 1024, 0, 166, 118);

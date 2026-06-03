@@ -15,12 +15,12 @@ const highlights = [
   {
     icon: ShieldCheck,
     title: 'Base segura',
-    description: 'Supabase Auth, RLS planejado e tipagem forte desde o Sprint 1.',
+    description: 'Sessao protegida, dados por usuario e modo demo para testar sem configurar servidor.',
   },
   {
     icon: Sparkles,
     title: 'Pronto para IA',
-    description: 'Arquitetura preparada para OCR, leitura de nota fiscal e automacoes.',
+    description: 'OCR e revisao assistida ajudam a transformar a comanda em rascunho conferivel.',
   },
 ];
 
@@ -28,8 +28,8 @@ export function OnboardingScreen() {
   const completeOnboarding = useAppStore((state) => state.completeOnboarding);
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false}>
+    <SafeAreaView className="flex-1 bg-background" testID="screen-onboarding">
+      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="onboarding-scroll">
         <LinearGradient
           colors={['#00A676', '#047857']}
           end={{ x: 1, y: 1 }}
@@ -44,8 +44,8 @@ export function OnboardingScreen() {
             Divida contas com precisao, sem planilha, sem constrangimento e com cara de banco digital.
           </Text>
           <View className="mt-8 rounded-2xl bg-white/15 p-4">
-            <Text className="text-sm font-bold uppercase tracking-[1px] text-white/80">Sprint 1</Text>
-            <Text className="mt-1 text-2xl font-black text-white">Fluxo manual de divisao</Text>
+            <Text className="text-sm font-bold uppercase tracking-[1px] text-white/80">Do pedido ao Pix</Text>
+            <Text className="mt-1 text-2xl font-black text-white">Fluxo guiado de divisao</Text>
           </View>
         </LinearGradient>
 
@@ -69,7 +69,7 @@ export function OnboardingScreen() {
       </ScrollView>
 
       <View className="border-t border-ink-100 bg-background px-5 pb-5 pt-4">
-        <Button size="lg" title="Comecar agora" onPress={completeOnboarding} />
+        <Button size="lg" testID="onboarding-start-button" title="Comecar agora" onPress={completeOnboarding} />
       </View>
     </SafeAreaView>
   );

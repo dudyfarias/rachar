@@ -15,7 +15,7 @@ type SharedBillData = {
   totalCents: number;
   serviceFeeCents: number;
   discountCents: number;
-  people: Array<{ name: string; totalCents: number }>;
+  people: Array<{ id: string; name: string; totalCents: number }>;
   items: Array<{ name: string; priceCents: number }>;
 };
 
@@ -105,6 +105,7 @@ export function SharedBillScreen({ route }: Props) {
           serviceFeeCents: result.bill.service_fee_cents,
           discountCents: result.bill.discount_cents,
           people: result.people.map((p) => ({
+            id: p.id,
             name: p.name,
             totalCents:
               (itemSubtotalsByPerson.get(p.id) ?? 0) +
@@ -128,7 +129,7 @@ export function SharedBillScreen({ route }: Props) {
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-background">
+      <View className="flex-1 items-center justify-center bg-background" testID="screen-shared-bill-loading">
         <ActivityIndicator color="#00A676" size="large" />
         <Text className="mt-3 text-sm text-ink-500">Carregando conta...</Text>
       </View>
@@ -137,16 +138,16 @@ export function SharedBillScreen({ route }: Props) {
 
   if (error || !data) {
     return (
-      <View className="flex-1 items-center justify-center bg-background px-8">
+      <View className="flex-1 items-center justify-center bg-background px-8" testID="screen-shared-bill-error">
         <Text className="text-center text-lg font-bold text-danger-500">{error}</Text>
       </View>
     );
   }
 
   return (
-    <View className="flex-1 bg-background">
-      <Header title={data.title || 'Racha compartilhado'} eyebrow={data.place ?? 'Conta compartilhada'} />
-      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false}>
+    <View className="flex-1 bg-background" testID="screen-shared-bill">
+      <Header title={data.title || 'Racha compartilhado'} eyebrow={data.place ?? 'Conta compartilhada'} testID="shared-bill-header" />
+      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="shared-bill-scroll">
         <Card className="bg-ink-900">
           <Text className="text-sm font-bold text-white/70">Total da conta</Text>
           <Text className="mt-2 text-4xl font-black text-white">{formatCurrency(data.totalCents)}</Text>
@@ -166,7 +167,7 @@ export function SharedBillScreen({ route }: Props) {
           Quanto cada pessoa paga
         </Text>
         {data.people.map((person) => (
-          <Card key={person.name} className="mt-2">
+          <Card key={person.id} className="mt-2" testID={`shared-bill-person-${person.id}`}>
             <View className="flex-row items-center justify-between">
               <Text className="text-base font-bold text-ink-900">{person.name}</Text>
               <Text className="text-base font-black text-brand-600">{formatCurrency(person.totalCents)}</Text>
@@ -178,7 +179,7 @@ export function SharedBillScreen({ route }: Props) {
           Itens da conta
         </Text>
         {data.items.map((item, index) => (
-          <Card key={`${item.name}-${index}`} className="mt-2">
+          <Card key={`${item.name}-${index}`} className="mt-2" testID={`shared-bill-item-${index}`}>
             <View className="flex-row items-center justify-between">
               <Text className="text-sm text-ink-700">{item.name}</Text>
               <Text className="text-sm font-bold text-ink-900">{formatCurrency(item.priceCents)}</Text>

@@ -107,11 +107,11 @@ export function ReceiptCaptureScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
-      <Header eyebrow="Sprint 2" onBack={navigation.goBack} title="Captura da Conta" />
+    <View className="flex-1 bg-background" testID="screen-receipt-capture">
+      <Header eyebrow="OCR inteligente" onBack={navigation.goBack} testID="receipt-capture-header" title="Captura da Conta" />
 
       <View className="flex-1 px-5 pb-5">
-        <View className="overflow-hidden rounded-2xl bg-ink-900" style={{ aspectRatio: 0.72 }}>
+        <View className="overflow-hidden rounded-2xl bg-ink-900" style={{ aspectRatio: 0.72 }} testID="receipt-capture-preview">
           {selectedImage ? (
             <Image resizeMode="cover" source={{ uri: selectedImage.uri }} style={{ height: '100%', width: '100%' }} />
           ) : permission.granted ? (
@@ -147,7 +147,12 @@ export function ReceiptCaptureScreen() {
               </Text>
             </View>
             {selectedImage ? (
-              <Pressable accessibilityLabel="Remover imagem" accessibilityRole="button" onPress={() => setSelectedImage(null)}>
+              <Pressable
+                accessibilityLabel="Remover imagem"
+                accessibilityRole="button"
+                testID="receipt-capture-clear-image-button"
+                onPress={() => setSelectedImage(null)}
+              >
                 <Text className="text-sm font-bold text-danger">Trocar</Text>
               </Pressable>
             ) : null}
@@ -161,18 +166,20 @@ export function ReceiptCaptureScreen() {
             className="flex-1"
             leftIcon={<Camera color="#FFFFFF" size={18} />}
             loading={isCapturing}
+            testID="receipt-capture-camera-button"
             title="Capturar"
             onPress={handleTakePhoto}
           />
           <Button
             className="flex-1"
             leftIcon={<ImageIcon color="#FFFFFF" size={18} />}
+            testID="receipt-capture-gallery-button"
             title="Galeria"
             variant="secondary"
             onPress={handlePickImage}
           />
         </View>
-        <Button disabled={!selectedImage} size="lg" title="Processar conta" onPress={handleProcessImage} />
+        <Button disabled={!selectedImage} size="lg" testID="receipt-capture-process-button" title="Processar conta" onPress={handleProcessImage} />
       </View>
     </View>
   );

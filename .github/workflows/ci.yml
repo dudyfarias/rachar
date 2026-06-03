@@ -30,6 +30,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Check UI contract
+        run: npm run ui:check
+
       - name: Check docs
         run: npm run docs:check
 

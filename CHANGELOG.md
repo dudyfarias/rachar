@@ -6,6 +6,64 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.4] - 2026-06-02
+
+### Added
+
+- Configuracao PWA para web com `public/manifest.json`, `public/index.html` customizado e `public/sw.js`.
+- Script `npm run assets:pwa` para gerar icones instalaveis `pwa-192.png` e `pwa-512.png`.
+- Script `npm run build:web` para export Expo web em `dist/`.
+- Configuracao `vercel.json` com build command, output directory, fallback SPA e headers de cache.
+- `.vercelignore` para evitar upload de artefatos locais e dependencias.
+- Documentacao de deploy em `docs/pwa-vercel.md` e Sprint 7 em `docs/sprint-7.md`.
+
+### Changed
+
+- Versao do app alinhada em `0.4.4`.
+- Configuracao web do Expo explicita `output: single`, nome, short name e idioma.
+
+## [0.4.3] - 2026-06-02
+
+### Added
+
+- Sprint 6 documentado em `docs/sprint-6.md`.
+- Guia de QA frontend em `docs/qa-frontend.md`.
+- Script `npm run ui:check` para validar copy critica, mojibake e `testID`s das telas principais.
+- `testID`s estaveis em onboarding, auth, home, fluxo de conta, OCR, social, historico e conta compartilhada.
+
+### Changed
+
+- CI passa a executar `npm run ui:check`.
+- README e regras do projeto passam a exigir validacao de contrato de UI no fechamento de sprint.
+- `Button`, `Input` e `Header` propagam labels/testIDs melhores para acessibilidade e automacao.
+- Copy visivel de sprint/dev foi removida das telas de usuario.
+
+### Fixed
+
+- Versoes de `package.json`, `package-lock.json` e `app.json` alinhadas em `0.4.3`.
+
+## [0.4.2] - 2026-06-02
+
+### Added
+
+- Sprint 5 tecnico documentado em `docs/sprint-5.md`.
+- Assets placeholder versionados para Expo (`icon`, `adaptive-icon`, `splash`, `favicon`).
+- Metadata de loja em `assets/store/metadata.json`.
+
+### Changed
+
+- Persistencia de contas no Supabase agora mapeia pessoas e itens por IDs internos, nao por nome.
+- Historico remoto passa a carregar `people_count` real.
+- Workflow de producao agora executa build EAS sem tentar submit automatico com credenciais vazias.
+- `docs/api.md` atualizado para refletir os repositorios Supabase ja implementados.
+- Removidos placeholders vazios de EAS Project ID, EAS Update URL e submit de lojas.
+
+### Fixed
+
+- `scripts/generate-assets.js` agora cria `assets/` antes de gravar PNGs.
+- Tela de conta compartilhada usa ID da pessoa como chave de lista.
+- Versoes de `package.json`, `package-lock.json` e `app.json` alinhadas em `0.4.2`.
+
 ## [0.4.1] - 2026-05-27
 
 ### Added

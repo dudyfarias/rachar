@@ -205,7 +205,7 @@ export const useSocialStore = create<SocialState>()(
           const billHistory: BillHistoryEntry[] = bills.map((b) => ({
             createdAt: b.created_at,
             id: b.id,
-            peopleCount: 0,
+            peopleCount: b.people_count,
             place: b.place ?? '',
             title: b.title,
             totalInCents: b.total_cents,

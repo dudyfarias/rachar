@@ -119,13 +119,13 @@ export function ResultScreen() {
 
   if (!result.data) {
     return (
-      <View className="flex-1 bg-background">
-        <Header eyebrow="Passo 4 de 4" onBack={navigation.goBack} title="Resultado" />
+      <View className="flex-1 bg-background" testID="screen-result-error">
+        <Header eyebrow="Passo 4 de 4" onBack={navigation.goBack} testID="result-error-header" title="Resultado" />
         <View className="flex-1 justify-center px-5">
           <Card>
             <Text className="text-xl font-black text-ink-900">Revise o racha</Text>
             <Text className="mt-2 text-base leading-6 text-ink-500">{result.error}</Text>
-            <Button className="mt-5" title="Voltar para itens" onPress={navigation.goBack} />
+            <Button className="mt-5" testID="result-back-to-items-button" title="Voltar para itens" onPress={navigation.goBack} />
           </Card>
         </View>
       </View>
@@ -133,7 +133,7 @@ export function ResultScreen() {
   }
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-background" testID="screen-result">
       <Header
         eyebrow="Passo 4 de 4"
         onBack={navigation.goBack}
@@ -143,13 +143,15 @@ export function ResultScreen() {
             accessibilityRole="button"
             className="h-10 w-10 items-center justify-center rounded-full bg-white"
             onPress={handleShare}
+            testID="result-share-icon-button"
           >
             <Share2 color="#0F172A" size={19} />
           </Pressable>
         }
+        testID="result-header"
         title="Resultado"
       />
-      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="result-scroll">
         <Card className="bg-brand-500">
           <Text className="text-sm font-bold uppercase tracking-[1px] text-white/70">{draft.place || 'Conta manual'}</Text>
           <Text className="mt-2 text-3xl font-black text-white">{draft.title}</Text>
@@ -182,7 +184,7 @@ export function ResultScreen() {
               <Text className="mt-1 text-sm text-ink-500">Resumo com valores por pessoa e Pix quando configurado.</Text>
             </View>
           </View>
-          <Button className="mt-5" title="Enviar resumo" onPress={handleShare} />
+          <Button className="mt-5" testID="result-share-summary-button" title="Enviar resumo" onPress={handleShare} />
         </Card>
 
         <Card className="mt-5">
@@ -207,20 +209,21 @@ export function ResultScreen() {
                 <Button
                   className="flex-1"
                   leftIcon={<Copy color="#FFFFFF" size={18} />}
+                  testID="result-copy-pix-payload-button"
                   title="Copiar Pix"
                   onPress={handleCopyPixPayload}
                 />
-                <Button className="flex-1" title="Copiar chave" variant="secondary" onPress={handleCopyPixKey} />
+                <Button className="flex-1" testID="result-copy-pix-key-button" title="Copiar chave" variant="secondary" onPress={handleCopyPixKey} />
               </View>
             </View>
           ) : (
-            <Button className="mt-5" title="Configurar Pix" variant="secondary" onPress={() => navigation.navigate('SocialHub')} />
+            <Button className="mt-5" testID="result-configure-pix-button" title="Configurar Pix" variant="secondary" onPress={() => navigation.navigate('SocialHub')} />
           )}
         </Card>
 
         <View className="mt-5 gap-3">
           {result.data.people.map((person) => (
-            <Card key={person.personId}>
+            <Card key={person.personId} testID={`result-person-card-${person.personId}`}>
               <View className="flex-row items-start justify-between gap-4">
                 <View className="flex-1">
                   <Text className="text-lg font-black text-ink-900">{person.name}</Text>
@@ -246,7 +249,7 @@ export function ResultScreen() {
       </ScrollView>
 
       <View className="border-t border-ink-100 bg-background px-5 pb-5 pt-4">
-        <Button size="lg" title="Finalizar racha" onPress={finishFlow} />
+        <Button size="lg" testID="result-finish-button" title="Finalizar racha" onPress={finishFlow} />
       </View>
     </View>
   );

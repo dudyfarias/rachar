@@ -28,22 +28,23 @@ export function RegisterScreen() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background">
-      <ScrollView contentContainerClassName="flex-grow justify-center px-5 py-8" keyboardShouldPersistTaps="handled">
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background" testID="screen-register">
+      <ScrollView contentContainerClassName="flex-grow justify-center px-5 py-8" keyboardShouldPersistTaps="handled" testID="register-scroll">
         <Text className="text-sm font-black uppercase tracking-[1px] text-brand-600">Nova conta</Text>
         <Text className="mt-2 text-4xl font-black text-ink-900">Crie seu acesso</Text>
         <Text className="mt-3 text-base leading-6 text-ink-500">
-          O cadastro usa Supabase Auth e prepara um perfil publico para os proximos sprints.
+          Crie uma conta para sincronizar historico, grupos recorrentes e perfil Pix entre dispositivos.
         </Text>
 
         <View className="mt-6 gap-4">
-          <Input label="Nome" onChangeText={setFullName} placeholder="Seu nome" value={fullName} />
+          <Input label="Nome" onChangeText={setFullName} placeholder="Seu nome" testID="register-name-input" value={fullName} />
           <Input
             autoCapitalize="none"
             keyboardType="email-address"
             label="Email"
             onChangeText={setEmail}
             placeholder="voce@email.com"
+            testID="register-email-input"
             value={email}
           />
           <Input
@@ -52,12 +53,20 @@ export function RegisterScreen() {
             onChangeText={setPassword}
             placeholder="Crie uma senha"
             secureTextEntry
+            testID="register-password-input"
             value={password}
           />
         </View>
 
-        <Button className="mt-6" loading={isLoading} size="lg" title="Cadastrar" onPress={handleSignUp} />
-        <Button className="mt-3" size="lg" title="Voltar para login" variant="ghost" onPress={() => navigation.navigate('Login')} />
+        <Button className="mt-6" loading={isLoading} size="lg" testID="register-submit-button" title="Cadastrar" onPress={handleSignUp} />
+        <Button
+          className="mt-3"
+          size="lg"
+          testID="register-back-login-button"
+          title="Voltar para login"
+          variant="ghost"
+          onPress={() => navigation.navigate('Login')}
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );

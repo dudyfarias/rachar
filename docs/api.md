@@ -2,11 +2,18 @@
 
 ## Estado Atual
 
-No Sprint 1, o app usa Supabase diretamente pelo cliente mobile para autenticacao. Persistencia de contas esta preparada pelo schema, mas ainda nao conectada ao fluxo.
+O app usa Supabase diretamente pelo cliente mobile para autenticacao e persistencia de dados do usuario. O modo demo continua disponivel quando Supabase nao esta configurado.
+
+Camadas implementadas:
+
+- `authStore`: login, cadastro, logout, sessao persistida e modo demo.
+- `billRepository.ts`: cria contas, lista historico, reabre templates e carrega links compartilhados.
+- `socialRepository.ts`: sincroniza Pix, amigos recentes, restaurantes, grupos recorrentes e consentimento de analytics.
+- `receiptUpload.ts`: envia imagens de recibo para Supabase Storage com URLs assinadas.
 
 ## Supabase Auth
 
-Operacoes previstas:
+Operacoes usadas:
 
 - `signInWithPassword`
 - `signUp`
@@ -14,18 +21,37 @@ Operacoes previstas:
 - `getSession`
 - `onAuthStateChange`
 
-## Supabase Data API Futuro
+## Supabase Data API
 
-Repositorios planejados:
+### Contas
 
-- `createBill`
-- `updateBill`
-- `listBills`
-- `getBillById`
-- `deleteBill`
-- `saveBillPeople`
-- `saveBillItems`
-- `saveItemSplits`
+Servico: `src/lib/supabase/billRepository.ts`
+
+Funcoes:
+
+- `createBill(ownerId, draft, result)`: salva `bills`, `bill_people`, `bill_items` e `item_splits`.
+- `listBills(ownerId)`: lista as 30 contas mais recentes com `people_count`.
+- `getBillById(billId)`: carrega conta completa para reabrir como template.
+- `generateShareToken(billId)`: gera token publico para deep link.
+- `getBillByShareToken(token)`: carrega conta compartilhada usando header `x-share-token`.
+
+Observacoes:
+
+- Pessoas e itens sao persistidos por IDs internos do dominio, nao por nome.
+- Valores monetarios continuam sempre em centavos.
+- Links compartilhados dependem das policies RLS criadas no Sprint 4.
+
+### Social
+
+Servico: `src/lib/supabase/socialRepository.ts`
+
+Funcoes:
+
+- `upsertRecentFriend` / `listRecentFriends`
+- `upsertRestaurant` / `listRestaurants`
+- `upsertRecurringGroup` / `listRecurringGroups`
+- `loadPixProfile` / `savePixProfile`
+- `loadAnalyticsConsent` / `saveAnalyticsConsent`
 
 ## Sprint 2 - OCR E IA
 

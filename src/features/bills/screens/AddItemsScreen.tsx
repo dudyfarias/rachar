@@ -66,7 +66,7 @@ export function AddItemsScreen() {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background">
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background" testID="screen-add-items">
       <Header
         eyebrow="Passo 3 de 4"
         onBack={navigation.goBack}
@@ -76,22 +76,25 @@ export function AddItemsScreen() {
             accessibilityRole="button"
             className="h-10 w-10 items-center justify-center rounded-full bg-white"
             onPress={() => setIsSheetOpen(true)}
+            testID="add-items-details-button"
           >
             <Info color="#0F172A" size={19} />
           </Pressable>
         }
+        testID="add-items-header"
         title="Adicionar itens"
       />
-      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} testID="add-items-scroll">
         <Card>
           <Text className="text-lg font-black text-ink-900">Novo item</Text>
           <View className="mt-5 gap-4">
-            <Input label="Item" onChangeText={setItemName} placeholder="Hamburguer, refri, sobremesa..." value={itemName} />
+            <Input label="Item" onChangeText={setItemName} placeholder="Hamburguer, refri, sobremesa..." testID="add-items-name-input" value={itemName} />
             <Input
               keyboardType="number-pad"
               label="Valor"
               onChangeText={(value) => setPrice(maskCurrencyInput(value))}
               placeholder="R$ 0,00"
+              testID="add-items-price-input"
               value={price}
             />
           </View>
@@ -104,11 +107,13 @@ export function AddItemsScreen() {
               return (
                 <Pressable
                   key={person.id}
+                  accessibilityLabel={`Alternar participante ${person.name}`}
                   accessibilityRole="button"
                   className={cn(
                     'flex-row items-center gap-2 rounded-full border px-4 py-2',
                     isSelected ? 'border-brand-500 bg-brand-50' : 'border-ink-100 bg-white',
                   )}
+                  testID={`add-items-person-toggle-${person.id}`}
                   onPress={() => togglePerson(person.id)}
                 >
                   {isSelected ? <Check color="#00A676" size={16} /> : null}
@@ -118,7 +123,7 @@ export function AddItemsScreen() {
             })}
           </View>
 
-          <Button className="mt-5" title="Adicionar item" onPress={handleAddItem} />
+          <Button className="mt-5" testID="add-items-add-button" title="Adicionar item" onPress={handleAddItem} />
         </Card>
 
         <View className="mt-5 gap-3">
@@ -129,7 +134,7 @@ export function AddItemsScreen() {
             </Card>
           ) : (
             items.map((item) => (
-              <Card key={item.id}>
+              <Card key={item.id} testID={`add-items-card-${item.id}`}>
                 <View className="flex-row items-start justify-between gap-3">
                   <View className="flex-1">
                     <Text className="text-base font-black text-ink-900">{item.name}</Text>
@@ -137,7 +142,12 @@ export function AddItemsScreen() {
                       {item.participantIds.length} pessoa(s) - {formatCurrency(item.priceInCents)}
                     </Text>
                   </View>
-                  <Pressable accessibilityLabel={`Remover ${item.name}`} accessibilityRole="button" onPress={() => removeItem(item.id)}>
+                  <Pressable
+                    accessibilityLabel={`Remover ${item.name}`}
+                    accessibilityRole="button"
+                    testID={`add-items-remove-${item.id}`}
+                    onPress={() => removeItem(item.id)}
+                  >
                     <Trash2 color="#EF4444" size={20} />
                   </Pressable>
                 </View>
@@ -148,7 +158,7 @@ export function AddItemsScreen() {
       </ScrollView>
 
       <View className="border-t border-ink-100 bg-background px-5 pb-5 pt-4">
-        <Button size="lg" title="Ver resultado" onPress={handleContinue} />
+        <Button size="lg" testID="add-items-continue-button" title="Ver resultado" onPress={handleContinue} />
       </View>
 
       <BottomSheet title="Itens e participantes" visible={isSheetOpen} onClose={() => setIsSheetOpen(false)}>

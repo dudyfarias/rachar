@@ -37,6 +37,7 @@ const sizeClassNames: Record<ButtonSize, string> = {
 };
 
 export function Button({
+  accessibilityLabel,
   children,
   className,
   disabled,
@@ -52,6 +53,7 @@ export function Button({
 
   return (
     <Pressable
+      accessibilityLabel={accessibilityLabel ?? title}
       accessibilityRole="button"
       className={cn(
         'items-center justify-center rounded-xl',

@@ -1,12 +1,12 @@
-name: Production Build & Submit
+name: Production Build
 
 on:
   release:
     types: [published]
 
 jobs:
-  build-and-submit:
-    name: EAS Build & Submit (Production)
+  build:
+    name: EAS Build (Production)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,11 +28,3 @@ jobs:
 
       - name: Build production (iOS)
         run: eas build --profile production --platform ios --non-interactive
-
-      - name: Submit to Google Play (internal track)
-        run: eas submit --profile production --platform android --non-interactive
-        continue-on-error: true
-
-      - name: Submit to App Store Connect
-        run: eas submit --profile production --platform ios --non-interactive
-        continue-on-error: true

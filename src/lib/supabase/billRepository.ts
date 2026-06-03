@@ -1,6 +1,16 @@
 import { supabase } from './client';
 import type { BillDraft, SplitSummary } from '../../types/billing';
 
+export type BillListItem = {
+  created_at: string;
+  id: string;
+  people_count: number;
+  place: string | null;
+  status: 'draft' | 'closed';
+  title: string;
+  total_cents: number;
+};
+
 export async function createBill(ownerId: string, draft: BillDraft, result: SplitSummary) {
   const { data: bill, error: billError } = await supabase
     .from('bills')
@@ -22,58 +32,64 @@ export async function createBill(ownerId: string, draft: BillDraft, result: Spli
   }
 
   const billId = bill.id;
+  const personIdMap = new Map<string, string>();
+  const itemIdMap = new Map<string, string>();
 
-  const peopleInserts = result.people.map((person) => ({
-    bill_id: billId,
-    name: person.name,
-  }));
+  for (const person of result.people) {
+    const { data: savedPerson, error: personError } = await supabase
+      .from('bill_people')
+      .insert({
+        bill_id: billId,
+        name: person.name,
+      })
+      .select('id')
+      .single();
 
-  const { data: savedPeople, error: peopleError } = await supabase
-    .from('bill_people')
-    .insert(peopleInserts)
-    .select('id, name');
+    if (personError || !savedPerson) {
+      throw new Error(`Erro ao salvar participante "${person.name}": ${personError?.message ?? 'resposta vazia'}`);
+    }
 
-  if (peopleError || !savedPeople) {
-    throw new Error(`Erro ao salvar participantes: ${peopleError?.message ?? 'resposta vazia'}`);
+    personIdMap.set(person.personId, savedPerson.id);
   }
 
-  const personIdMap = new Map(savedPeople.map((p) => [p.name, p.id]));
-
-  const uniqueItems = new Map<string, { name: string; priceInCents: number }>();
+  const resultItemsById = new Map<string, { name: string; priceInCents: number }>();
   for (const person of result.people) {
     for (const item of person.items) {
-      if (!uniqueItems.has(item.itemId)) {
-        uniqueItems.set(item.itemId, { name: item.itemName, priceInCents: item.amountInCents });
-      } else {
-        const existing = uniqueItems.get(item.itemId)!;
-        existing.priceInCents += item.amountInCents;
-      }
+      const existing = resultItemsById.get(item.itemId);
+      resultItemsById.set(item.itemId, {
+        name: existing?.name ?? item.itemName,
+        priceInCents: (existing?.priceInCents ?? 0) + item.amountInCents,
+      });
     }
   }
 
-  const itemInserts = [...uniqueItems.values()].map((item) => ({
-    bill_id: billId,
-    name: item.name,
-    price_cents: item.priceInCents,
-  }));
+  const draftItemsById = new Map(draft.items.map((item) => [item.id, item]));
 
-  const { data: savedItems, error: itemsError } = await supabase
-    .from('bill_items')
-    .insert(itemInserts)
-    .select('id, name');
+  for (const [itemId, resultItem] of resultItemsById) {
+    const draftItem = draftItemsById.get(itemId);
+    const { data: savedItem, error: itemError } = await supabase
+      .from('bill_items')
+      .insert({
+        bill_id: billId,
+        name: draftItem?.name ?? resultItem.name,
+        price_cents: draftItem?.priceInCents ?? resultItem.priceInCents,
+      })
+      .select('id')
+      .single();
 
-  if (itemsError || !savedItems) {
-    throw new Error(`Erro ao salvar itens: ${itemsError?.message ?? 'resposta vazia'}`);
+    if (itemError || !savedItem) {
+      throw new Error(`Erro ao salvar item "${resultItem.name}": ${itemError?.message ?? 'resposta vazia'}`);
+    }
+
+    itemIdMap.set(itemId, savedItem.id);
   }
-
-  const itemIdMap = new Map(savedItems.map((i) => [i.name, i.id]));
 
   const splitInserts: Array<{ bill_item_id: string; bill_person_id: string; amount_cents: number }> = [];
   for (const person of result.people) {
-    const dbPersonId = personIdMap.get(person.name);
+    const dbPersonId = personIdMap.get(person.personId);
     if (!dbPersonId) continue;
     for (const item of person.items) {
-      const dbItemId = itemIdMap.get(item.itemName);
+      const dbItemId = itemIdMap.get(item.itemId);
       if (!dbItemId) continue;
       splitInserts.push({
         bill_item_id: dbItemId,
@@ -93,7 +109,7 @@ export async function createBill(ownerId: string, draft: BillDraft, result: Spli
   return billId;
 }
 
-export async function listBills(ownerId: string) {
+export async function listBills(ownerId: string): Promise<BillListItem[]> {
   const { data, error } = await supabase
     .from('bills')
     .select('id, title, place, total_cents, status, created_at')
@@ -105,7 +121,31 @@ export async function listBills(ownerId: string) {
     throw new Error(`Erro ao listar contas: ${error.message}`);
   }
 
-  return data ?? [];
+  const bills = data ?? [];
+  const billIds = bills.map((bill) => bill.id);
+
+  if (billIds.length === 0) {
+    return [];
+  }
+
+  const { data: people, error: peopleError } = await supabase
+    .from('bill_people')
+    .select('bill_id')
+    .in('bill_id', billIds);
+
+  if (peopleError) {
+    throw new Error(`Erro ao contar participantes: ${peopleError.message}`);
+  }
+
+  const peopleCountByBillId = new Map<string, number>();
+  for (const person of people ?? []) {
+    peopleCountByBillId.set(person.bill_id, (peopleCountByBillId.get(person.bill_id) ?? 0) + 1);
+  }
+
+  return bills.map((bill): BillListItem => ({
+    ...bill,
+    people_count: peopleCountByBillId.get(bill.id) ?? 0,
+  }));
 }
 
 export async function getBillById(billId: string) {

@@ -34,13 +34,13 @@ export function ReceiptReviewScreen() {
 
   if (!receipt) {
     return (
-      <View className="flex-1 bg-background">
-        <Header eyebrow="Conferencia" onBack={navigation.goBack} title="Conferencia Inteligente" />
+      <View className="flex-1 bg-background" testID="screen-receipt-review-empty">
+        <Header eyebrow="Conferencia" onBack={navigation.goBack} testID="receipt-review-empty-header" title="Conferencia Inteligente" />
         <View className="flex-1 justify-center px-5">
           <Card>
             <Text className="text-xl font-black text-ink-900">Nenhuma leitura encontrada</Text>
             <Text className="mt-2 text-base leading-6 text-ink-500">Capture uma conta para abrir a conferencia.</Text>
-            <Button className="mt-5" title="Capturar conta" onPress={handleCaptureAgain} />
+            <Button className="mt-5" testID="receipt-review-capture-button" title="Capturar conta" onPress={handleCaptureAgain} />
           </Card>
         </View>
       </View>
@@ -51,7 +51,7 @@ export function ReceiptReviewScreen() {
   const totalMatches = Math.abs(calculatedTotal - receipt.totalInCents) <= 2;
 
   return (
-    <View className="flex-1 bg-background">
+    <View className="flex-1 bg-background" testID="screen-receipt-review">
       <Header
         eyebrow="Conferencia"
         onBack={navigation.goBack}
@@ -60,14 +60,16 @@ export function ReceiptReviewScreen() {
             accessibilityLabel="Capturar novamente"
             className="h-10 w-10 px-0"
             leftIcon={<RotateCcw color="#0F172A" size={18} />}
+            testID="receipt-review-capture-again-button"
             variant="ghost"
             onPress={handleCaptureAgain}
           />
         }
+        testID="receipt-review-header"
         title="Conferencia Inteligente"
       />
 
-      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="receipt-review-scroll">
         <Card className="bg-ink-900">
           <Text className="text-sm font-bold uppercase tracking-[1px] text-white/70">
             {receipt.restaurantName || 'Restaurante nao identificado'}
@@ -82,7 +84,7 @@ export function ReceiptReviewScreen() {
         {receipt.warnings.length > 0 ? (
           <View className="mt-5 gap-3">
             {receipt.warnings.map((warning, index) => (
-              <Card key={`${warning.code}-${index}`} className={warning.severity === 'error' ? 'border-danger' : undefined}>
+              <Card key={`${warning.code}-${index}`} className={warning.severity === 'error' ? 'border-danger' : undefined} testID={`receipt-review-warning-${index}`}>
                 <View className="flex-row gap-3">
                   <AlertTriangle color={warning.severity === 'error' ? '#EF4444' : '#F59E0B'} size={20} />
                   <View className="flex-1">
@@ -115,7 +117,7 @@ export function ReceiptReviewScreen() {
 
         <View className="mt-5 gap-3">
           {receipt.items.map((item) => (
-            <Card key={item.id}>
+            <Card key={item.id} testID={`receipt-review-item-${item.id}`}>
               <View className="flex-row items-start justify-between gap-4">
                 <View className="flex-1">
                   <Text className="text-base font-black text-ink-900">{item.name}</Text>
@@ -131,7 +133,7 @@ export function ReceiptReviewScreen() {
       </ScrollView>
 
       <View className="border-t border-ink-100 bg-background px-5 pb-5 pt-4">
-        <Button disabled={hasBlockingWarning} size="lg" title="Conferir pessoas" onPress={handleUseReceipt} />
+        <Button disabled={hasBlockingWarning} size="lg" testID="receipt-review-use-button" title="Conferir pessoas" onPress={handleUseReceipt} />
       </View>
     </View>
   );

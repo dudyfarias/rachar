@@ -1,5 +1,24 @@
 # Changelog Da Documentacao
 
+## 2026-06-02
+
+### Added
+
+- Sprint 7 documentado com PWA, Vercel, manifest, service worker e fluxo de deploy.
+- Guia `docs/pwa-vercel.md` criado para publicacao web e configuracao de variaveis no Vercel.
+- Sprint 6 documentado com contrato de UI, checklist de QA frontend e testIDs criticos.
+- Guia `docs/qa-frontend.md` criado para orientar testes manuais e automacao futura.
+- Sprint 5 documentado com estabilizacao tecnica de persistencia, assets e CI.
+- Metadata de loja versionada em `assets/store/metadata.json`.
+
+### Changed
+
+- README atualizado para `v0.4.4` e com comandos de build/deploy PWA.
+- README atualizado para `v0.4.3` e para incluir `npm run ui:check` no ritual de validacao.
+- `PROJECT_RULES.md` e `AGENTS.md` atualizados para exigir o contrato de UI em fechamento de sprint.
+- `docs/api.md` atualizado para refletir os repositorios Supabase implementados.
+- README atualizado para `v0.4.2` e para o fluxo real de EAS Build sem submit automatico.
+
 ## 2026-05-26
 
 ### Added

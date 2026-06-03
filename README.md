@@ -2,7 +2,7 @@
 
 App mobile para dividir contas de forma justa, rapida e transparente. Combina divisao manual por item com OCR + IA para transformar fotos de comandas em rascunhos conferiveis.
 
-**Versao atual:** v0.4.1 — Sprint 4 completo  
+**Versao atual:** v0.4.4 — Sprint 7 PWA + Vercel pronto  
 **Repositorio:** https://github.com/dudyfarias/rachar  
 **Stack:** React Native · Expo SDK 56 · TypeScript · NativeWind · Supabase · Zustand
 
@@ -79,6 +79,7 @@ npm start          # Metro bundler + QR code para Expo Go
 npm run ios        # iOS Simulator (requer Xcode no Mac)
 npm run android    # Android Emulator (requer Android Studio)
 npm run web        # Navegador
+npm run build:web  # Export web estatico para dist/
 ```
 
 ---
@@ -88,10 +89,12 @@ npm run web        # Navegador
 ```bash
 npm test           # Vitest — testes unitarios (engine financeira + OCR parser)
 npm run typecheck  # tsc --noEmit
+npm run ui:check   # Valida contrato minimo de UI, copy e testIDs
 npm run docs:check # Valida cobertura de documentacao
+npm run build:web  # Gera PWA estatico em dist/
 ```
 
-Execute os tres antes de abrir um PR ou fechar um sprint.
+Execute os quatro antes de abrir um PR ou fechar um sprint.
 
 ---
 
@@ -180,6 +183,15 @@ Compartilhamento por WhatsApp, perfil Pix com QR Code e copia e cola, `PixGatewa
 ### Sprint 4 — Persistencia e producao
 Persistencia social no Supabase, sync bidirecional local-first, historico de contas (`BillHistoryScreen`), tela de conta compartilhada (`SharedBillScreen`), deep link `rachae://bill/:token`, perfil Pix persistido, consentimento de analytics, repositorios Supabase (`billRepository.ts`, `socialRepository.ts`), cache, fila com retry, logger, rate limiter, validacao de uploads, sanitizacao de inputs, antifraude, EAS Build + CI/CD GitHub Actions.
 
+### Sprint 5 — Estabilizacao tecnica
+Persistencia de contas corrigida para mapear pessoas e itens por IDs internos, historico remoto com contagem de participantes, assets placeholder versionados, metadata de loja criada, configuracao EAS sem placeholders vazios e docs de API atualizadas.
+
+### Sprint 6 — Frontend QA e polimento
+Contrato minimo de UI com `testID`s nas telas criticas, copy de sprint/dev removida da experiencia, acessibilidade basica em botoes/inputs/header, checklist de QA manual e script `npm run ui:check` integrado ao CI.
+
+### Sprint 7 — PWA e Vercel
+Build web exportavel como PWA, `public/manifest.json`, service worker leve, icones instalaveis, `vercel.json` com build/output/fallback SPA e documentacao de deploy.
+
 ---
 
 ## Variaveis de ambiente completas
@@ -207,12 +219,41 @@ O projeto usa [EAS Build](https://docs.expo.dev/build/introduction/) com tres pr
 |---|---|
 | `development` | Build local com dev client |
 | `staging` | Build automatico pelo CI em cada push para `main` |
-| `production` | Build manual para App Store e Play Store |
+| `production` | Build de producao para App Store e Play Store |
 
 Para usar EAS Build e necessario:
 1. Criar conta em https://expo.dev
-2. Rodar `npx eas init` para gerar o `projectId` e preencher `extra.eas.projectId` em `app.json`
+2. Rodar `npx eas init` para vincular o projeto e gerar os metadados EAS no app config
 3. Configurar `EXPO_TOKEN` como secret no GitHub para o CI funcionar
+
+Submissao para App Store Connect e Google Play deve ser configurada separadamente com credenciais reais antes de ativar `eas submit` no CI.
+
+---
+
+## PWA e deploy no Vercel
+
+O build web usa Expo Metro em modo SPA e sai em `dist/`:
+
+```bash
+npm run build:web
+```
+
+O Vercel usa `vercel.json` com:
+
+- `installCommand`: `npm ci`
+- `buildCommand`: `npm run build:web`
+- `outputDirectory`: `dist`
+- fallback de rotas para `/index.html`
+- headers para `sw.js`, `manifest.json` e assets estaticos
+
+Para publicar manualmente:
+
+```bash
+npm exec -- vercel
+npm exec -- vercel --prod
+```
+
+Configure as variaveis `EXPO_PUBLIC_SUPABASE_URL` e `EXPO_PUBLIC_SUPABASE_ANON_KEY` no dashboard do Vercel quando quiser apontar a PWA para o Supabase real. Sem elas, o app continua abrindo em modo demo.
 
 ---
 

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Rachaê",
     "slug": "rachae",
-    "version": "0.4.1",
+    "version": "0.4.4",
     "runtimeVersion": {
       "policy": "appVersion"
     },
@@ -26,7 +26,7 @@
     },
     "android": {
       "package": "com.rachae.app",
-      "versionCode": 5,
+      "versionCode": 8,
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO"
       ],
@@ -54,15 +54,11 @@
     ],
     "web": {
       "bundler": "metro",
+      "output": "single",
+      "name": "Rachae",
+      "shortName": "Rachae",
+      "lang": "pt-BR",
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": ""
-      }
-    },
-    "updates": {
-      "url": ""
     },
     "owner": "rachae"
   }
