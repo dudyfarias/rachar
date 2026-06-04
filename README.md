@@ -2,7 +2,7 @@
 
 App mobile para dividir contas de forma justa, rapida e transparente. Combina divisao manual por item com OCR + IA para transformar fotos de comandas em rascunhos conferiveis.
 
-**Versao atual:** v0.4.7 — fluxo scanner first
+**Versao atual:** v0.4.8 — Home focada em scan da nota
 **Repositorio:** https://github.com/dudyfarias/rachar  
 **Stack:** React Native · Expo SDK 56 · TypeScript · NativeWind · Supabase · Zustand
 
@@ -209,7 +209,7 @@ Build web exportavel como PWA, `public/manifest.json`, service worker leve, icon
 Baseline SQL versionado no Supabase, migrations aplicadas, RLS otimizado para leitura por `share_token` e advisors SQL revisados.
 
 ### Sprint 9 - Scanner first
-Onboarding em etapas, fluxo convidado sem bloqueio de login, Home priorizando escanear conta e auth como acao secundaria para salvar historico.
+Onboarding em etapas, fluxo convidado sem bloqueio de login, primeira tela pos-login focada em escanear nota e auth como acao secundaria para salvar historico.
 
 ---
 

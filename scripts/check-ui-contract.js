@@ -23,6 +23,8 @@ const requiredTestIds = [
   'login-submit-button',
   'login-demo-button',
   'screen-home',
+  'home-scan-panel',
+  'home-feature-section',
   'home-new-bill-button',
   'home-receipt-capture-button',
   'home-social-button',

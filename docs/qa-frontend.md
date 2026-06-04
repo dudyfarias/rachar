@@ -41,6 +41,8 @@ Remova `dist-web-check/` depois da validacao local.
 ### Racha Manual
 
 - `screen-home`
+- `home-scan-panel`
+- `home-feature-section`
 - `home-receipt-capture-button`
 - `home-new-bill-button`
 - `screen-new-bill`

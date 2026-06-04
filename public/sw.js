@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'rachae-pwa-v0.4.7';
+const CACHE_VERSION = 'rachae-pwa-v0.4.8';
 const APP_SHELL = ['/', '/index.html', '/manifest.json', '/pwa-192.png', '/pwa-512.png', '/favicon.ico'];
 
 self.addEventListener('install', (event) => {

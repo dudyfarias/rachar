@@ -15,6 +15,7 @@ Trocar a entrada baseada em Login/Cadastro por uma jornada guiada em etapas, ond
 - Login e cadastro viram links secundarios para quem quer salvar historico.
 - Navigator permite fluxo convidado com Home, OCR, pessoas, itens e resultado sem sessao obrigatoria.
 - Home passa a priorizar `Escanear conta`; criacao manual fica como alternativa.
+- Home pos-login abre com painel principal `Escanear nota` e features do fluxo logo abaixo.
 - Login e modo demo redirecionam para Home depois de criar sessao.
 - Contrato de UI atualizado para os novos `testID`s do stepper.
 
@@ -43,4 +44,5 @@ Checklist manual:
 - Confirmar que `Escanear conta` abre a captura.
 - Confirmar que `Entrar` e `criar conta` continuam acessiveis como links secundarios.
 - Abrir Home sem sessao e confirmar scanner como acao principal.
+- Entrar ou usar modo demo e confirmar que a primeira tela pos-login mostra `Escanear nota`.
 - Entrar em modo demo e confirmar retorno para Home.

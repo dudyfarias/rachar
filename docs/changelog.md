@@ -14,6 +14,9 @@
 
 ### Changed
 
+- Home pos-login atualizada para abrir como tela focada em scan da nota.
+- Features do fluxo passam a aparecer abaixo do painel principal de scan.
+- README atualizado para `v0.4.8`.
 - README atualizado para `v0.4.7`.
 - Guia de QA frontend atualizado para fluxo scanner first.
 - Contrato de UI atualizado para os testIDs do onboarding em etapas.

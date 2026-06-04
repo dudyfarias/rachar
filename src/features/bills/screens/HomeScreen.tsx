@@ -1,6 +1,18 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { Camera, History, LogIn, LogOut, Plus, ReceiptText, UsersRound, WalletCards } from 'lucide-react-native';
+import {
+  Camera,
+  CheckCircle2,
+  History,
+  LogIn,
+  LogOut,
+  Plus,
+  ReceiptText,
+  Send,
+  Sparkles,
+  UsersRound,
+  WalletCards,
+} from 'lucide-react-native';
 import { useEffect } from 'react';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 
@@ -12,6 +24,33 @@ import { useSocialStore } from '../../../stores/socialStore';
 import type { RootStackParamList } from '../../../types/navigation';
 
 type HomeNavigation = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+
+const flowFeatures = [
+  {
+    description: 'OCR + IA',
+    icon: Sparkles,
+    testID: 'home-feature-ocr',
+    title: 'Conferir leitura',
+  },
+  {
+    description: 'por item',
+    icon: UsersRound,
+    testID: 'home-feature-split',
+    title: 'Dividir consumo',
+  },
+  {
+    description: 'Pix e WhatsApp',
+    icon: Send,
+    testID: 'home-feature-share',
+    title: 'Enviar cobranca',
+  },
+  {
+    description: 'grupos e historico',
+    icon: History,
+    testID: 'home-feature-history',
+    title: 'Repetir rachas',
+  },
+];
 
 export function HomeScreen() {
   const navigation = useNavigation<HomeNavigation>();
@@ -43,10 +82,14 @@ export function HomeScreen() {
     navigation.navigate('NewBill');
   }
 
+  function startReceiptCapture() {
+    navigation.navigate('ReceiptCapture');
+  }
+
   return (
     <View className="flex-1 bg-background" testID="screen-home">
       <Header
-        eyebrow="Conta inteligente"
+        eyebrow="Rachae"
         right={
           session ? (
             <Pressable
@@ -71,48 +114,105 @@ export function HomeScreen() {
           )
         }
         testID="home-header"
-        title="Rachaê"
+        title="Escanear nota"
       />
+
       <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="home-scroll">
-        <Card className="bg-ink-900">
-          <Text className="text-sm font-bold text-white/70">Ola, {user?.user_metadata?.full_name || user?.email || 'time Rachaê'}</Text>
-          <Text className="mt-3 text-3xl font-black text-white">Comece escaneando a conta.</Text>
-          <Text className="mt-3 text-base leading-6 text-white/70">
-            Primeiro leia a comanda, depois confira os itens, escolha quem participou e compartilhe o resultado.
+        <View className="rounded-[28px] bg-ink-900 p-5" testID="home-scan-panel">
+          <Text className="text-sm font-bold text-white/70">
+            Ola, {user?.user_metadata?.full_name || user?.email || 'time Rachae'}
           </Text>
+
+          <View className="mt-5 rounded-3xl border-2 border-dashed border-white/30 bg-white/10 px-5 py-8">
+            <View className="self-center rounded-full bg-money-500 p-5">
+              <Camera color="#0F172A" size={42} />
+            </View>
+            <Text className="mt-6 text-center text-4xl font-black leading-tight text-white">Escaneie a nota</Text>
+            <Text className="mt-3 text-center text-base leading-6 text-white/75">
+              A captura vem primeiro. Depois entram conferencia, pessoas, Pix e compartilhamento.
+            </Text>
+          </View>
+
           <Button
             className="mt-6 bg-money-500"
             leftIcon={<Camera color="#0F172A" size={20} />}
             testID="home-receipt-capture-button"
             textClassName="text-ink-900"
-            title="Escanear conta"
-            onPress={() => navigation.navigate('ReceiptCapture')}
+            title="Escanear nota agora"
+            onPress={startReceiptCapture}
           />
+        </View>
+
+        <View className="mt-5" testID="home-feature-section">
+          <View className="mb-3 flex-row items-center justify-between">
+            <View>
+              <Text className="text-sm font-black uppercase tracking-[1px] text-brand-600">Depois do scan</Text>
+              <Text className="mt-1 text-2xl font-black text-ink-900">Features do fluxo</Text>
+            </View>
+            <CheckCircle2 color="#00A676" size={24} />
+          </View>
+
+          <View className="gap-3">
+            <View className="flex-row gap-3">
+              {flowFeatures.slice(0, 2).map((feature) => {
+                const Icon = feature.icon;
+
+                return (
+                  <Card key={feature.title} className="flex-1" testID={feature.testID}>
+                    <View className="h-11 w-11 items-center justify-center rounded-2xl bg-brand-50">
+                      <Icon color="#00A676" size={22} />
+                    </View>
+                    <Text className="mt-4 text-base font-black text-ink-900">{feature.title}</Text>
+                    <Text className="mt-1 text-sm font-bold text-ink-500">{feature.description}</Text>
+                  </Card>
+                );
+              })}
+            </View>
+            <View className="flex-row gap-3">
+              {flowFeatures.slice(2).map((feature) => {
+                const Icon = feature.icon;
+
+                return (
+                  <Card key={feature.title} className="flex-1" testID={feature.testID}>
+                    <View className="h-11 w-11 items-center justify-center rounded-2xl bg-brand-50">
+                      <Icon color="#00A676" size={22} />
+                    </View>
+                    <Text className="mt-4 text-base font-black text-ink-900">{feature.title}</Text>
+                    <Text className="mt-1 text-sm font-bold text-ink-500">{feature.description}</Text>
+                  </Card>
+                );
+              })}
+            </View>
+          </View>
+        </View>
+
+        <View className="mt-5 gap-3">
           <Button
-            className="mt-3 border border-white/20"
             leftIcon={<Plus color="#FFFFFF" size={20} />}
             testID="home-new-bill-button"
             title="Criar manualmente"
             variant="secondary"
             onPress={startNewBill}
           />
-          <Button
-            className="mt-3 border border-white/20"
-            leftIcon={<WalletCards color="#FFFFFF" size={20} />}
-            testID="home-social-button"
-            title="Social e Pix"
-            variant="secondary"
-            onPress={() => navigation.navigate('SocialHub')}
-          />
-          <Button
-            className="mt-3 border border-white/20"
-            leftIcon={<History color="#FFFFFF" size={20} />}
-            testID="home-history-button"
-            title="Historico de rachas"
-            variant="secondary"
-            onPress={() => navigation.navigate('BillHistory')}
-          />
-        </Card>
+          <View className="flex-row gap-3">
+            <Button
+              className="flex-1"
+              leftIcon={<WalletCards color="#FFFFFF" size={18} />}
+              testID="home-social-button"
+              title="Pix"
+              variant="secondary"
+              onPress={() => navigation.navigate('SocialHub')}
+            />
+            <Button
+              className="flex-1"
+              leftIcon={<History color="#FFFFFF" size={18} />}
+              testID="home-history-button"
+              title="Historico"
+              variant="secondary"
+              onPress={() => navigation.navigate('BillHistory')}
+            />
+          </View>
+        </View>
 
         <View className="mt-5 flex-row gap-3">
           <Card className="flex-1">

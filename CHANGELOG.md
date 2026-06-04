@@ -6,6 +6,16 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.8] - 2026-06-04
+
+### Changed
+
+- Home pos-login passa a abrir como tela focada em `Escanear nota`.
+- Features decididas para o fluxo aparecem abaixo do painel principal de scan.
+- Contrato de UI passa a exigir `home-scan-panel` e `home-feature-section`.
+- Cache do service worker atualizado para `rachae-pwa-v0.4.8`.
+- Versao do app alinhada em `0.4.8`.
+
 ## [0.4.7] - 2026-06-04
 
 ### Added
