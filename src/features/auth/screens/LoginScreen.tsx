@@ -1,12 +1,12 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
 
 import { Button, Card, Input } from '../../../components/ui';
 import { isSupabaseConfigured } from '../../../lib/supabase/client';
 import { useAuthStore } from '../../../stores/authStore';
 import type { RootStackParamList } from '../../../types/navigation';
-import { useState } from 'react';
 
 type LoginNavigation = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -15,8 +15,15 @@ export function LoginScreen() {
   const signIn = useAuthStore((state) => state.signIn);
   const startDemoSession = useAuthStore((state) => state.startDemoSession);
   const isLoading = useAuthStore((state) => state.isLoading);
+  const session = useAuthStore((state) => state.session);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (session) {
+      navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
+    }
+  }, [navigation, session]);
 
   async function handleSignIn() {
     try {

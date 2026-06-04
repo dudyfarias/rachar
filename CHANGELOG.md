@@ -6,6 +6,23 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.7] - 2026-06-04
+
+### Added
+
+- Sprint 9 documentado em `docs/sprint-9.md`.
+- Onboarding em formato stepper com etapas de escanear, conferir, montar e enviar.
+- Fluxo convidado permite iniciar OCR e racha sem login obrigatorio.
+
+### Changed
+
+- Home passa a priorizar `Escanear conta`; criacao manual fica como alternativa.
+- Login/Cadastro saem do papel de CTA principal no onboarding e viram links secundarios.
+- Login e modo demo redirecionam para Home quando a sessao fica ativa.
+- Contrato de UI atualizado para os testIDs do stepper.
+- Cache do service worker atualizado para `rachae-pwa-v0.4.7`.
+- Versao do app alinhada em `0.4.7`.
+
 ## [0.4.6] - 2026-06-04
 
 ### Added

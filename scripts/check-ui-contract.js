@@ -12,8 +12,11 @@ const forbiddenPatterns = [
 
 const requiredTestIds = [
   'screen-onboarding',
-  'onboarding-login-button',
-  'onboarding-register-button',
+  'onboarding-active-step',
+  'onboarding-next-step-button',
+  'onboarding-scan-start-button',
+  'onboarding-auth-login-link',
+  'onboarding-auth-register-link',
   'screen-login',
   'login-email-input',
   'login-password-input',

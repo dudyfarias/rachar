@@ -2,7 +2,7 @@
 
 App mobile para dividir contas de forma justa, rapida e transparente. Combina divisao manual por item com OCR + IA para transformar fotos de comandas em rascunhos conferiveis.
 
-**Versao atual:** v0.4.6 — Supabase SQL versionado
+**Versao atual:** v0.4.7 — fluxo scanner first
 **Repositorio:** https://github.com/dudyfarias/rachar  
 **Stack:** React Native · Expo SDK 56 · TypeScript · NativeWind · Supabase · Zustand
 
@@ -204,6 +204,12 @@ Contrato minimo de UI com `testID`s nas telas criticas, copy de sprint/dev remov
 
 ### Sprint 7 — PWA e Vercel
 Build web exportavel como PWA, `public/manifest.json`, service worker leve, icones instalaveis, `vercel.json` com build/output/fallback SPA e documentacao de deploy.
+
+### Sprint 8 - Supabase SQL
+Baseline SQL versionado no Supabase, migrations aplicadas, RLS otimizado para leitura por `share_token` e advisors SQL revisados.
+
+### Sprint 9 - Scanner first
+Onboarding em etapas, fluxo convidado sem bloqueio de login, Home priorizando escanear conta e auth como acao secundaria para salvar historico.
 
 ---
 

@@ -1,7 +1,7 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button, Input } from '../../../components/ui';
 import { useAuthStore } from '../../../stores/authStore';
@@ -13,15 +13,25 @@ export function RegisterScreen() {
   const navigation = useNavigation<RegisterNavigation>();
   const signUp = useAuthStore((state) => state.signUp);
   const isLoading = useAuthStore((state) => state.isLoading);
+  const session = useAuthStore((state) => state.session);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    if (session) {
+      navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
+    }
+  }, [navigation, session]);
+
   async function handleSignUp() {
     try {
       await signUp({ email: email.trim(), fullName: fullName.trim(), password });
-      Alert.alert('Cadastro criado', 'Se a confirmacao de email estiver ativa, confirme sua conta antes de entrar.');
-      navigation.navigate('Login');
+
+      if (!useAuthStore.getState().session) {
+        Alert.alert('Cadastro criado', 'Se a confirmacao de email estiver ativa, confirme sua conta antes de entrar.');
+        navigation.navigate('Login');
+      }
     } catch (error) {
       Alert.alert('Nao foi possivel cadastrar', error instanceof Error ? error.message : 'Tente novamente.');
     }

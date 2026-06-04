@@ -43,13 +43,10 @@ const linking: LinkingOptions<RootStackParamList> = {
 };
 
 export function RootNavigator() {
-  const authEntryRoute = useAppStore((state) => state.authEntryRoute);
   const hasHydrated = useAppStore((state) => state.hasHydrated);
   const hasSeenOnboarding = useAppStore((state) => state.hasSeenOnboarding);
   const isAuthLoading = useAuthStore((state) => state.isLoading);
-  const session = useAuthStore((state) => state.session);
-  const initialRouteName: keyof RootStackParamList = !hasSeenOnboarding ? 'Onboarding' : !session ? authEntryRoute : 'Home';
-  const navigatorKey = !hasSeenOnboarding ? 'onboarding' : !session ? `auth-${authEntryRoute}` : 'app';
+  const initialRouteName: keyof RootStackParamList = !hasSeenOnboarding ? 'Onboarding' : 'Home';
 
   if (!hasHydrated || isAuthLoading) {
     return <Loading label="Preparando seu racha..." />;
@@ -57,37 +54,21 @@ export function RootNavigator() {
 
   return (
     <NavigationContainer linking={linking} theme={navigationTheme}>
-      <Stack.Navigator
-        key={navigatorKey}
-        initialRouteName={initialRouteName}
-        screenOptions={{ contentStyle: { backgroundColor: '#F6F8F7' }, headerShown: false }}
-      >
-        {!hasSeenOnboarding ? (
-          <>
-            <Stack.Screen component={OnboardingScreen} name="Onboarding" />
-            <Stack.Screen component={SharedBillScreen} name="SharedBill" />
-          </>
-        ) : !session ? (
-          <>
-            <Stack.Screen component={LoginScreen} name="Login" />
-            <Stack.Screen component={RegisterScreen} name="Register" />
-            <Stack.Screen component={SharedBillScreen} name="SharedBill" />
-          </>
-        ) : (
-          <>
-            <Stack.Screen component={HomeScreen} name="Home" />
-            <Stack.Screen component={ReceiptCaptureScreen} name="ReceiptCapture" />
-            <Stack.Screen component={ReceiptProcessingScreen} name="ReceiptProcessing" />
-            <Stack.Screen component={ReceiptReviewScreen} name="ReceiptReview" />
-            <Stack.Screen component={SocialHubScreen} name="SocialHub" />
-            <Stack.Screen component={NewBillScreen} name="NewBill" />
-            <Stack.Screen component={AddPeopleScreen} name="AddPeople" />
-            <Stack.Screen component={AddItemsScreen} name="AddItems" />
-            <Stack.Screen component={ResultScreen} name="Result" />
-            <Stack.Screen component={BillHistoryScreen} name="BillHistory" />
-            <Stack.Screen component={SharedBillScreen} name="SharedBill" />
-          </>
-        )}
+      <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{ contentStyle: { backgroundColor: '#F6F8F7' }, headerShown: false }}>
+        <Stack.Screen component={OnboardingScreen} name="Onboarding" />
+        <Stack.Screen component={HomeScreen} name="Home" />
+        <Stack.Screen component={ReceiptCaptureScreen} name="ReceiptCapture" />
+        <Stack.Screen component={ReceiptProcessingScreen} name="ReceiptProcessing" />
+        <Stack.Screen component={ReceiptReviewScreen} name="ReceiptReview" />
+        <Stack.Screen component={SocialHubScreen} name="SocialHub" />
+        <Stack.Screen component={NewBillScreen} name="NewBill" />
+        <Stack.Screen component={AddPeopleScreen} name="AddPeople" />
+        <Stack.Screen component={AddItemsScreen} name="AddItems" />
+        <Stack.Screen component={ResultScreen} name="Result" />
+        <Stack.Screen component={BillHistoryScreen} name="BillHistory" />
+        <Stack.Screen component={LoginScreen} name="Login" />
+        <Stack.Screen component={RegisterScreen} name="Register" />
+        <Stack.Screen component={SharedBillScreen} name="SharedBill" />
       </Stack.Navigator>
     </NavigationContainer>
   );

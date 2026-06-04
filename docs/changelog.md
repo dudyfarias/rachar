@@ -4,6 +4,8 @@
 
 ### Added
 
+- Sprint 9 documentado com fluxo scanner first.
+- Onboarding em etapas para guiar captura, conferencia, divisao e envio.
 - Sprint 8 documentado com baseline SQL do Supabase.
 - Migration `202606040001_supabase_sql_baseline.sql` adicionada para registrar schema, triggers, RLS e policies.
 - Migration `202606040002_harden_supabase_functions.sql` adicionada para corrigir advisor de seguranca em helper de trigger.
@@ -12,9 +14,9 @@
 
 ### Changed
 
-- README atualizado para `v0.4.5`.
-- Guia de QA frontend atualizado com botoes explicitos de login e cadastro no onboarding.
-- Contrato de UI atualizado para `onboarding-login-button` e `onboarding-register-button`.
+- README atualizado para `v0.4.7`.
+- Guia de QA frontend atualizado para fluxo scanner first.
+- Contrato de UI atualizado para os testIDs do onboarding em etapas.
 
 ## 2026-06-02
 

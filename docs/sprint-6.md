@@ -36,8 +36,8 @@ O script `scripts/check-ui-contract.js` valida:
 
 Antes de publicar uma build de teste:
 
-- Abrir onboarding e confirmar CTA `Comecar agora`.
-- Entrar em modo demo.
+- Abrir onboarding, avancar pelas etapas e confirmar CTA `Escanear conta`.
+- Entrar em modo demo a partir do login e confirmar retorno para Home.
 - Criar conta manual com titulo, local, taxa e desconto.
 - Adicionar pelo menos duas pessoas.
 - Adicionar item dividido entre todos.

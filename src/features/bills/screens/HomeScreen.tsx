@@ -1,6 +1,6 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { Camera, History, LogOut, Plus, ReceiptText, UsersRound, WalletCards } from 'lucide-react-native';
+import { Camera, History, LogIn, LogOut, Plus, ReceiptText, UsersRound, WalletCards } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 
@@ -18,6 +18,7 @@ export function HomeScreen() {
   const draft = useBillStore((state) => state.draft);
   const resetDraft = useBillStore((state) => state.resetDraft);
   const signOut = useAuthStore((state) => state.signOut);
+  const session = useAuthStore((state) => state.session);
   const user = useAuthStore((state) => state.user);
   const billHistory = useSocialStore((state) => state.billHistory);
   const recentFriends = useSocialStore((state) => state.recentFriends);
@@ -47,15 +48,27 @@ export function HomeScreen() {
       <Header
         eyebrow="Conta inteligente"
         right={
-          <Pressable
-            accessibilityLabel="Sair"
-            accessibilityRole="button"
-            className="h-10 w-10 items-center justify-center rounded-full bg-white"
-            onPress={handleSignOut}
-            testID="home-sign-out-button"
-          >
-            <LogOut color="#0F172A" size={19} />
-          </Pressable>
+          session ? (
+            <Pressable
+              accessibilityLabel="Sair"
+              accessibilityRole="button"
+              className="h-10 w-10 items-center justify-center rounded-full bg-white"
+              onPress={handleSignOut}
+              testID="home-sign-out-button"
+            >
+              <LogOut color="#0F172A" size={19} />
+            </Pressable>
+          ) : (
+            <Pressable
+              accessibilityLabel="Entrar"
+              accessibilityRole="button"
+              className="h-10 w-10 items-center justify-center rounded-full bg-white"
+              testID="home-login-button"
+              onPress={() => navigation.navigate('Login')}
+            >
+              <LogIn color="#0F172A" size={19} />
+            </Pressable>
+          )
         }
         testID="home-header"
         title="Rachaê"
@@ -63,25 +76,25 @@ export function HomeScreen() {
       <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="home-scroll">
         <Card className="bg-ink-900">
           <Text className="text-sm font-bold text-white/70">Ola, {user?.user_metadata?.full_name || user?.email || 'time Rachaê'}</Text>
-          <Text className="mt-3 text-3xl font-black text-white">Divida a proxima conta em minutos.</Text>
+          <Text className="mt-3 text-3xl font-black text-white">Comece escaneando a conta.</Text>
           <Text className="mt-3 text-base leading-6 text-white/70">
-            Agora com OCR, WhatsApp, Pix, historico social e grupos recorrentes.
+            Primeiro leia a comanda, depois confira os itens, escolha quem participou e compartilhe o resultado.
           </Text>
           <Button
             className="mt-6 bg-money-500"
-            leftIcon={<Plus color="#0F172A" size={20} />}
-            testID="home-new-bill-button"
+            leftIcon={<Camera color="#0F172A" size={20} />}
+            testID="home-receipt-capture-button"
             textClassName="text-ink-900"
-            title="Nova conta"
-            onPress={startNewBill}
+            title="Escanear conta"
+            onPress={() => navigation.navigate('ReceiptCapture')}
           />
           <Button
             className="mt-3 border border-white/20"
-            leftIcon={<Camera color="#FFFFFF" size={20} />}
-            testID="home-receipt-capture-button"
-            title="Ler com camera"
+            leftIcon={<Plus color="#FFFFFF" size={20} />}
+            testID="home-new-bill-button"
+            title="Criar manualmente"
             variant="secondary"
-            onPress={() => navigation.navigate('ReceiptCapture')}
+            onPress={startNewBill}
           />
           <Button
             className="mt-3 border border-white/20"
