@@ -6,6 +6,10 @@ Migrations:
 
 - `supabase/migrations/202605220001_create_sprint_1_schema.sql`
 - `supabase/migrations/202605260001_sprint_4_social_and_invites.sql`
+- `supabase/migrations/202606040001_supabase_sql_baseline.sql`
+- `supabase/migrations/202606040002_harden_supabase_functions.sql`
+- `supabase/migrations/202606040003_optimize_share_token_policies.sql`
+- `supabase/migrations/202606040004_add_share_token_policy_helper.sql`
 
 ## Tabelas
 
@@ -200,6 +204,7 @@ Politicas:
 - Pessoas, itens e splits sao acessiveis apenas se pertencerem a bill do usuario.
 - Bills com `share_token` podem ser lidas por `anon` e `authenticated` via header `x-share-token`.
 - Pessoas, itens e splits de bills compartilhadas tambem podem ser lidos via share token.
+- Policies de leitura compartilhada usam `public.current_share_token()` com `(select ...)` para evitar reavaliacao por linha.
 - Pix profiles, recurring groups, recent friends, restaurant history e analytics consents sao owner-based.
 
 ## Indices

@@ -6,6 +6,21 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.6] - 2026-06-04
+
+### Added
+
+- Migration `202606040001_supabase_sql_baseline.sql` para baseline SQL idempotente do Supabase.
+- Migration `202606040002_harden_supabase_functions.sql` para corrigir advisor de seguranca em helper de trigger.
+- Migration `202606040003_optimize_share_token_policies.sql` para corrigir advisors de performance em RLS.
+- Migration `202606040004_add_share_token_policy_helper.sql` para cachear `x-share-token` nas policies de leitura compartilhada.
+- Sprint 8 documentado em `docs/sprint-8.md`.
+
+### Changed
+
+- README passa a registrar o project ref e a URL publica do Supabase `rachar`.
+- Versao do app alinhada em `0.4.6`.
+
 ## [0.4.5] - 2026-06-04
 
 ### Added

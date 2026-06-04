@@ -2,7 +2,7 @@
 
 App mobile para dividir contas de forma justa, rapida e transparente. Combina divisao manual por item com OCR + IA para transformar fotos de comandas em rascunhos conferiveis.
 
-**Versao atual:** v0.4.5 — Onboarding com login e cadastro  
+**Versao atual:** v0.4.6 — Supabase SQL versionado
 **Repositorio:** https://github.com/dudyfarias/rachar  
 **Stack:** React Native · Expo SDK 56 · TypeScript · NativeWind · Supabase · Zustand
 
@@ -70,6 +70,10 @@ supabase db push
 # Ou manualmente no SQL Editor do dashboard Supabase:
 # 1. supabase/migrations/202605220001_create_sprint_1_schema.sql
 # 2. supabase/migrations/202605260001_sprint_4_social_and_invites.sql
+# 3. supabase/migrations/202606040001_supabase_sql_baseline.sql
+# 4. supabase/migrations/202606040002_harden_supabase_functions.sql
+# 5. supabase/migrations/202606040003_optimize_share_token_policies.sql
+# 6. supabase/migrations/202606040004_add_share_token_policy_helper.sql
 ```
 
 ### 4. Rodar o app
@@ -164,8 +168,17 @@ Migrations em `supabase/migrations/`, aplicadas em ordem cronologica:
 |---|---|
 | `202605220001_create_sprint_1_schema.sql` | `users`, `bills`, `bill_people`, `bill_items`, `item_splits` |
 | `202605260001_sprint_4_social_and_invites.sql` | `pix_profiles`, `recurring_groups`, `recurring_group_members`, `recent_friends`, `restaurant_history`, `analytics_consents`, campo `bills.share_token` |
+| `202606040001_supabase_sql_baseline.sql` | Baseline idempotente para registrar o schema real no Supabase SQL |
+| `202606040002_harden_supabase_functions.sql` | Define `search_path` explicito em helper de trigger para satisfazer advisor de seguranca |
+| `202606040003_optimize_share_token_policies.sql` | Separa policies de leitura/escrita e otimiza acesso por `share_token` |
+| `202606040004_add_share_token_policy_helper.sql` | Adiciona helper estavel para cachear header `x-share-token` nas policies |
 
 Documentacao completa do schema em `docs/database.md`.
+
+Projeto Supabase atual:
+
+- Project ref: `ejfqwafueojkszfathdy`
+- URL: `https://ejfqwafueojkszfathdy.supabase.co`
 
 ---
 

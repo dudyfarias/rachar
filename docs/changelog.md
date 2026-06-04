@@ -2,6 +2,14 @@
 
 ## 2026-06-04
 
+### Added
+
+- Sprint 8 documentado com baseline SQL do Supabase.
+- Migration `202606040001_supabase_sql_baseline.sql` adicionada para registrar schema, triggers, RLS e policies.
+- Migration `202606040002_harden_supabase_functions.sql` adicionada para corrigir advisor de seguranca em helper de trigger.
+- Migration `202606040003_optimize_share_token_policies.sql` adicionada para corrigir advisors de performance nas policies de `share_token`.
+- Migration `202606040004_add_share_token_policy_helper.sql` adicionada para cachear `x-share-token` nas policies de leitura compartilhada.
+
 ### Changed
 
 - README atualizado para `v0.4.5`.
