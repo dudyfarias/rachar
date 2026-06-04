@@ -3,9 +3,10 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 type AppState = {
+  authEntryRoute: 'Login' | 'Register';
   hasHydrated: boolean;
   hasSeenOnboarding: boolean;
-  completeOnboarding: () => void;
+  completeOnboarding: (authEntryRoute?: 'Login' | 'Register') => void;
   resetOnboarding: () => void;
   setHydrated: (hasHydrated: boolean) => void;
 };
@@ -13,10 +14,11 @@ type AppState = {
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
+      authEntryRoute: 'Login',
       hasHydrated: false,
       hasSeenOnboarding: false,
-      completeOnboarding: () => set({ hasSeenOnboarding: true }),
-      resetOnboarding: () => set({ hasSeenOnboarding: false }),
+      completeOnboarding: (authEntryRoute = 'Login') => set({ authEntryRoute, hasSeenOnboarding: true }),
+      resetOnboarding: () => set({ authEntryRoute: 'Login', hasSeenOnboarding: false }),
       setHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
     {

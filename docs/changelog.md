@@ -1,5 +1,13 @@
 # Changelog Da Documentacao
 
+## 2026-06-04
+
+### Changed
+
+- README atualizado para `v0.4.5`.
+- Guia de QA frontend atualizado com botoes explicitos de login e cadastro no onboarding.
+- Contrato de UI atualizado para `onboarding-login-button` e `onboarding-register-button`.
+
 ## 2026-06-02
 
 ### Added

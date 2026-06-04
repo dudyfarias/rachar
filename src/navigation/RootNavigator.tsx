@@ -43,10 +43,13 @@ const linking: LinkingOptions<RootStackParamList> = {
 };
 
 export function RootNavigator() {
+  const authEntryRoute = useAppStore((state) => state.authEntryRoute);
   const hasHydrated = useAppStore((state) => state.hasHydrated);
   const hasSeenOnboarding = useAppStore((state) => state.hasSeenOnboarding);
   const isAuthLoading = useAuthStore((state) => state.isLoading);
   const session = useAuthStore((state) => state.session);
+  const initialRouteName: keyof RootStackParamList = !hasSeenOnboarding ? 'Onboarding' : !session ? authEntryRoute : 'Home';
+  const navigatorKey = !hasSeenOnboarding ? 'onboarding' : !session ? `auth-${authEntryRoute}` : 'app';
 
   if (!hasHydrated || isAuthLoading) {
     return <Loading label="Preparando seu racha..." />;
@@ -54,7 +57,11 @@ export function RootNavigator() {
 
   return (
     <NavigationContainer linking={linking} theme={navigationTheme}>
-      <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: '#F6F8F7' }, headerShown: false }}>
+      <Stack.Navigator
+        key={navigatorKey}
+        initialRouteName={initialRouteName}
+        screenOptions={{ contentStyle: { backgroundColor: '#F6F8F7' }, headerShown: false }}
+      >
         {!hasSeenOnboarding ? (
           <>
             <Stack.Screen component={OnboardingScreen} name="Onboarding" />

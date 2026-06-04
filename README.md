@@ -2,7 +2,7 @@
 
 App mobile para dividir contas de forma justa, rapida e transparente. Combina divisao manual por item com OCR + IA para transformar fotos de comandas em rascunhos conferiveis.
 
-**Versao atual:** v0.4.4 — Sprint 7 PWA + Vercel pronto  
+**Versao atual:** v0.4.5 — Onboarding com login e cadastro  
 **Repositorio:** https://github.com/dudyfarias/rachar  
 **Stack:** React Native · Expo SDK 56 · TypeScript · NativeWind · Supabase · Zustand
 

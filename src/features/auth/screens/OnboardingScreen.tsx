@@ -68,8 +68,15 @@ export function OnboardingScreen() {
         </View>
       </ScrollView>
 
-      <View className="border-t border-ink-100 bg-background px-5 pb-5 pt-4">
-        <Button size="lg" testID="onboarding-start-button" title="Comecar agora" onPress={completeOnboarding} />
+      <View className="gap-3 border-t border-ink-100 bg-background px-5 pb-5 pt-4">
+        <Button size="lg" testID="onboarding-login-button" title="Entrar" onPress={() => completeOnboarding('Login')} />
+        <Button
+          size="lg"
+          testID="onboarding-register-button"
+          title="Criar conta"
+          variant="secondary"
+          onPress={() => completeOnboarding('Register')}
+        />
       </View>
     </SafeAreaView>
   );

@@ -6,6 +6,19 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.5] - 2026-06-04
+
+### Added
+
+- Onboarding agora exibe botoes explicitos de `Entrar` e `Criar conta`.
+- Contrato de UI atualizado com `onboarding-login-button` e `onboarding-register-button`.
+
+### Changed
+
+- Fluxo de onboarding passa a abrir diretamente Login ou Cadastro conforme a acao escolhida.
+- Cache do service worker atualizado para `rachae-pwa-v0.4.5`.
+- Versoes de `package.json`, `package-lock.json` e `app.json` alinhadas em `0.4.5`.
+
 ## [0.4.4] - 2026-06-02
 
 ### Added
