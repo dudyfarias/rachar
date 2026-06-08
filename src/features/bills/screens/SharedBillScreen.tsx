@@ -148,7 +148,7 @@ export function SharedBillScreen({ route }: Props) {
     <View className="flex-1 bg-background" testID="screen-shared-bill">
       <Header title={data.title || 'Racha compartilhado'} eyebrow={data.place ?? 'Conta compartilhada'} testID="shared-bill-header" />
       <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="shared-bill-scroll">
-        <Card className="bg-ink-900">
+        <Card variant="dark">
           <Text className="text-sm font-bold text-white/70">Total da conta</Text>
           <Text className="mt-2 text-4xl font-black text-white">{formatCurrency(data.totalCents)}</Text>
           <View className="mt-4 flex-row justify-between">

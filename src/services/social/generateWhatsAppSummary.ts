@@ -31,7 +31,7 @@ export function generateWhatsAppSummary({ draft, pixCopyPaste, pixKey, result }:
     lines.push('', '*Pix copia e cola:*', pixCopyPaste);
   }
 
-  lines.push('', 'Gerado no Rachaê.');
+  lines.push('', 'Gerado no Rachae.');
 
   return lines.join('\n');
 }

@@ -37,16 +37,16 @@ export function LoginScreen() {
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background" testID="screen-login">
       <ScrollView contentContainerClassName="flex-grow justify-center px-5 py-8" keyboardShouldPersistTaps="handled" testID="login-scroll">
         <Text className="text-sm font-black uppercase tracking-[1px] text-brand-600">Bem-vindo de volta</Text>
-        <Text className="mt-2 text-4xl font-black text-ink-900">Entre no Rachaê</Text>
+        <Text className="mt-2 text-4xl font-black text-ink-900">Entre no Rachae</Text>
         <Text className="mt-3 text-base leading-6 text-ink-500">
-          Acesse seus rachas, salve contas e acompanhe o historico quando o Supabase estiver configurado.
+          Acesse seus rachas, salve contas e acompanhe seu historico em qualquer dispositivo.
         </Text>
 
         {!isSupabaseConfigured ? (
-          <Card className="mt-6 border-brand-100 bg-brand-50">
-            <Text className="text-sm font-bold text-brand-700">Ambiente local sem Supabase</Text>
+          <Card className="mt-6" variant="soft">
+            <Text className="text-sm font-bold text-brand-700">Modo demo disponivel</Text>
             <Text className="mt-1 text-sm leading-5 text-ink-600">
-              Configure o arquivo .env ou use o modo demo para revisar o fluxo principal sem criar conta.
+              Explore o fluxo principal sem criar uma conta agora.
             </Text>
           </Card>
         ) : null}

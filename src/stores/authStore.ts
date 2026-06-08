@@ -176,7 +176,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isLoading: false, session: data.session, user: data.user });
   },
   startDemoSession: () => {
-    const { session, user } = createLocalSession('demo@rachae.app', 'Demo Rachaê');
+    const { session, user } = createLocalSession('demo@rachae.app', 'Demo Rachae');
 
     set({
       isLoading: false,

@@ -3,7 +3,7 @@ import { ActivityIndicator, Pressable, type PressableProps, Text, View } from 'r
 
 import { cn } from '../../lib/cn';
 
-type ButtonVariant = 'danger' | 'ghost' | 'primary' | 'secondary';
+type ButtonVariant = 'danger' | 'ghost' | 'money' | 'primary' | 'secondary';
 type ButtonSize = 'lg' | 'md' | 'sm';
 
 type ButtonProps = PressableProps & {
@@ -19,6 +19,7 @@ type ButtonProps = PressableProps & {
 const variantClassNames: Record<ButtonVariant, string> = {
   danger: 'bg-danger',
   ghost: 'bg-transparent',
+  money: 'bg-money-500',
   primary: 'bg-brand-500',
   secondary: 'bg-ink-900',
 };
@@ -26,6 +27,7 @@ const variantClassNames: Record<ButtonVariant, string> = {
 const textVariantClassNames: Record<ButtonVariant, string> = {
   danger: 'text-white',
   ghost: 'text-ink-700',
+  money: 'text-ink-900',
   primary: 'text-white',
   secondary: 'text-white',
 };
@@ -67,7 +69,7 @@ export function Button({
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'ghost' ? '#0F172A' : '#FFFFFF'} />
+        <ActivityIndicator color={variant === 'ghost' || variant === 'money' ? '#0F172A' : '#FFFFFF'} />
       ) : (
         <View className="flex-row items-center justify-center gap-2">
           {leftIcon}

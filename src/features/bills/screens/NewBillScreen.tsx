@@ -4,7 +4,7 @@ import { HelpCircle } from 'lucide-react-native';
 import { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 
-import { BottomSheet, Button, Card, Header, Input } from '../../../components/ui';
+import { BottomSheet, Button, Card, FlowStepHeader, Header, Input } from '../../../components/ui';
 import { formatCurrency, maskCurrencyInput, parseCurrencyToCents } from '../../../lib/formatCurrency';
 import { useBillStore } from '../../../stores/billStore';
 import type { RootStackParamList } from '../../../types/navigation';
@@ -59,6 +59,7 @@ export function NewBillScreen() {
         testID="new-bill-header"
         title="Nova conta"
       />
+      <FlowStepHeader currentStep={1} steps={['Conta', 'Pessoas', 'Itens', 'Resultado']} testID="new-bill-flow-steps" />
       <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} testID="new-bill-scroll">
         <Card>
           <Text className="text-lg font-black text-ink-900">Dados basicos</Text>

@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AlertTriangle, CheckCircle2, RotateCcw } from 'lucide-react-native';
 import { ScrollView, Text, View } from 'react-native';
 
-import { Button, Card, Header } from '../../../components/ui';
+import { Button, Card, FlowStepHeader, Header } from '../../../components/ui';
 import { formatCurrency } from '../../../lib/formatCurrency';
 import { useBillStore } from '../../../stores/billStore';
 import { useReceiptStore } from '../../../stores/receiptStore';
@@ -35,7 +35,8 @@ export function ReceiptReviewScreen() {
   if (!receipt) {
     return (
       <View className="flex-1 bg-background" testID="screen-receipt-review-empty">
-        <Header eyebrow="Conferencia" onBack={navigation.goBack} testID="receipt-review-empty-header" title="Conferencia Inteligente" />
+        <Header eyebrow="Passo 2 de 5" onBack={navigation.goBack} testID="receipt-review-empty-header" title="Conferir nota" />
+        <FlowStepHeader currentStep={2} testID="receipt-review-empty-flow-steps" />
         <View className="flex-1 justify-center px-5">
           <Card>
             <Text className="text-xl font-black text-ink-900">Nenhuma leitura encontrada</Text>
@@ -53,7 +54,7 @@ export function ReceiptReviewScreen() {
   return (
     <View className="flex-1 bg-background" testID="screen-receipt-review">
       <Header
-        eyebrow="Conferencia"
+        eyebrow="Passo 2 de 5"
         onBack={navigation.goBack}
         right={
           <Button
@@ -66,11 +67,12 @@ export function ReceiptReviewScreen() {
           />
         }
         testID="receipt-review-header"
-        title="Conferencia Inteligente"
+        title="Conferir nota"
       />
+      <FlowStepHeader currentStep={2} testID="receipt-review-flow-steps" />
 
       <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="receipt-review-scroll">
-        <Card className="bg-ink-900">
+        <Card variant="dark">
           <Text className="text-sm font-bold uppercase tracking-[1px] text-white/70">
             {receipt.restaurantName || 'Restaurante nao identificado'}
           </Text>

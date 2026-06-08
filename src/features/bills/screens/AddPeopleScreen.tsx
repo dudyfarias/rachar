@@ -4,7 +4,7 @@ import { Trash2, UserPlus } from 'lucide-react-native';
 import { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 
-import { Button, Card, Header, Input } from '../../../components/ui';
+import { Button, Card, FlowStepHeader, Header, Input } from '../../../components/ui';
 import { useBillStore } from '../../../stores/billStore';
 import type { RootStackParamList } from '../../../types/navigation';
 
@@ -40,6 +40,7 @@ export function AddPeopleScreen() {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background" testID="screen-add-people">
       <Header eyebrow="Passo 2 de 4" onBack={navigation.goBack} testID="add-people-header" title="Adicionar pessoas" />
+      <FlowStepHeader currentStep={2} steps={['Conta', 'Pessoas', 'Itens', 'Resultado']} testID="add-people-flow-steps" />
       <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} testID="add-people-scroll">
         <Card>
           <Text className="text-lg font-black text-ink-900">Quem participou?</Text>

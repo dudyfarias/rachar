@@ -45,6 +45,7 @@ Remova `dist-web-check/` depois da validacao local.
 - `home-feature-section`
 - `home-receipt-capture-button`
 - `home-new-bill-button`
+- `home-resume-draft-button`
 - `screen-new-bill`
 - `new-bill-title-input`
 - `new-bill-continue-button`
@@ -73,6 +74,10 @@ Remova `dist-web-check/` depois da validacao local.
 ### Social E Historico
 
 - `screen-social`
+- `social-tabs`
+- `social-tab-pix`
+- `social-tab-groups`
+- `social-tab-activity`
 - `social-pix-key-input`
 - `social-save-pix-button`
 - `social-group-name-input`
@@ -88,6 +93,8 @@ Remova `dist-web-check/` depois da validacao local.
 3. Finalizar racha e conferir historico.
 4. Configurar Pix e criar grupo recorrente.
 5. Captura de recibo com imagem de galeria e revisao.
+6. Social/Pix alternando entre abas de Pix, grupos e atividade.
+7. Resultado com card principal visivel em fundo brand.
 
 ## Regras De Copy
 

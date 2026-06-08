@@ -34,7 +34,7 @@ export function BillHistoryScreen() {
 
   const handleReopen = useCallback(async (billId: string) => {
     if (!isSupabaseConfigured) {
-      Alert.alert('Indisponivel', 'Reconecte ao Supabase para reabrir contas.');
+      Alert.alert('Indisponivel', 'Entre em uma conta sincronizada para reabrir rachas.');
       return;
     }
 
@@ -48,7 +48,7 @@ export function BillHistoryScreen() {
 
   const handleShare = useCallback(async (billId: string) => {
     if (!isSupabaseConfigured) {
-      Alert.alert('Indisponivel', 'Reconecte ao Supabase para compartilhar.');
+      Alert.alert('Indisponivel', 'Entre em uma conta sincronizada para compartilhar.');
       return;
     }
 
@@ -72,7 +72,7 @@ export function BillHistoryScreen() {
 
   return (
     <View className="flex-1 bg-background" testID="screen-bill-history">
-      <Header title="Historico" eyebrow="Rachas anteriores" testID="bill-history-header" />
+      <Header title="Historico" eyebrow="Rachas anteriores" onBack={navigation.goBack} testID="bill-history-header" />
       {isSyncing ? (
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color="#00A676" size="large" />

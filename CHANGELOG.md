@@ -6,6 +6,27 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.9] - 2026-06-08
+
+### Added
+
+- `FlowStepHeader` para orientar as etapas de captura, conferencia, pessoas, itens e resultado.
+- Abas simples em Social/Pix para separar Pix, grupos e atividade.
+
+### Changed
+
+- Home simplificada para priorizar scan, rascunho ativo e atalhos essenciais.
+- Captura da nota passa a exibir `Processar conta` apenas depois de existir imagem selecionada.
+- `Card` ganhou variantes visuais para evitar conflito entre fundos claros, escuros e brand.
+- Copy de auth e historico remove termos tecnicos de infraestrutura.
+- Cache do service worker atualizado para `rachae-pwa-v0.4.9`.
+- Versao do app alinhada em `0.4.9`.
+
+### Fixed
+
+- Card principal do resultado volta a renderizar com fundo brand e texto visivel.
+- Historico passa a ter botao de voltar no header.
+
 ## [0.4.8] - 2026-06-04
 
 ### Changed

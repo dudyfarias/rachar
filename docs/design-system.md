@@ -52,6 +52,23 @@ Usado para:
 - formularios
 - listas de pessoas e itens
 
+Variantes:
+
+- `default`: superficies neutras.
+- `soft`: avisos leves e rascunhos.
+- `dark`: paineis de captura, totais e destaques escuros.
+- `brand`: destaque financeiro principal.
+
+Evite aplicar classes `bg-*` diretamente em `Card`; use uma variante para impedir conflito de fundo.
+
+### FlowStepHeader
+
+Usado para:
+
+- orientar etapas do racha manual.
+- orientar etapas de scan, conferencia, pessoas, itens e resultado.
+- reduzir copy explicativa repetida no topo das telas.
+
 ### Header
 
 Inclui:
@@ -84,6 +101,7 @@ Tokens customizados ficam em `tailwind.config.js`.
 - Botoes de fluxo no rodape.
 - Usar icones Lucide quando fizer sentido.
 - Nao criar paletas novas sem atualizar este arquivo.
+- Telas com muitos blocos devem usar abas ou seções progressivas antes de virar dashboard longo.
 
 ## Screenshots
 

@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRef, useState } from 'react';
 import { Alert, Image, Pressable, Text, View } from 'react-native';
 
-import { Button, Card, Header, Loading } from '../../../components/ui';
+import { Button, Card, FlowStepHeader, Header, Loading } from '../../../components/ui';
 import { useReceiptStore } from '../../../stores/receiptStore';
 import type { ReceiptImage } from '../../../types/receipt';
 import type { RootStackParamList } from '../../../types/navigation';
@@ -108,7 +108,8 @@ export function ReceiptCaptureScreen() {
 
   return (
     <View className="flex-1 bg-background" testID="screen-receipt-capture">
-      <Header eyebrow="OCR inteligente" onBack={navigation.goBack} testID="receipt-capture-header" title="Captura da Conta" />
+      <Header eyebrow="Passo 1 de 5" onBack={navigation.goBack} testID="receipt-capture-header" title="Capturar nota" />
+      <FlowStepHeader currentStep={1} testID="receipt-capture-flow-steps" />
 
       <View className="flex-1 px-5 pb-5">
         <View className="overflow-hidden rounded-2xl bg-ink-900" style={{ aspectRatio: 0.72 }} testID="receipt-capture-preview">
@@ -133,7 +134,7 @@ export function ReceiptCaptureScreen() {
           <View className="absolute inset-6 rounded-2xl border-2 border-white/70" />
         </View>
 
-        <Card className="mt-4">
+        <Card className="mt-4" variant={selectedImage ? 'soft' : 'default'}>
           <View className="flex-row items-center gap-3">
             <View className="h-10 w-10 items-center justify-center rounded-full bg-brand-50">
               <ScanLine color="#00A676" size={20} />
@@ -161,25 +162,37 @@ export function ReceiptCaptureScreen() {
       </View>
 
       <View className="gap-3 border-t border-ink-100 bg-background px-5 pb-5 pt-4">
-        <View className="flex-row gap-3">
-          <Button
-            className="flex-1"
-            leftIcon={<Camera color="#FFFFFF" size={18} />}
-            loading={isCapturing}
-            testID="receipt-capture-camera-button"
-            title="Capturar"
-            onPress={handleTakePhoto}
-          />
-          <Button
-            className="flex-1"
-            leftIcon={<ImageIcon color="#FFFFFF" size={18} />}
-            testID="receipt-capture-gallery-button"
-            title="Galeria"
-            variant="secondary"
-            onPress={handlePickImage}
-          />
-        </View>
-        <Button disabled={!selectedImage} size="lg" testID="receipt-capture-process-button" title="Processar conta" onPress={handleProcessImage} />
+        {selectedImage ? (
+          <>
+            <Button size="lg" testID="receipt-capture-process-button" title="Processar conta" onPress={handleProcessImage} />
+            <Button
+              leftIcon={<ImageIcon color="#FFFFFF" size={18} />}
+              testID="receipt-capture-gallery-button"
+              title="Trocar imagem"
+              variant="secondary"
+              onPress={handlePickImage}
+            />
+          </>
+        ) : (
+          <View className="flex-row gap-3">
+            <Button
+              className="flex-1"
+              leftIcon={<Camera color="#FFFFFF" size={18} />}
+              loading={isCapturing}
+              testID="receipt-capture-camera-button"
+              title={permission.granted ? 'Capturar' : 'Permitir'}
+              onPress={handleTakePhoto}
+            />
+            <Button
+              className="flex-1"
+              leftIcon={<ImageIcon color="#FFFFFF" size={18} />}
+              testID="receipt-capture-gallery-button"
+              title="Galeria"
+              variant="secondary"
+              onPress={handlePickImage}
+            />
+          </View>
+        )}
       </View>
     </View>
   );

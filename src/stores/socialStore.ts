@@ -23,7 +23,7 @@ const avatarColors = ['#00A676', '#0F172A', '#B6F000', '#047857', '#334155', '#6
 
 const initialPixProfile: PixProfile = {
   city: 'Sao Paulo',
-  description: 'Racha Rachaê',
+  description: 'Racha Rachae',
   key: '',
   keyType: 'email',
   receiverName: '',

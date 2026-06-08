@@ -1,5 +1,18 @@
 # Changelog Da Documentacao
 
+## 2026-06-08
+
+### Added
+
+- Sprint 10 documentado com reset UI/UX da jornada scanner-first.
+- `FlowStepHeader` adicionado para orientar as etapas principais do racha.
+
+### Changed
+
+- Home simplificada para reduzir ruido visual e priorizar scan, rascunho e atalhos essenciais.
+- Social/Pix reorganizado em abas de Pix, grupos e atividade.
+- README atualizado para `v0.4.9`.
+
 ## 2026-06-04
 
 ### Added

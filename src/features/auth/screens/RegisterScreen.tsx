@@ -43,7 +43,7 @@ export function RegisterScreen() {
         <Text className="text-sm font-black uppercase tracking-[1px] text-brand-600">Nova conta</Text>
         <Text className="mt-2 text-4xl font-black text-ink-900">Crie seu acesso</Text>
         <Text className="mt-3 text-base leading-6 text-ink-500">
-          Crie uma conta para sincronizar historico, grupos recorrentes e perfil Pix entre dispositivos.
+          Salve historico, grupos recorrentes e Pix para usar o Rachae em mais de um dispositivo.
         </Text>
 
         <View className="mt-6 gap-4">

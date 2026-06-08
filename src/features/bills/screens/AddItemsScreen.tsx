@@ -4,7 +4,7 @@ import { Check, Info, Trash2 } from 'lucide-react-native';
 import { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, View } from 'react-native';
 
-import { BottomSheet, Button, Card, Header, Input } from '../../../components/ui';
+import { BottomSheet, Button, Card, FlowStepHeader, Header, Input } from '../../../components/ui';
 import { formatCurrency, maskCurrencyInput, parseCurrencyToCents } from '../../../lib/formatCurrency';
 import { cn } from '../../../lib/cn';
 import { useBillStore } from '../../../stores/billStore';
@@ -84,6 +84,7 @@ export function AddItemsScreen() {
         testID="add-items-header"
         title="Adicionar itens"
       />
+      <FlowStepHeader currentStep={3} steps={['Conta', 'Pessoas', 'Itens', 'Resultado']} testID="add-items-flow-steps" />
       <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} testID="add-items-scroll">
         <Card>
           <Text className="text-lg font-black text-ink-900">Novo item</Text>

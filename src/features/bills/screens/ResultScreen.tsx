@@ -2,11 +2,10 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import * as Clipboard from 'expo-clipboard';
 import { Copy, QrCode, Send, Share2 } from 'lucide-react-native';
-import { useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { Alert, Linking, Pressable, ScrollView, Share, Text, View } from 'react-native';
-import QRCode from 'react-native-qrcode-svg';
 
-import { Button, Card, Header } from '../../../components/ui';
+import { Button, Card, FlowStepHeader, Header } from '../../../components/ui';
 import { formatCurrency } from '../../../lib/formatCurrency';
 import { calculateSplits } from '../../../services/billing/calculateSplits';
 import { generateWhatsAppSummary } from '../../../services/social/generateWhatsAppSummary';
@@ -17,6 +16,8 @@ import { useSocialStore } from '../../../stores/socialStore';
 import type { RootStackParamList } from '../../../types/navigation';
 
 type ResultNavigation = NativeStackNavigationProp<RootStackParamList, 'Result'>;
+
+const QRCode = lazy(() => import('react-native-qrcode-svg'));
 
 export function ResultScreen() {
   const navigation = useNavigation<ResultNavigation>();
@@ -46,7 +47,7 @@ export function ResultScreen() {
       const provider = createPixGatewayProvider();
       const charge = await provider.createCharge({
         amountInCents: result.data.totalInCents,
-        description: pixProfile.description || draft.title || 'Racha Rachaê',
+        description: pixProfile.description || draft.title || 'Racha Rachae',
         profile: pixProfile,
       });
 
@@ -121,6 +122,7 @@ export function ResultScreen() {
     return (
       <View className="flex-1 bg-background" testID="screen-result-error">
         <Header eyebrow="Passo 4 de 4" onBack={navigation.goBack} testID="result-error-header" title="Resultado" />
+        <FlowStepHeader currentStep={4} steps={['Conta', 'Pessoas', 'Itens', 'Resultado']} testID="result-error-flow-steps" />
         <View className="flex-1 justify-center px-5">
           <Card>
             <Text className="text-xl font-black text-ink-900">Revise o racha</Text>
@@ -151,8 +153,9 @@ export function ResultScreen() {
         testID="result-header"
         title="Resultado"
       />
+      <FlowStepHeader currentStep={4} steps={['Conta', 'Pessoas', 'Itens', 'Resultado']} testID="result-flow-steps" />
       <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="result-scroll">
-        <Card className="bg-brand-500">
+        <Card variant="brand">
           <Text className="text-sm font-bold uppercase tracking-[1px] text-white/70">{draft.place || 'Conta manual'}</Text>
           <Text className="mt-2 text-3xl font-black text-white">{draft.title}</Text>
           <Text className="mt-5 text-sm font-bold text-white/70">Total do racha</Text>
@@ -203,7 +206,9 @@ export function ResultScreen() {
           {pixCharge ? (
             <View className="mt-5 items-center gap-4">
               <View className="rounded-2xl border border-ink-100 bg-white p-4">
-                <QRCode size={180} value={pixCharge.qrValue} />
+                <Suspense fallback={<Text className="p-8 text-sm font-bold text-ink-500">Gerando QR Code...</Text>}>
+                  <QRCode size={180} value={pixCharge.qrValue} />
+                </Suspense>
               </View>
               <View className="w-full flex-row gap-3">
                 <Button

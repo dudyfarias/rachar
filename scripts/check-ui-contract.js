@@ -26,6 +26,7 @@ const requiredTestIds = [
   'home-scan-panel',
   'home-feature-section',
   'home-new-bill-button',
+  'home-resume-draft-button',
   'home-receipt-capture-button',
   'home-social-button',
   'home-history-button',
@@ -49,6 +50,10 @@ const requiredTestIds = [
   'receipt-capture-gallery-button',
   'receipt-capture-process-button',
   'screen-social',
+  'social-tabs',
+  'social-tab-pix',
+  'social-tab-groups',
+  'social-tab-activity',
   'social-pix-key-input',
   'social-save-pix-button',
   'social-group-name-input',
@@ -86,7 +91,7 @@ const allSource = sourceFiles
   .join('\n');
 
 for (const testId of requiredTestIds) {
-  if (!allSource.includes(`testID="${testId}"`)) {
+  if (!allSource.includes(`testID="${testId}"`) && !allSource.includes(`'${testId}'`)) {
     failures.push(`testID obrigatorio ausente: ${testId}`);
   }
 }

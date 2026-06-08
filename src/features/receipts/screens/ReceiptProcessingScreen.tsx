@@ -3,7 +3,7 @@ import { CheckCircle2, Loader2 } from 'lucide-react-native';
 import { useCallback, useEffect, useRef } from 'react';
 import { Text, View } from 'react-native';
 
-import { Button, Card, Header } from '../../../components/ui';
+import { Button, Card, FlowStepHeader, Header } from '../../../components/ui';
 import { cn } from '../../../lib/cn';
 import { processReceiptImage } from '../../../services/receipts/receiptProcessing';
 import { useAuthStore } from '../../../stores/authStore';
@@ -59,7 +59,8 @@ export function ReceiptProcessingScreen({ navigation, route }: ReceiptProcessing
 
   return (
     <View className="flex-1 bg-background" testID="screen-receipt-processing">
-      <Header eyebrow="OCR + IA" onBack={navigation.goBack} testID="receipt-processing-header" title="Processamento" />
+      <Header eyebrow="Passo 2 de 5" onBack={navigation.goBack} testID="receipt-processing-header" title="Lendo nota" />
+      <FlowStepHeader currentStep={2} testID="receipt-processing-flow-steps" />
 
       <View className="flex-1 justify-center px-5">
         <Card>

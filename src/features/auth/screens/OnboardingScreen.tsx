@@ -104,7 +104,7 @@ export function OnboardingScreen() {
           ))}
         </View>
 
-        <Card className="mt-5 bg-brand-50">
+        <Card className="mt-5" variant="soft">
           <Text className="text-sm font-black uppercase tracking-[1px] text-brand-700">Ordem do procedimento</Text>
           <View className="mt-4 gap-3">
             {steps.map((item, index) => {
