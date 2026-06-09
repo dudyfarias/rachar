@@ -6,6 +6,25 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.10] - 2026-06-09
+
+### Added
+
+- Sprint 11 documentado em `docs/sprint-11.md`.
+- Painel `Entre na sua conta` na Home para convidados, com CTAs de login e cadastro.
+
+### Changed
+
+- Login volta a ser a acao principal da jornada: onboarding fecha com `Entrar` e `Criar conta` como CTAs principais.
+- `Escanear sem conta` vira link secundario no rodape do onboarding.
+- App abre direto na tela de Login quando o onboarding ja foi visto e nao ha sessao ativa.
+- Copy do onboarding atualizada para tratar a conta como porta de entrada, nao como apoio.
+- Header da Home renomeado para `Inicio`.
+- Fluxo convidado do onboarding monta a pilha `Home > Captura` para preservar o botao de voltar.
+- Contrato de UI atualizado: `onboarding-login-button` e `onboarding-register-button` substituem `onboarding-auth-login-link` e `onboarding-auth-register-link`.
+- Cache do service worker atualizado para `rachae-pwa-v0.4.10`.
+- Versao do app alinhada em `0.4.10`.
+
 ## [0.4.9] - 2026-06-08
 
 ### Added

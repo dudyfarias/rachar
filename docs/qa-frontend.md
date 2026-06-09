@@ -29,8 +29,8 @@ Remova `dist-web-check/` depois da validacao local.
 - `onboarding-active-step`
 - `onboarding-next-step-button`
 - `onboarding-scan-start-button`
-- `onboarding-auth-login-link`
-- `onboarding-auth-register-link`
+- `onboarding-login-button`
+- `onboarding-register-button`
 - `screen-login`
 - `login-email-input`
 - `login-password-input`
@@ -88,7 +88,7 @@ Remova `dist-web-check/` depois da validacao local.
 
 ## Fluxos Para Automatizar Primeiro
 
-1. Onboarding em etapas ate abrir captura da conta.
+1. Onboarding em etapas ate concluir login ou cadastro.
 2. Racha manual completo ate resultado.
 3. Finalizar racha e conferir historico.
 4. Configurar Pix e criar grupo recorrente.

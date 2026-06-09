@@ -46,7 +46,8 @@ export function RootNavigator() {
   const hasHydrated = useAppStore((state) => state.hasHydrated);
   const hasSeenOnboarding = useAppStore((state) => state.hasSeenOnboarding);
   const isAuthLoading = useAuthStore((state) => state.isLoading);
-  const initialRouteName: keyof RootStackParamList = !hasSeenOnboarding ? 'Onboarding' : 'Home';
+  const session = useAuthStore((state) => state.session);
+  const initialRouteName: keyof RootStackParamList = !hasSeenOnboarding ? 'Onboarding' : session ? 'Home' : 'Login';
 
   if (!hasHydrated || isAuthLoading) {
     return <Loading label="Preparando seu racha..." />;

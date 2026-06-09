@@ -127,10 +127,34 @@ export function HomeScreen() {
           )
         }
         testID="home-header"
-        title="Escanear nota"
+        title="Inicio"
       />
 
       <ScrollView contentContainerClassName="px-5 pb-8" showsVerticalScrollIndicator={false} testID="home-scroll">
+        {!session ? (
+          <Card className="mb-5" testID="home-login-panel" variant="soft">
+            <View className="flex-row items-start gap-3">
+              <View className="h-11 w-11 items-center justify-center rounded-2xl bg-white">
+                <LogIn color="#00A676" size={22} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-lg font-black text-ink-900">Entre na sua conta</Text>
+                <Text className="mt-1 text-sm leading-5 text-ink-600">
+                  Salve historico, grupos e Pix para usar em qualquer dispositivo.
+                </Text>
+              </View>
+            </View>
+            <Button className="mt-5" testID="home-login-cta-button" title="Entrar" onPress={() => navigation.navigate('Login')} />
+            <Button
+              className="mt-3"
+              testID="home-register-cta-button"
+              title="Criar conta"
+              variant="ghost"
+              onPress={() => navigation.navigate('Register')}
+            />
+          </Card>
+        ) : null}
+
         <Card className="rounded-[28px] p-5" testID="home-scan-panel" variant="dark">
           <Text className="text-sm font-bold text-white/70">Ola, {user?.user_metadata?.full_name || user?.email || 'time Rachae'}</Text>
 

@@ -1,5 +1,18 @@
 # Changelog Da Documentacao
 
+## 2026-06-09
+
+### Added
+
+- Sprint 11 documentado com a inversao para jornada login-first.
+
+### Changed
+
+- Onboarding passa a fechar com login e cadastro como acoes principais; escanear sem conta vira link secundario.
+- Guia de QA atualizado para os testIDs `onboarding-login-button` e `onboarding-register-button`.
+- `docs/sprint-10.md` e `docs/sprint-11.md` adicionados a checagem de documentacao obrigatoria.
+- README atualizado para `v0.4.10`.
+
 ## 2026-06-08
 
 ### Added

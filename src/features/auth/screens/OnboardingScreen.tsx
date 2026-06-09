@@ -15,8 +15,8 @@ type AuthRoute = 'Login' | 'Register';
 
 const steps = [
   {
-    checklist: ['Enquadre a conta inteira', 'Use camera ou galeria', 'O app segue em modo convidado'],
-    description: 'A primeira acao do fluxo e capturar a conta. O login fica para depois, quando fizer sentido salvar historico e Pix.',
+    checklist: ['Enquadre a conta inteira', 'Use camera ou galeria', 'Boa luz melhora a leitura'],
+    description: 'Depois de entrar na sua conta, capture a comanda e o Rachae comeca o racha a partir da foto.',
     eyebrow: 'Etapa 1',
     icon: Camera,
     title: 'Escaneie a conta',
@@ -36,8 +36,8 @@ const steps = [
     title: 'Monte o racha',
   },
   {
-    checklist: ['Veja o total por pessoa', 'Compartilhe no WhatsApp', 'Configure Pix quando quiser salvar dados'],
-    description: 'No fim do procedimento, a pessoa ja tem o resumo pronto. Conta e login viram apoio, nao barreira.',
+    checklist: ['Veja o total por pessoa', 'Compartilhe no WhatsApp', 'Historico e Pix ficam salvos na sua conta'],
+    description: 'No fim do procedimento, o resumo esta pronto para enviar. Com sua conta, historico e Pix ficam guardados para a proxima.',
     eyebrow: 'Etapa 4',
     icon: Send,
     title: 'Envie e cobre',
@@ -55,7 +55,7 @@ export function OnboardingScreen() {
 
   function handleStartScan() {
     completeOnboarding();
-    navigation.replace('ReceiptCapture');
+    navigation.reset({ index: 1, routes: [{ name: 'Home' }, { name: 'ReceiptCapture' }] });
   }
 
   function handleAuth(route: AuthRoute) {
@@ -126,7 +126,10 @@ export function OnboardingScreen() {
 
       <View className="gap-3 border-t border-ink-100 bg-background px-5 pb-5 pt-4">
         {isLastStep ? (
-          <Button size="lg" testID="onboarding-scan-start-button" title="Escanear conta" onPress={handleStartScan} />
+          <>
+            <Button size="lg" testID="onboarding-login-button" title="Entrar" onPress={() => handleAuth('Login')} />
+            <Button size="lg" testID="onboarding-register-button" title="Criar conta" variant="secondary" onPress={() => handleAuth('Register')} />
+          </>
         ) : (
           <Button size="lg" testID="onboarding-next-step-button" title="Proxima etapa" onPress={() => setStepIndex((current) => current + 1)} />
         )}
@@ -143,13 +146,9 @@ export function OnboardingScreen() {
         ) : null}
 
         <View className="flex-row flex-wrap justify-center gap-x-2 gap-y-1 pt-1">
-          <Text className="text-sm text-ink-500">Quer salvar historico?</Text>
-          <Pressable accessibilityLabel="Entrar" accessibilityRole="button" testID="onboarding-auth-login-link" onPress={() => handleAuth('Login')}>
-            <Text className="text-sm font-black text-brand-700">Entrar</Text>
-          </Pressable>
-          <Text className="text-sm text-ink-400">ou</Text>
-          <Pressable accessibilityLabel="Criar conta" accessibilityRole="button" testID="onboarding-auth-register-link" onPress={() => handleAuth('Register')}>
-            <Text className="text-sm font-black text-brand-700">criar conta</Text>
+          <Text className="text-sm text-ink-500">So quer testar?</Text>
+          <Pressable accessibilityLabel="Escanear sem conta" accessibilityRole="button" testID="onboarding-scan-start-button" onPress={handleStartScan}>
+            <Text className="text-sm font-black text-brand-700">Escanear sem conta</Text>
           </Pressable>
         </View>
       </View>

@@ -2,7 +2,7 @@
 
 App mobile para dividir contas de forma justa, rapida e transparente. Combina divisao manual por item com OCR + IA para transformar fotos de comandas em rascunhos conferiveis.
 
-**Versao atual:** v0.4.9 - Reset UI/UX da jornada scanner-first
+**Versao atual:** v0.4.10 - Jornada login-first com scanner como acao secundaria
 **Repositorio:** https://github.com/dudyfarias/rachar  
 **Stack:** React Native · Expo SDK 56 · TypeScript · NativeWind · Supabase · Zustand
 
@@ -210,6 +210,12 @@ Baseline SQL versionado no Supabase, migrations aplicadas, RLS otimizado para le
 
 ### Sprint 9 - Scanner first
 Onboarding em etapas, fluxo convidado sem bloqueio de login, primeira tela pos-login focada em escanear nota e auth como acao secundaria para salvar historico.
+
+### Sprint 10 - Reset UI/UX
+Home simplificada com foco em scan e rascunho ativo, variantes visuais de `Card`, `FlowStepHeader` para orientar etapas, Social/Pix em abas e copy sem termos internos.
+
+### Sprint 11 - Login first
+Inversao da jornada de entrada: onboarding fecha com `Entrar` e `Criar conta` como acoes principais, app abre no Login sem sessao ativa, Home exibe painel de login para convidados e `Escanear sem conta` vira link secundario.
 
 ---
 

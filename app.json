@@ -2,7 +2,7 @@
   "expo": {
     "name": "Rachae",
     "slug": "rachae",
-    "version": "0.4.9",
+    "version": "0.4.10",
     "runtimeVersion": {
       "policy": "appVersion"
     },
@@ -26,7 +26,7 @@
     },
     "android": {
       "package": "com.rachae.app",
-      "versionCode": 13,
+      "versionCode": 14,
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO"
       ],
