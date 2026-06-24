@@ -19,6 +19,7 @@ const requiredFiles = [
   'docs/sprint-9.md',
   'docs/sprint-10.md',
   'docs/sprint-11.md',
+  'docs/sprint-12.md',
   'docs/architecture.md',
   'docs/database.md',
   'docs/api.md',

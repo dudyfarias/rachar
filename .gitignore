@@ -48,3 +48,4 @@ yarn-error.*
 # Supabase local runtime
 supabase/.branches/
 supabase/.temp/
+.vercel

@@ -6,6 +6,26 @@ Formato baseado em Keep a Changelog e versionamento semantico.
 
 ## [Unreleased]
 
+## [0.4.11] - 2026-06-23
+
+### Added
+
+- Sprint 12 documentado em `docs/sprint-12.md`.
+- Atalho `Ver o passo a passo` na Home para abrir o fluxo guiado quando o usuario quiser.
+- Link secundario `Escanear sem conta` na tela de Login para o fluxo convidado.
+
+### Changed
+
+- Login passa a ser a porta de entrada: o app abre direto no Login quando nao ha sessao, sem etapa de onboarding obrigatoria.
+- Fluxo guiado vira tour opcional acessivel pela Home; o onboarding encerra com `Comecar a usar` e ganhou botao de fechar.
+- Contrato de UI atualizado: `onboarding-finish-button`, `home-guided-tour-button` e `login-guest-scan-button` substituem `onboarding-login-button`, `onboarding-register-button` e `onboarding-scan-start-button`.
+- Cache do service worker atualizado para `rachae-pwa-v0.4.11`.
+- Versao do app alinhada em `0.4.11`.
+
+### Removed
+
+- Campo de estado morto `authEntryRoute` do appStore.
+
 ## [0.4.10] - 2026-06-09
 
 ### Added

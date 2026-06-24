@@ -1,6 +1,6 @@
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { Camera, CheckCircle2, ChevronLeft, ReceiptText, Send, UsersRound } from 'lucide-react-native';
+import { Camera, CheckCircle2, ChevronLeft, ReceiptText, Send, UsersRound, X } from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,7 +11,6 @@ import { useAppStore } from '../../../stores/appStore';
 import type { RootStackParamList } from '../../../types/navigation';
 
 type OnboardingNavigation = NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;
-type AuthRoute = 'Login' | 'Register';
 
 const steps = [
   {
@@ -53,30 +52,45 @@ export function OnboardingScreen() {
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === steps.length - 1;
 
-  function handleStartScan() {
-    completeOnboarding();
-    navigation.reset({ index: 1, routes: [{ name: 'Home' }, { name: 'ReceiptCapture' }] });
+  function exitToHome() {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+      return;
+    }
+
+    navigation.navigate('Home');
   }
 
-  function handleAuth(route: AuthRoute) {
-    completeOnboarding(route);
-    navigation.replace(route);
+  function handleFinish() {
+    completeOnboarding();
+    exitToHome();
   }
 
   return (
     <SafeAreaView className="flex-1 bg-background" testID="screen-onboarding">
-      <View className="flex-row items-center justify-between px-5 pb-3 pt-2">
-        <View>
+      <View className="px-5 pb-3 pt-2">
+        <View className="flex-row items-center justify-between">
+          <Pressable
+            accessibilityLabel="Fechar guia"
+            accessibilityRole="button"
+            className="h-10 w-10 items-center justify-center rounded-full bg-white"
+            onPress={exitToHome}
+            testID="onboarding-close-button"
+          >
+            <X color="#0F172A" size={20} />
+          </Pressable>
+          <View className="flex-row gap-2" testID="onboarding-step-indicator">
+            {steps.map((item, index) => (
+              <View
+                key={item.title}
+                className={cn('h-2.5 rounded-full', index === stepIndex ? 'w-8 bg-brand-500' : 'w-2.5 bg-ink-200')}
+              />
+            ))}
+          </View>
+        </View>
+        <View className="mt-3">
           <Text className="text-xs font-black uppercase tracking-[1px] text-brand-600">Fluxo guiado</Text>
           <Text className="mt-1 text-2xl font-black text-ink-900">Rachae</Text>
-        </View>
-        <View className="flex-row gap-2" testID="onboarding-step-indicator">
-          {steps.map((item, index) => (
-            <View
-              key={item.title}
-              className={cn('h-2.5 rounded-full', index === stepIndex ? 'w-8 bg-brand-500' : 'w-2.5 bg-ink-200')}
-            />
-          ))}
         </View>
       </View>
 
@@ -126,10 +140,7 @@ export function OnboardingScreen() {
 
       <View className="gap-3 border-t border-ink-100 bg-background px-5 pb-5 pt-4">
         {isLastStep ? (
-          <>
-            <Button size="lg" testID="onboarding-login-button" title="Entrar" onPress={() => handleAuth('Login')} />
-            <Button size="lg" testID="onboarding-register-button" title="Criar conta" variant="secondary" onPress={() => handleAuth('Register')} />
-          </>
+          <Button size="lg" testID="onboarding-finish-button" title="Comecar a usar" onPress={handleFinish} />
         ) : (
           <Button size="lg" testID="onboarding-next-step-button" title="Proxima etapa" onPress={() => setStepIndex((current) => current + 1)} />
         )}
@@ -144,13 +155,6 @@ export function OnboardingScreen() {
             onPress={() => setStepIndex((current) => current - 1)}
           />
         ) : null}
-
-        <View className="flex-row flex-wrap justify-center gap-x-2 gap-y-1 pt-1">
-          <Text className="text-sm text-ink-500">So quer testar?</Text>
-          <Pressable accessibilityLabel="Escanear sem conta" accessibilityRole="button" testID="onboarding-scan-start-button" onPress={handleStartScan}>
-            <Text className="text-sm font-black text-brand-700">Escanear sem conta</Text>
-          </Pressable>
-        </View>
       </View>
     </SafeAreaView>
   );

@@ -33,6 +33,10 @@ export function LoginScreen() {
     }
   }
 
+  function handleGuestScan() {
+    navigation.reset({ index: 1, routes: [{ name: 'Home' }, { name: 'ReceiptCapture' }] });
+  }
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 bg-background" testID="screen-login">
       <ScrollView contentContainerClassName="flex-grow justify-center px-5 py-8" keyboardShouldPersistTaps="handled" testID="login-scroll">
@@ -92,6 +96,18 @@ export function LoginScreen() {
           >
             Criar cadastro
           </Text>
+        </View>
+
+        <View className="mt-8 border-t border-ink-100 pt-5">
+          <Text className="text-center text-sm text-ink-500">So quer testar agora?</Text>
+          <Button
+            className="mt-3"
+            size="lg"
+            testID="login-guest-scan-button"
+            title="Escanear sem conta"
+            variant="ghost"
+            onPress={handleGuestScan}
+          />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -209,6 +209,15 @@ export function HomeScreen() {
               );
             })}
           </View>
+
+          <Button
+            className="mt-3"
+            leftIcon={<Sparkles color="#00A676" size={18} />}
+            testID="home-guided-tour-button"
+            title="Ver o passo a passo"
+            variant="ghost"
+            onPress={() => navigation.navigate('Onboarding')}
+          />
         </View>
 
         {hasDraft ? (

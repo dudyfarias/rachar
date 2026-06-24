@@ -25,24 +25,26 @@ Remova `dist-web-check/` depois da validacao local.
 
 ### Entrada
 
-- `screen-onboarding`
-- `onboarding-active-step`
-- `onboarding-next-step-button`
-- `onboarding-scan-start-button`
-- `onboarding-login-button`
-- `onboarding-register-button`
 - `screen-login`
 - `login-email-input`
 - `login-password-input`
 - `login-submit-button`
 - `login-demo-button`
+- `login-guest-scan-button`
+- `login-register-link`
 - `screen-register`
+- `screen-onboarding`
+- `onboarding-active-step`
+- `onboarding-next-step-button`
+- `onboarding-finish-button`
+- `onboarding-close-button`
 
 ### Racha Manual
 
 - `screen-home`
 - `home-scan-panel`
 - `home-feature-section`
+- `home-guided-tour-button`
 - `home-receipt-capture-button`
 - `home-new-bill-button`
 - `home-resume-draft-button`
@@ -88,7 +90,7 @@ Remova `dist-web-check/` depois da validacao local.
 
 ## Fluxos Para Automatizar Primeiro
 
-1. Onboarding em etapas ate concluir login ou cadastro.
+1. Login como porta de entrada, com escanear sem conta e tour guiado opcional pela Home.
 2. Racha manual completo ate resultado.
 3. Finalizar racha e conferir historico.
 4. Configurar Pix e criar grupo recorrente.
